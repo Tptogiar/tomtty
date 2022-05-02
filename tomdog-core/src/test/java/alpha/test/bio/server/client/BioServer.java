@@ -1,0 +1,100 @@
+package alpha.test.bio.server.client;
+
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.*;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+/**
+ * @author Tptogiar
+ * @Description
+ * @createTime 2022年04月30日 23:29:00
+ */
+public class BioServer {
+
+    private Logger logger = LoggerFactory.getLogger(BioServer.class);
+
+
+    @Test
+    public void testServer() throws IOException {
+
+        ServerSocket serverSocket = new ServerSocket();
+        serverSocket.bind(new InetSocketAddress("127.0.0.1",8849));
+        while (true){
+            Socket clientSocket = serverSocket.accept();
+            Thread thread = new Thread(new Handler(clientSocket));
+            thread.start();
+        }
+
+
+
+    }
+
+
+
+
+}
+
+class Handler implements Runnable{
+
+    private Socket socket;
+
+    public Handler(Socket socket) {
+        this.socket = socket;
+    }
+
+    @Override
+    public void run() {
+        try {
+            OutputStream outputStream = socket.getOutputStream();
+            BufferedInputStream bufferedInputStream = new BufferedInputStream(socket.getInputStream());
+            byte[] buf = null;
+            try {
+                buf = new byte[bufferedInputStream.available()];
+                int len = bufferedInputStream.read(buf);
+                if (len <= 0) {
+                    System.out.println("无数据...");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println(new String(buf));
+
+
+            InputStream inputStream = BioServer.class.getResourceAsStream("/Test.html");
+
+            StringBuilder sb = new StringBuilder();
+            byte[] bytes = new byte[1024];
+            int readCount = 0;
+            while ((readCount = inputStream.read(bytes))!=-1){
+                String cur = new String(bytes, 0, readCount);
+                sb.append(cur);
+            }
+            String content = sb.toString();
+
+//            String content ="<html>\n" +
+//                    "　　<head>\n" +
+//                    "　　<title>HTTP响应示例</title>\n" +
+//                    "　　</head>\n" +
+//                    "　　<body>\n" +
+//                    "　　　　<p style='color:red'>Hello HTTP!</p>\n" +
+//                    "　　　　<p >From: Tptogiar Server</p>\n" +
+//                    "　　</body>\n" +
+//                    "</html>";
+            String htmlStr =
+                    "HTTP/1.1 200 OK\n" +
+                            "Server:Tptogiar\n" +
+                            "Content-Type:text/html; charset=utf-8\n" +
+                            "\n"+content;
+
+
+            outputStream.write(htmlStr.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
