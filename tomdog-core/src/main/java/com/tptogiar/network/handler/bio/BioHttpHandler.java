@@ -5,11 +5,11 @@ import com.tptogiar.config.TomdogConfig;
 import com.tptogiar.context.RequestContext;
 import com.tptogiar.exception.RequestInvaildException;
 import com.tptogiar.exception.ServletException;
-import com.tptogiar.servlet.HttpRequestServlet;
-import com.tptogiar.servlet.HttpResponseServlet;
+import com.tptogiar.network.HttpHandler;
+import com.tptogiar.temp.*;
 import com.tptogiar.component.ServletDispatcher;
-import com.tptogiar.network.handler.HttpHandler;
-import com.tptogiar.network.wrapper.HttpRequsetWrapper;
+
+import com.tptogiar.network.parser.HttpRequsetParser;
 import com.tptogiar.servlet.Servlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +22,7 @@ import java.net.Socket;
  * @Description
  * @createTime 2022年04月30日 23:17:00
  */
-public class BioHttpHandler extends HttpHandler {
+public class BioHttpHandler implements HttpHandler {
 
     private Logger logger = LoggerFactory.getLogger(BioHttpHandler.class);
 
@@ -49,66 +49,15 @@ public class BioHttpHandler extends HttpHandler {
                 throw new RequestInvaildException();
             }
 
-            HttpRequsetWrapper requsetWrapper = new HttpRequsetWrapper(readBuffer);
+            HttpRequsetParser requsetWrapper = new HttpRequsetParser(this,readBuffer);
             RequestContext reqContext = requsetWrapper.getReqContext();
-            HttpRequestServlet httpRequestServlet = new HttpRequestServlet(reqContext);
-            HttpResponseServlet httpResponseServlet = new HttpResponseServlet();
-            Servlet resutl = ServletDispatcher.doDispatcher(reqContext);
-            resutl.service(httpRequestServlet, httpResponseServlet);
-
-
-
-            String content = "<html>\n" +
-                    "　　<head>\n" +
-                    "　　<title>HTTP响应示例</title>\n" +
-                    "　　</head>\n" +
-                    "　　<body>\n" +
-                    "　　　　<p style='color:red'>Hello HTTP!</p>\n" +
-                    "　　　　<p >From: Tptogiar Server</p>\n" +
-                    "　　</body>\n" +
-                    "</html>";
-            String htmlStr =
-                    "HTTP/1.1 200 OK\n" +
-                            "Server:Tptogiar\n" +
-                            "Content-Type:text/html; charset=utf-8\n" +
-                            "\n" + content;
-
-
-            outputStream.write(htmlStr.getBytes());
-            outputStream.flush();
-            outputStream.close();
-
-            logger.info("请求处理完成...");
+            HttpServletRequest httpServletRequest = new HttpServletRequestWrapper(reqContext);
+            HttpServletResponse httpServletResponse = new HttpServletResponseWrapper(reqContext);
+            DispatchResult result = ServletDispatcher.doDispatcher(reqContext);
+            result.service(httpServletRequest, httpServletResponse);
         } catch (ServletException e) {
 
             logger.info(e.getMessage());
-            e.printStackTrace();
-            String content = "<html>\n" +
-                    "　　<head>\n" +
-                    "　　<title>HTTP响应示例</title>\n" +
-                    "　　</head>\n" +
-                    "　　<body>\n" +
-                    "　　　　<p style='color:red'>Error</p>\n" +
-                    "　　　　<p >From: Tptogiar Server</p>\n" +
-                    "　　</body>\n" +
-                    "</html>";
-            String htmlStr =
-                    "HTTP/1.1 200 OK\n" +
-                            "Server:Tptogiar\n" +
-                            "Content-Type:text/html; charset=utf-8\n" +
-                            "\n" + content;
-
-
-            try {
-                outputStream.write(htmlStr.getBytes());
-                outputStream.flush();
-                outputStream.close();
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-
-
-
         }catch (IOException  e){
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -116,11 +65,20 @@ public class BioHttpHandler extends HttpHandler {
         } catch (InstantiationException e) {
             e.printStackTrace();
         }
-
-
+        logger.info("请求处理完成...");
     }
 
 
 
 
+    @Override
+    public OutputStream getOutputStream() {
+        return outputStream;
+    }
+
+
+    @Override
+    public InputStream getInputStream() {
+        return inputStream;
+    }
 }

@@ -1,5 +1,10 @@
 package com.tptogiar.servlet;
 
+import com.tptogiar.temp.HttpServletRequest;
+import com.tptogiar.temp.HttpServletRequestWrapper;
+import com.tptogiar.temp.HttpServletResponse;
+import com.tptogiar.temp.HttpServletResponseWrapper;
+
 /**
  * @author Tptogiar
  * @Description
@@ -18,7 +23,7 @@ public class HttpServlet implements Servlet {
     }
 
     @Override
-    public void service(HttpRequestServlet req, HttpResponseServlet resp) {
+    public void service(HttpServletRequest req, HttpServletResponse resp) {
 
     }
 

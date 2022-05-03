@@ -1,8 +1,11 @@
 package com.tptogiar.context;
 
 import com.tptogiar.constant.http.HttpMethod;
+
+import com.tptogiar.network.HttpHandler;
 import com.tptogiar.temp.Cookie;
 
+import java.net.Socket;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +15,10 @@ import java.util.Map;
  * @createTime 2022年05月02日 09:44:00
  */
 public interface RequestContext {
+
+    void setHttpHandler(HttpHandler httpHandler);
+
+
 
     Map<String, List<String>> getHeaders() ;
 
@@ -32,6 +39,8 @@ public interface RequestContext {
     String getUri() ;
 
     void setUri(String uri) ;
+
+    HttpHandler getHttpHandler();
 
 
 

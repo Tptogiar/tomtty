@@ -4,8 +4,8 @@ import com.tptogiar.context.RequestContext;
 import com.tptogiar.holder.ResourceHolder;
 import com.tptogiar.holder.ServletHolder;
 import com.tptogiar.servlet.defaultServlet.NotFoundServlet;
-import com.tptogiar.servlet.defaultServlet.ResourceServlet;
 import com.tptogiar.servlet.Servlet;
+import com.tptogiar.temp.DispatchResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,9 +46,9 @@ public class ServletDispatcher {
 
 
 
-    public static Servlet doDispatcher(RequestContext requestContext) throws IllegalAccessException, InstantiationException {
+    public static DispatchResult doDispatcher(RequestContext requestContext) throws IllegalAccessException, InstantiationException {
         String uri = requestContext.getUri();
-        Servlet servlet = matchingServlet(uri);
+        DispatchResult servlet = matchingServlet(uri);
 
         if (servlet == null){
             servlet = matchingResource(uri);
@@ -75,14 +75,13 @@ public class ServletDispatcher {
     }
 
 
-    public static Servlet matchingResource(String uri){
+    public static DispatchResult matchingResource(String uri){
         URL resource = ServletDispatcher.class.getResource(uri);
 
         if (resource==null){
             return null;
         }
-        ResourceHolder resourceHolder = new ResourceHolder(uri);
-        return new ResourceServlet(resourceHolder);
+        return new ResourceHolder(uri);
     }
 
 

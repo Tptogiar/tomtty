@@ -1,6 +1,7 @@
 package com.tptogiar.component;
 
-import com.tptogiar.network.handler.HttpHandler;
+
+import com.tptogiar.network.HttpHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +28,7 @@ public class Poller {
 
     public static void execute(HttpHandler httpHandler){
         logger.info("线程池进行任务调度...");
+        logger.debug(poolExecutor.toString());
         poolExecutor.execute(httpHandler);
 
     }

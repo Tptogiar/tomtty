@@ -65,7 +65,7 @@ class Handler implements Runnable{
             System.out.println(new String(buf));
 
 
-            InputStream inputStream = BioServer.class.getResourceAsStream("/Test.html");
+            InputStream inputStream = BioServer.class.getResourceAsStream("/src/main/webapp/Test.html");
 
             StringBuilder sb = new StringBuilder();
             byte[] bytes = new byte[1024];

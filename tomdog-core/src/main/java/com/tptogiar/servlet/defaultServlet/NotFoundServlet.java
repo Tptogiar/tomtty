@@ -1,7 +1,10 @@
 package com.tptogiar.servlet.defaultServlet;
 
-import com.tptogiar.servlet.HttpRequestServlet;
-import com.tptogiar.servlet.HttpResponseServlet;
+import com.tptogiar.holder.ResourceHolder;
+import com.tptogiar.temp.HttpServletRequest;
+import com.tptogiar.temp.HttpServletRequestWrapper;
+import com.tptogiar.temp.HttpServletResponse;
+import com.tptogiar.temp.HttpServletResponseWrapper;
 import com.tptogiar.servlet.HttpServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,11 +18,11 @@ public class NotFoundServlet extends HttpServlet {
 
     private Logger logger = LoggerFactory.getLogger(NotFoundServlet.class);
 
+
     @Override
-    public void service(HttpRequestServlet req, HttpResponseServlet resp) {
+    public void service(HttpServletRequest req, HttpServletResponse resp) {
         logger.info("404 NOT FOUND  ----From NotFoundServlet...");
-
-
+//        ResourceHolder notFoundHolder = new ResourceHolder();
 
 
     }

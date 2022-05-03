@@ -1,5 +1,8 @@
 package com.tptogiar.context;
 
+import java.io.IOException;
+import java.io.OutputStream;
+
 /**
  * @author Tptogiar
  * @Description
@@ -9,7 +12,7 @@ public interface ResponseContext {
 
 
 
-
+    OutputStream getOutputStream() throws IOException;
 
 
 

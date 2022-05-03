@@ -1,16 +1,17 @@
-package com.tptogiar.network.wrapper;
+package com.tptogiar.network.parser;
 
 
 
 
 import com.tptogiar.constant.CharContant;
 import com.tptogiar.constant.CharsetProperties;
-import com.tptogiar.constant.http.HttpHeader;
+import com.tptogiar.constant.http.HttpRequestHeader;
 import com.tptogiar.constant.http.HttpMethod;
 
 
 import com.tptogiar.context.impl.RequestContextImpl;
 import com.tptogiar.exception.RequestInvaildException;
+import com.tptogiar.network.handler.bio.BioHttpHandler;
 import com.tptogiar.temp.Cookie;
 import lombok.Data;
 import org.slf4j.Logger;
@@ -26,10 +27,10 @@ import java.util.*;
  * @createTime 2022年05月01日 12:46:00
  */
 @Data
-public class HttpRequsetWrapper {
+public class HttpRequsetParser {
 
 
-    private Logger logger = LoggerFactory.getLogger(HttpRequsetWrapper.class);
+    private Logger logger = LoggerFactory.getLogger(HttpRequsetParser.class);
 
     private byte[] requestData;
 
@@ -37,9 +38,12 @@ public class HttpRequsetWrapper {
 
 
 
-    public HttpRequsetWrapper(byte[] requestData) throws RequestInvaildException {
+    public HttpRequsetParser(BioHttpHandler httpHandler, byte[] requestData) throws RequestInvaildException {
         logger.info("开始解析HTTP...");
+
+        reqContext.setHttpHandler(httpHandler);
         this.requestData = requestData;
+
         String[] lines =null;
         try {
             lines = URLDecoder.decode(
@@ -54,8 +58,8 @@ public class HttpRequsetWrapper {
         }
         parseHeaders(lines);
         if (reqContext.getHeaders()!=null
-                && reqContext.getHeaders().containsKey(HttpHeader.CONTENT_LENGTH)
-                && ! "0".equals(reqContext.getHeaders().get(HttpHeader.CONTENT_LENGTH).get(0))
+                && reqContext.getHeaders().containsKey(HttpRequestHeader.CONTENT_LENGTH)
+                && ! "0".equals(reqContext.getHeaders().get(HttpRequestHeader.CONTENT_LENGTH).get(0))
         ){
             parseBody(lines[lines.length-1]);
         }

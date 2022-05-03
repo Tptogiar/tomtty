@@ -5,7 +5,7 @@ package com.tptogiar.constant.http;
  * @Description
  * @createTime 2022年05月01日 13:46:00
  */
-public enum HttpHeader {
+public enum HttpRequestHeader {
 
     //
     CONTENT_LENGTH("Content-Length");
@@ -14,7 +14,7 @@ public enum HttpHeader {
 
     private String header;
 
-    HttpHeader(String header) {
+    HttpRequestHeader(String header) {
         this.header = header;
     }
 }
