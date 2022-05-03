@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TestAjax</title>
+</head>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<body>
+
+</body>
+<script type="text/javascript">
+    $.ajax({
+        type:"GET",
+        url:"/test",
+        success:function (revr) {
+            console.log("success...");
+            console.log("ajax success..."+"\n receve content: "+revr)
+
+        }
+    });
+
+</script>
+
+
+</html>

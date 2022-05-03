@@ -28,6 +28,9 @@ public class HttpServletResponseWrapper implements HttpServletResponse{
 
     private ResponseContext responseContext;
 
+    private ServletOutputStream servletOutputStream;
+
+
     private List<Header> headers;
     private List<Cookie> cookies;
 
@@ -70,7 +73,10 @@ public class HttpServletResponseWrapper implements HttpServletResponse{
 
     @Override
     public OutputStream getOutPutStream() throws IOException {
-        return responseContext.getOutputStream();
+        if (servletOutputStream==null){
+            servletOutputStream = new ServletOutputStreamImpl();
+        }
+        return (OutputStream) servletOutputStream;
     }
 
 

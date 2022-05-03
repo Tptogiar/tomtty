@@ -20,11 +20,13 @@ public class BioServer {
 
 
     @Test
-    public void testServer() throws IOException {
+    public void testServer() throws IOException, InterruptedException {
 
         ServerSocket serverSocket = new ServerSocket();
-        serverSocket.bind(new InetSocketAddress("127.0.0.1",8849));
+        serverSocket.bind(new InetSocketAddress("127.0.0.1",8840));
         while (true){
+            logger.info("等待来自客户端的连接...");
+
             Socket clientSocket = serverSocket.accept();
             Thread thread = new Thread(new Handler(clientSocket));
             thread.start();

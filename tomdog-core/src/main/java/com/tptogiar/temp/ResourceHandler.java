@@ -1,7 +1,7 @@
 package com.tptogiar.temp;
 
 import com.tptogiar.constant.http.HttpContentType;
-import com.tptogiar.network.packer.HttpResponseBuilder;
+import com.tptogiar.network.builder.HttpResponseBuilder;
 import com.tptogiar.util.IOUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,14 +20,14 @@ public class ResourceHandler {
 
     public static void handleResource(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         logger.info("处理静态资源...");
-        HttpResponseBuilder packer = new HttpResponseBuilder(resp);
+        HttpResponseBuilder responseBuilder = new HttpResponseBuilder(req,resp);
         String uri = req.getUri();
         byte[] bytesFromFile = IOUtil.getBytesFromFile(uri);
 
         setContentType(uri,resp);
         resp.setBody(bytesFromFile);
 
-        packer.buildResponse();
+        responseBuilder.buildResponse();
 
     }
 

@@ -1,5 +1,7 @@
 package com.tptogiar.temp;
 
+import com.tptogiar.context.RequestContext;
+
 /**
  * @author Tptogiar
  * @Description
@@ -8,8 +10,9 @@ package com.tptogiar.temp;
 public interface HttpServletRequest {
 
     String getUri();
-//    void setUri(String uri);
     void setUri(String uri);
+
+    RequestContext getRequestContext ();
 
 
 

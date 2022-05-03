@@ -1,18 +1,20 @@
-package com.tptogiar.network.packer;
+package com.tptogiar.network.builder;
 
 import com.tptogiar.constant.CharContant;
 import com.tptogiar.constant.CharsetProperties;
+import com.tptogiar.constant.http.HttpContentType;
 import com.tptogiar.constant.http.HttpResponseHeader;
 import com.tptogiar.context.ResponseContext;
+import com.tptogiar.network.HttpHandler;
 import com.tptogiar.temp.Cookie;
 import com.tptogiar.temp.Header;
+import com.tptogiar.temp.HttpServletRequest;
 import com.tptogiar.temp.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.sql.Connection;
 import java.util.List;
 
 /**
@@ -26,9 +28,9 @@ public class HttpResponseBuilder {
     private Logger logger = LoggerFactory.getLogger(HttpResponseBuilder.class);
 
 
+    private HttpServletRequest req;
     private HttpServletResponse resp;
     private ResponseContext respContext;
-
 
 
     private StringBuilder headerAppender = new StringBuilder();
@@ -40,8 +42,9 @@ public class HttpResponseBuilder {
 
 
 
-    public HttpResponseBuilder(HttpServletResponse resp) {
+    public HttpResponseBuilder(HttpServletRequest req, HttpServletResponse resp) {
         logger.info("封装Http响应...");
+        this.req = req;
         this.resp = resp;
         this.respContext = resp.getResponseContext();
     }
@@ -60,8 +63,8 @@ public class HttpResponseBuilder {
 
 
         byte[] body = resp.getBody();
-        headerAppender.append(HttpResponseHeader.CONTENT_LENGTH)
-                .append(body.length).append(CharContant.CRLF).append(CharContant.CRLF);
+        headerAppender.append(HttpResponseHeader.CONTENT_LENGTH).append(body.length)
+                .append(CharContant.CRLF).append(CharContant.CRLF);
 
         byte[] header = headerAppender.toString().getBytes(CharsetProperties.UTF_8_CHARSET);
         byte[] responseBytes = new byte[header.length + body.length];
@@ -70,9 +73,13 @@ public class HttpResponseBuilder {
 
 
 
-        OutputStream outputStream = respContext.getOutputStream();
+        OutputStream outputStream = req.getRequestContext().getHttpHandler().getOutputStream();
         outputStream.write(responseBytes);
-        outputStream.close();
+        outputStream.flush();
+        closeResource();
+
+
+        logger.debug(printHttpResponseMsg(resp,header,body));
     }
 
     private void appendFirstLine(){
@@ -104,6 +111,36 @@ public class HttpResponseBuilder {
         if (cookies!=null){
             // TODO 添加Cookie
         }
+    }
+
+
+    private void appendBody(){
+
+
+
+
+    }
+
+
+
+    public void closeResource() throws IOException {
+
+        HttpHandler httpHandler = req.getRequestContext().getHttpHandler();
+        httpHandler.getInputStream().close();
+        httpHandler.getOutputStream().close();
+    }
+
+
+
+
+
+    public String printHttpResponseMsg(HttpServletResponse resp,byte[] header,byte[]body){
+        StringBuilder sb = new StringBuilder("\n================================\n" + new String(header));
+        if (resp.getContentType()==HttpContentType.DEFAULT){
+            sb.append(new String(body));
+        }
+        sb.append("\n================================\n");
+        return sb.toString();
     }
 
 

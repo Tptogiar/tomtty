@@ -39,16 +39,19 @@ public class HttpRequsetParser {
 
 
     public HttpRequsetParser(BioHttpHandler httpHandler, byte[] requestData) throws RequestInvaildException {
-        logger.info("开始解析HTTP...");
+        logger.info("解析HTTP二进制报文...");
 
         reqContext.setHttpHandler(httpHandler);
         this.requestData = requestData;
 
         String[] lines =null;
         try {
-            lines = URLDecoder.decode(
-                    new String(requestData, CharsetProperties.UTF_8_CHARSET), CharsetProperties.UTF_8)
-                    .split(CharContant.CRLF);
+            String httpMessage = URLDecoder.decode(
+                    new String(requestData, CharsetProperties.UTF_8_CHARSET), CharsetProperties.UTF_8);
+            logger.debug("\n================================\n"
+                    +httpMessage.trim()
+                    +"\n================================\n");
+            lines =httpMessage.split(CharContant.CRLF);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

@@ -8,6 +8,9 @@ import com.tptogiar.servlet.HttpServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.io.OutputStream;
+
 /**
  * @author Tptogiar
  * @Description
@@ -21,7 +24,9 @@ public class TestServlet extends HttpServlet {
 
 
     @Override
-    public void service(HttpServletRequest req, HttpServletResponse resp) {
+    public void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         logger.info("do service ----From TestServlet...");
+        OutputStream outPutStream = resp.getOutPutStream();
+        outPutStream.write("TestServlet".getBytes());
     }
 }

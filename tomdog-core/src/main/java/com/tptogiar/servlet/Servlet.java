@@ -16,7 +16,8 @@ public interface Servlet extends DispatchResult {
 
     void destory();
 
-    void service(HttpServletRequest req, HttpServletResponse resp) throws IOException;
+    @Override
+    void doService(HttpServletRequest req, HttpServletResponse resp) throws IOException;
 
 
 

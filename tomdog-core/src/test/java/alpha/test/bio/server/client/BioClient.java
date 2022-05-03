@@ -28,7 +28,7 @@ public class BioClient {
         int i = scanner.nextInt();
 
 
-        Socket socket = new Socket("127.0.0.1", 8848);
+        Socket socket = new Socket("127.0.0.1", 8840);
         OutputStream outputStream = socket.getOutputStream();
         BufferedInputStream bufferedInputStream = new BufferedInputStream(socket.getInputStream());
         outputStream.write("Test Request Content...".getBytes());

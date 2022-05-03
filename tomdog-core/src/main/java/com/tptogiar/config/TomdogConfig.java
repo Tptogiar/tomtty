@@ -14,6 +14,8 @@ public class TomdogConfig {
 
     public static int HTTP_READ_BUFFER_SIZE = 8*1024;
 
+    public static int SERVLET_OUT_PUT_STREAM_BUFFER_SIZE = 8*1024;
+
     public static String WEB_CONFIG_XML_FILE_PATH = "/web.xml";
 
     public static String NOT_FOUND_PAGE_PATH = "/default/pages/html/404.html";

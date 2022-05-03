@@ -1,20 +1,15 @@
 package com.tptogiar.holder;
 
 
-import com.tptogiar.network.packer.HttpResponseBuilder;
 import com.tptogiar.temp.DispatchResult;
 import com.tptogiar.temp.HttpServletRequest;
 import com.tptogiar.temp.HttpServletResponse;
 import com.tptogiar.temp.ResourceHandler;
-import com.tptogiar.util.IOUtil;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * @author Tptogiar
@@ -36,9 +31,8 @@ public class ResourceHolder implements DispatchResult {
     }
 
     @Override
-    public void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public void doService(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         ResourceHandler.handleResource(req,resp);
-
     }
 
 

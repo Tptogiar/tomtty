@@ -10,7 +10,6 @@ import com.tptogiar.temp.*;
 import com.tptogiar.component.ServletDispatcher;
 
 import com.tptogiar.network.parser.HttpRequsetParser;
-import com.tptogiar.servlet.Servlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,12 +48,14 @@ public class BioHttpHandler implements HttpHandler {
                 throw new RequestInvaildException();
             }
 
+
+
             HttpRequsetParser requsetWrapper = new HttpRequsetParser(this,readBuffer);
             RequestContext reqContext = requsetWrapper.getReqContext();
             HttpServletRequest httpServletRequest = new HttpServletRequestWrapper(reqContext);
             HttpServletResponse httpServletResponse = new HttpServletResponseWrapper(reqContext);
             DispatchResult result = ServletDispatcher.doDispatcher(reqContext);
-            result.service(httpServletRequest, httpServletResponse);
+            result.doService(httpServletRequest, httpServletResponse);
         } catch (ServletException e) {
 
             logger.info(e.getMessage());

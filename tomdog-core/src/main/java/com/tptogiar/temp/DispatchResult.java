@@ -11,7 +11,7 @@ public interface DispatchResult {
 
 
 
-    void service(HttpServletRequest req, HttpServletResponse resp) throws IOException;
+    void doService(HttpServletRequest req, HttpServletResponse resp) throws IOException;
 
 
 }
