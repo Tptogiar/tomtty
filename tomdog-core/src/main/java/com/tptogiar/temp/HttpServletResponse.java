@@ -2,6 +2,8 @@ package com.tptogiar.temp;
 
 import com.tptogiar.constant.http.HttpStatus;
 import com.tptogiar.context.ResponseContext;
+import com.tptogiar.info.cookie.Cookie;
+import com.tptogiar.info.header.Header;
 
 import java.io.IOException;
 import java.io.OutputStream;

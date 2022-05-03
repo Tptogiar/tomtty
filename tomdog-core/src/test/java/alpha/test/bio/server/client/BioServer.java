@@ -53,40 +53,37 @@ class Handler implements Runnable{
     public void run() {
         try {
             OutputStream outputStream = socket.getOutputStream();
-            BufferedInputStream bufferedInputStream = new BufferedInputStream(socket.getInputStream());
-            byte[] buf = null;
+            InputStream inputStream = socket.getInputStream();
+            byte[] buf = new byte[8196];
+            int read = 0;
             try {
-                buf = new byte[bufferedInputStream.available()];
-                int len = bufferedInputStream.read(buf);
-                if (len <= 0) {
-                    System.out.println("无数据...");
-                }
+                read = inputStream.read(buf);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println(new String(buf));
+            System.out.println(new String(buf,0,read));
 
 
-            InputStream inputStream = BioServer.class.getResourceAsStream("/src/main/webapp/Test.html");
+//            InputStream inputStream = BioServer.class.getResourceAsStream("/src/main/webapp/Test.html");
 
-            StringBuilder sb = new StringBuilder();
-            byte[] bytes = new byte[1024];
-            int readCount = 0;
-            while ((readCount = inputStream.read(bytes))!=-1){
-                String cur = new String(bytes, 0, readCount);
-                sb.append(cur);
-            }
-            String content = sb.toString();
+//            StringBuilder sb = new StringBuilder();
+//            byte[] bytes = new byte[1024];
+//            int readCount = 0;
+//            while ((readCount = inputStream.read(bytes))!=-1){
+//                String cur = new String(bytes, 0, readCount);
+//                sb.append(cur);
+//            }
+//            String str = sb.toString();
 
-//            String content ="<html>\n" +
-//                    "　　<head>\n" +
-//                    "　　<title>HTTP响应示例</title>\n" +
-//                    "　　</head>\n" +
-//                    "　　<body>\n" +
-//                    "　　　　<p style='color:red'>Hello HTTP!</p>\n" +
-//                    "　　　　<p >From: Tptogiar Server</p>\n" +
-//                    "　　</body>\n" +
-//                    "</html>";
+            String content ="<html>\n" +
+                    "　　<head>\n" +
+                    "　　<title>HTTP响应示例</title>\n" +
+                    "　　</head>\n" +
+                    "　　<body>\n" +
+                    "　　　　<p style='color:red'>Hello HTTP!</p>\n" +
+                    "　　　　<p >From: Tptogiar Server</p>\n" +
+                    "　　</body>\n" +
+                    "</html>";
             String htmlStr =
                     "HTTP/1.1 200 OK\n" +
                             "Server:Tptogiar\n" +
@@ -95,6 +92,8 @@ class Handler implements Runnable{
 
 
             outputStream.write(htmlStr.getBytes());
+            outputStream.flush();
+            outputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

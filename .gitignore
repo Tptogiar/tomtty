@@ -1,2 +1,6 @@
 # Project exclude paths
 /tomdog-example/target/
+
+*/target/*.*
+.idea/
+tomdog-core/.idea/

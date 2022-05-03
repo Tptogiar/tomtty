@@ -12,7 +12,7 @@ import com.tptogiar.constant.http.HttpMethod;
 import com.tptogiar.context.impl.RequestContextImpl;
 import com.tptogiar.exception.RequestInvaildException;
 import com.tptogiar.network.handler.bio.BioHttpHandler;
-import com.tptogiar.temp.Cookie;
+import com.tptogiar.info.cookie.Cookie;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -24,9 +24,6 @@ public class BioClient {
 
     @Test
     public void testClient() throws IOException {
-        Scanner scanner = new Scanner(System.in);
-        int i = scanner.nextInt();
-
 
         Socket socket = new Socket("127.0.0.1", 8840);
         OutputStream outputStream = socket.getOutputStream();

@@ -6,8 +6,8 @@ import com.tptogiar.constant.http.HttpContentType;
 import com.tptogiar.constant.http.HttpResponseHeader;
 import com.tptogiar.context.ResponseContext;
 import com.tptogiar.network.HttpHandler;
-import com.tptogiar.temp.Cookie;
-import com.tptogiar.temp.Header;
+import com.tptogiar.info.cookie.Cookie;
+import com.tptogiar.info.header.Header;
 import com.tptogiar.temp.HttpServletRequest;
 import com.tptogiar.temp.HttpServletResponse;
 import org.slf4j.Logger;
@@ -61,25 +61,15 @@ public class HttpResponseBuilder {
         appendCookies();
 
 
-
-        byte[] body = resp.getBody();
-        headerAppender.append(HttpResponseHeader.CONTENT_LENGTH).append(body.length)
+        headerAppender.append(HttpResponseHeader.CONTENT_LENGTH).append(resp.getBody().length)
                 .append(CharContant.CRLF).append(CharContant.CRLF);
 
-        byte[] header = headerAppender.toString().getBytes(CharsetProperties.UTF_8_CHARSET);
-        byte[] responseBytes = new byte[header.length + body.length];
-        System.arraycopy(header,0,responseBytes,0,header.length);
-        System.arraycopy(body,0,responseBytes,header.length,body.length);
+        byte[] responseBytes = transferToResponseBytes();
 
+        writeResponseBytes(responseBytes);
 
-
-        OutputStream outputStream = req.getRequestContext().getHttpHandler().getOutputStream();
-        outputStream.write(responseBytes);
-        outputStream.flush();
         closeResource();
 
-
-        logger.debug(printHttpResponseMsg(resp,header,body));
     }
 
     private void appendFirstLine(){
@@ -114,17 +104,28 @@ public class HttpResponseBuilder {
     }
 
 
-    private void appendBody(){
+    private byte[] transferToResponseBytes(){
+        byte[] body = resp.getBody();
+        byte[] header = headerAppender.toString().getBytes(CharsetProperties.UTF_8_CHARSET);
+        byte[] responseBytes = new byte[header.length + body.length];
+        System.arraycopy(header,0,responseBytes,0,header.length);
+        System.arraycopy(body,0,responseBytes,header.length,body.length);
+
+        logger.debug(printHttpResponseMsg(resp,header,body));
+
+        return responseBytes;
+    }
 
 
-
-
+    public void writeResponseBytes(byte[] responseBytes) throws IOException {
+        OutputStream outputStream = req.getRequestContext().getHttpHandler().getOutputStream();
+        outputStream.write(responseBytes);
+        outputStream.flush();
     }
 
 
 
     public void closeResource() throws IOException {
-
         HttpHandler httpHandler = req.getRequestContext().getHttpHandler();
         httpHandler.getInputStream().close();
         httpHandler.getOutputStream().close();

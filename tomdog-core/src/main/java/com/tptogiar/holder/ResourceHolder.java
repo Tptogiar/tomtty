@@ -32,6 +32,7 @@ public class ResourceHolder implements DispatchResult {
 
     @Override
     public void doService(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        req.setUri(uri);
         ResourceHandler.handleResource(req,resp);
     }
 

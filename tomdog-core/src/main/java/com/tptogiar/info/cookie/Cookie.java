@@ -1,4 +1,4 @@
-package com.tptogiar.temp;
+package com.tptogiar.info.cookie;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -78,7 +78,10 @@ public class ServletDispatcher {
 
     public static DispatchResult matchingResource(String uri){
         URL resource = ServletDispatcher.class.getResource(uri);
-
+        // TODO 首页处理
+        if ("/".equals(uri)){
+            return new ResourceHolder("/default/pages/html/index.html");
+        }
         if (resource==null){
             return null;
         }

@@ -3,9 +3,8 @@ package com.tptogiar.context;
 import com.tptogiar.constant.http.HttpMethod;
 
 import com.tptogiar.network.HttpHandler;
-import com.tptogiar.temp.Cookie;
+import com.tptogiar.info.cookie.Cookie;
 
-import java.net.Socket;
 import java.util.List;
 import java.util.Map;
 

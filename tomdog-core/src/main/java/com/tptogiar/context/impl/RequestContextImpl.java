@@ -7,7 +7,7 @@ import com.tptogiar.constant.http.HttpMethod;
 import com.tptogiar.context.RequestContext;
 
 import com.tptogiar.network.HttpHandler;
-import com.tptogiar.temp.Cookie;
+import com.tptogiar.info.cookie.Cookie;
 import lombok.Data;
 
 
