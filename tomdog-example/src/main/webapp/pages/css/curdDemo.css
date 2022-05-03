@@ -1,0 +1,18 @@
+.collapsible{
+  border-top: none;
+  border-right: none;
+  border-left: none;
+}
+
+.collapsible-header{
+  border-bottom-color: #90a4ae;
+}
+
+.collapsible-action{
+  margin-top: 1em;
+}
+.collapsible-action a{
+  color: #FFF !important;
+  border: 1px solid #90a4ae;
+  border-radius: 0.3em;
+}
