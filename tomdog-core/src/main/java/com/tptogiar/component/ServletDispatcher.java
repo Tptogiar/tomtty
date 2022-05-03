@@ -48,6 +48,7 @@ public class ServletDispatcher {
 
     public static DispatchResult doDispatcher(RequestContext requestContext) throws IllegalAccessException, InstantiationException {
         String uri = requestContext.getUri();
+        logger.info("request uri = {}",uri);
         DispatchResult servlet = matchingServlet(uri);
 
         if (servlet == null){

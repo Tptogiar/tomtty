@@ -16,7 +16,8 @@ public class TomdogConfig {
 
     public static String WEB_CONFIG_XML_FILE_PATH = "/web.xml";
 
-
+    public static String NOT_FOUND_PAGE_PATH = "/default/pages/html/404.html";
+    public static String INTERNAL_SERVER_ERROR_PAGE_PATH ="/default/pages/html/500.html";
 
 
 

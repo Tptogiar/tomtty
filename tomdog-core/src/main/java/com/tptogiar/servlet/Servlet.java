@@ -2,6 +2,8 @@ package com.tptogiar.servlet;
 
 import com.tptogiar.temp.*;
 
+import java.io.IOException;
+
 /**
  * @author Tptogiar
  * @Description
@@ -14,7 +16,7 @@ public interface Servlet extends DispatchResult {
 
     void destory();
 
-    void service(HttpServletRequest req, HttpServletResponse resp);
+    void service(HttpServletRequest req, HttpServletResponse resp) throws IOException;
 
 
 

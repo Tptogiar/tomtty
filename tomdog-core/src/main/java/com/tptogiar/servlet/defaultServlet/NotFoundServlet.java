@@ -1,5 +1,6 @@
 package com.tptogiar.servlet.defaultServlet;
 
+import com.tptogiar.config.TomdogConfig;
 import com.tptogiar.holder.ResourceHolder;
 import com.tptogiar.temp.HttpServletRequest;
 import com.tptogiar.temp.HttpServletRequestWrapper;
@@ -8,6 +9,8 @@ import com.tptogiar.temp.HttpServletResponseWrapper;
 import com.tptogiar.servlet.HttpServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 /**
  * @author Tptogiar
@@ -20,10 +23,11 @@ public class NotFoundServlet extends HttpServlet {
 
 
     @Override
-    public void service(HttpServletRequest req, HttpServletResponse resp) {
+    public void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         logger.info("404 NOT FOUND  ----From NotFoundServlet...");
-//        ResourceHolder notFoundHolder = new ResourceHolder();
-
-
+        logger.debug("request Uri = {} ,TomdogConfig.NOT_FOUND_PAGE_PATH = {}",req.getUri(),TomdogConfig.NOT_FOUND_PAGE_PATH);
+        req.setUri(TomdogConfig.NOT_FOUND_PAGE_PATH);
+        ResourceHolder notFoundHolder = new ResourceHolder(req.getUri());
+        notFoundHolder.service(req,resp);
     }
 }

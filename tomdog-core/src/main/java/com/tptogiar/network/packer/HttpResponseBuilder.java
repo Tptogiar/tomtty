@@ -34,7 +34,6 @@ public class HttpResponseBuilder {
     private StringBuilder headerAppender = new StringBuilder();
 
 
-
     private static String PROTOCOL = "HTTP/1.1";
 
 

@@ -1,0 +1,50 @@
+body,html {
+    margin: 0;
+    height: 100%;
+    overflow:hidden;
+}
+
+main{
+    display: flex;
+    height: 100%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    background: #000E92;
+    color: white;
+}
+
+h1{
+    font-size: 6em;
+    font-family: 'Secular One', sans-serif;
+    margin: 0;
+    line-height: 60px;
+}
+
+h2 {
+    font-size: 3em;
+    font-family: 'Secular One', sans-serif;
+    margin: 0;
+    line-height: 60px;
+}
+
+p {
+    font-family: 'Source Sans Pro', sans-serif;
+    margin:0;
+}
+#content {
+
+    width: 700px;
+    height: 650px;
+    text-align: left;
+    background-image: url("../image/500.jpg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+#text {
+    position: relative;
+    top: 352px;
+    margin-right: 400px;
+    text-align: right;
+}

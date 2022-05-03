@@ -8,6 +8,8 @@ package com.tptogiar.temp;
 public interface HttpServletRequest {
 
     String getUri();
+//    void setUri(String uri);
+    void setUri(String uri);
 
 
 

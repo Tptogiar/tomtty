@@ -5,6 +5,8 @@ import com.tptogiar.temp.HttpServletRequestWrapper;
 import com.tptogiar.temp.HttpServletResponse;
 import com.tptogiar.temp.HttpServletResponseWrapper;
 
+import java.io.IOException;
+
 /**
  * @author Tptogiar
  * @Description
@@ -23,7 +25,7 @@ public class HttpServlet implements Servlet {
     }
 
     @Override
-    public void service(HttpServletRequest req, HttpServletResponse resp) {
+    public void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
     }
 

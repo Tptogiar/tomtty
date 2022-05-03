@@ -24,4 +24,11 @@ public class HttpServletRequestWrapper implements HttpServletRequest {
     public String getUri() {
         return requestContext.getUri();
     }
+
+    @Override
+    public void setUri(String uri) {
+        requestContext.setUri(uri);
+    }
+
+
 }

@@ -5,6 +5,7 @@ import com.tptogiar.network.packer.HttpResponseBuilder;
 import com.tptogiar.temp.DispatchResult;
 import com.tptogiar.temp.HttpServletRequest;
 import com.tptogiar.temp.HttpServletResponse;
+import com.tptogiar.temp.ResourceHandler;
 import com.tptogiar.util.IOUtil;
 import lombok.Data;
 import org.slf4j.Logger;
@@ -29,18 +30,15 @@ public class ResourceHolder implements DispatchResult {
     private String uri;
 
 
+
     public ResourceHolder(String uri) {
         this.uri = uri;
     }
 
     @Override
     public void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        logger.info("处理静态资源...");
-        HttpResponseBuilder packer = new HttpResponseBuilder(resp);
-        String uri = req.getUri();
-        byte[] bytesFromFile = IOUtil.getBytesFromFile(uri);
-        resp.setBody(bytesFromFile);
-        packer.buildResponse();
+        ResourceHandler.handleResource(req,resp);
+
     }
 
 
