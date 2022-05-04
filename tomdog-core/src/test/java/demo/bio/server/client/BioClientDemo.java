@@ -1,5 +1,7 @@
 package demo.bio.server.client;
 
+import org.junit.Test;
+
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -10,7 +12,17 @@ import java.net.UnknownHostException;
  * @createTime 2022年05月03日 17:55:00
  */
 public class BioClientDemo {
-    public static void main(String[] args) {
+
+
+
+
+    @Test
+    public  void testBioClientDemo() {
+        startBioClient();
+    }
+
+
+    public void startBioClient(){
         try {
             Socket s = new Socket("127.0.0.1",8840);
             System.out.println("已连接上服务器...");
@@ -33,4 +45,6 @@ public class BioClientDemo {
             e.printStackTrace();
         }
     }
+
+
 }

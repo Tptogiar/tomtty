@@ -5,6 +5,8 @@ package demo.bio.server.client;
  * @Description
  * @createTime 2022年05月03日 17:54:00
  */
+import org.junit.Test;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -14,7 +16,17 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class BioServerDemo {
-    public static void main(String[] args) {
+
+
+
+    @Test
+    public void testBioServerDemo(){
+        startBioServer();
+    }
+
+
+
+    public void startBioServer(){
         try {
             ServerSocket ss = new ServerSocket(8840);
             System.out.println("启动服务器....");
@@ -36,4 +48,8 @@ public class BioServerDemo {
             e.printStackTrace();
         }
     }
+
+
+
+
 }

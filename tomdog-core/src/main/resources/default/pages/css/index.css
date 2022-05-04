@@ -21,24 +21,33 @@ h1::before {
 
 h1 {
   position: relative;
+  display: inline-block;
   font-size: 5rem;
+
+}
+div{
+  text-align: center;
 }
 
 html {
   block-size: 100%;
   inline-size: 100%;
 }
-
+h3{
+  display: block;
+}
 body {
-  min-block-size: 100%;
-  min-inline-size: 100%;
-  margin: 0;
   box-sizing: border-box;
   display: grid;
-  place-content: center;
   font-family: system-ui, sans-serif;
-  background-color: #e2e2eb;
+  background-color: rgb(226, 226, 235);
+  margin: 0px;
+  grid-template-columns: repeat(1,1fr);
+  grid-template-rows: repeat(2,1fr);
+  padding: 200px 200px 0 200px;
+
 }
+
 
 @media (orientation: landscape) {
   body {
