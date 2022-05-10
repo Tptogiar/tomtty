@@ -6,16 +6,36 @@
 
     <groupId>com.tptogiar</groupId>
     <artifactId>Tomdog</artifactId>
+    <packaging>pom</packaging>
     <version>1.0</version>
 
-    <modules>
-        <module>tomdog-core</module>
-        <module>tomdog-example</module>
-    </modules>
 
+
+
+    <dependencies>
+        <dependency>
+            <groupId>com.tptogiar</groupId>
+            <artifactId>tomdog-core</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.tptogiar</groupId>
+            <artifactId>tomdog-example</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
+
+    <modules>
+        <module>tomdog-example</module>
+        <module>tomdog-core</module>
+    </modules>
 
 
 
 
     
 </project>
+
