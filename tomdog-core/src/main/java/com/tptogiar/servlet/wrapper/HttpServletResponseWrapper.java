@@ -1,4 +1,4 @@
-package com.tptogiar.temp;
+package com.tptogiar.servlet.wrapper;
 
 import com.tptogiar.constant.http.HttpContentType;
 import com.tptogiar.constant.http.HttpStatus;
@@ -7,6 +7,8 @@ import com.tptogiar.context.ResponseContext;
 import com.tptogiar.context.impl.ResponseContextImpl;
 import com.tptogiar.info.cookie.Cookie;
 import com.tptogiar.info.header.Header;
+import com.tptogiar.servlet.component.ServletOutputStream;
+import com.tptogiar.servlet.component.ServletOutputStreamImpl;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 将response传递给用户的servlet时，传递的是这个类的示例
  * @author Tptogiar
  * @Description
  * @createTime 2022年05月01日 13:10:00
@@ -30,7 +33,7 @@ public class HttpServletResponseWrapper implements HttpServletResponse{
 
     private ResponseContext responseContext;
 
-    private ServletOutputStream servletOutputStream;
+
 
 
     private List<Header> headers;
@@ -75,10 +78,21 @@ public class HttpServletResponseWrapper implements HttpServletResponse{
 
     @Override
     public OutputStream getOutPutStream() throws IOException {
-        if (servletOutputStream==null){
-            servletOutputStream = new ServletOutputStreamImpl();
+        if (responseContext.getServletOutputStream()==null){
+            responseContext.createServletOutPutStream();
         }
-        return (OutputStream) servletOutputStream;
+        return responseContext.getServletOutputStream();
+    }
+
+
+
+
+    @Override
+    public boolean hasOutPutStream() throws IOException {
+        if (responseContext.getServletOutputStream()==null){
+            return false;
+        }
+        return true;
     }
 
 

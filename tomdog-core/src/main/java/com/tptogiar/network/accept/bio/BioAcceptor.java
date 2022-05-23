@@ -1,8 +1,9 @@
 package com.tptogiar.network.accept.bio;
 
+import com.tptogiar.component.pool.Poller;
 import com.tptogiar.network.endpoint.bio.BioEndPoint;
 import com.tptogiar.network.handler.bio.BioHttpHandler;
-import com.tptogiar.component.Poller;
+import com.tptogiar.component.pool.Poller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

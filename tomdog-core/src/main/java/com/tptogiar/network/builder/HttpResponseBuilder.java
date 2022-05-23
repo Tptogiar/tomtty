@@ -8,8 +8,8 @@ import com.tptogiar.context.ResponseContext;
 import com.tptogiar.network.HttpHandler;
 import com.tptogiar.info.cookie.Cookie;
 import com.tptogiar.info.header.Header;
-import com.tptogiar.temp.HttpServletRequest;
-import com.tptogiar.temp.HttpServletResponse;
+import com.tptogiar.servlet.wrapper.HttpServletRequest;
+import com.tptogiar.servlet.wrapper.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +18,7 @@ import java.io.OutputStream;
 import java.util.List;
 
 /**
+ * 组装http响应报文
  * @author Tptogiar
  * @Description
  * @createTime 2022年05月01日 12:46:00
@@ -64,11 +65,9 @@ public class HttpResponseBuilder {
         headerAppender.append(HttpResponseHeader.CONTENT_LENGTH).append(resp.getBody().length)
                 .append(CharContant.CRLF).append(CharContant.CRLF);
 
-        byte[] responseBytes = transferToResponseBytes();
 
-        writeResponseBytes(responseBytes);
 
-        closeResource();
+
 
     }
 
@@ -104,7 +103,7 @@ public class HttpResponseBuilder {
     }
 
 
-    private byte[] transferToResponseBytes(){
+    public byte[] transferToResponseBytes(){
         byte[] body = resp.getBody();
         byte[] header = headerAppender.toString().getBytes(CharsetProperties.UTF_8_CHARSET);
         byte[] responseBytes = new byte[header.length + body.length];
@@ -117,19 +116,7 @@ public class HttpResponseBuilder {
     }
 
 
-    public void writeResponseBytes(byte[] responseBytes) throws IOException {
-        OutputStream outputStream = req.getRequestContext().getHttpHandler().getOutputStream();
-        outputStream.write(responseBytes);
-        outputStream.flush();
-    }
 
-
-
-    public void closeResource() throws IOException {
-        HttpHandler httpHandler = req.getRequestContext().getHttpHandler();
-        httpHandler.getInputStream().close();
-        httpHandler.getOutputStream().close();
-    }
 
 
 

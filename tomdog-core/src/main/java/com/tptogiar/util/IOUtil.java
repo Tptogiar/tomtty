@@ -1,9 +1,6 @@
 package com.tptogiar.util;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 /**
  * @author Tptogiar
@@ -34,7 +31,21 @@ public class IOUtil {
         return outStream.toByteArray();
     }
 
-
+    public static void closeAll(Closeable... closeables) {
+        // 遍历数组
+        if (closeables != null) {
+            for (Closeable c : closeables) {
+                // 只要传进来的不是空的都给它把流关闭
+                if (c != null) {
+                    try {
+                        c.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
 
 
 

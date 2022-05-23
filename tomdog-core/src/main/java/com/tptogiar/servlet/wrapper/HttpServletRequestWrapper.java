@@ -1,10 +1,11 @@
-package com.tptogiar.temp;
+package com.tptogiar.servlet.wrapper;
 
 import com.tptogiar.context.RequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * 将request传递给用户的servlet时，传递的是这个类的示例
  * @author Tptogiar
  * @Description
  * @createTime 2022年05月01日 13:09:00
@@ -34,4 +35,15 @@ public class HttpServletRequestWrapper implements HttpServletRequest {
     public RequestContext getRequestContext() {
         return requestContext;
     }
+
+
+
+
+
+
+
+
+
+
+
 }

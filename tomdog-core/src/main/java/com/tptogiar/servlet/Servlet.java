@@ -1,6 +1,7 @@
 package com.tptogiar.servlet;
 
-import com.tptogiar.temp.*;
+import com.tptogiar.servlet.wrapper.HttpServletRequest;
+import com.tptogiar.servlet.wrapper.HttpServletResponse;
 
 import java.io.IOException;
 
@@ -12,11 +13,27 @@ import java.io.IOException;
 public interface Servlet  {
 
 
-    void init();
+    default void init() {
 
-    void destory();
+    }
 
-    void service(HttpServletRequest req, HttpServletResponse resp) throws IOException;
+    default void destory() {
+
+    }
+
+    default void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+    }
+
+    default void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+    }
+
+    default void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+    }
+
+    void doService(HttpServletRequest req, HttpServletResponse resp) throws IOException;
 
 
 }

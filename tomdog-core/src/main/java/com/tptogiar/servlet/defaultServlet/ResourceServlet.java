@@ -3,9 +3,10 @@ package com.tptogiar.servlet.defaultServlet;
 
 import com.tptogiar.constant.http.HttpContentType;
 import com.tptogiar.network.builder.HttpResponseBuilder;
-import com.tptogiar.servlet.Servlet;
-import com.tptogiar.temp.HttpServletRequest;
-import com.tptogiar.temp.HttpServletResponse;
+
+import com.tptogiar.servlet.HttpServlet;
+import com.tptogiar.servlet.wrapper.HttpServletRequest;
+import com.tptogiar.servlet.wrapper.HttpServletResponse;
 import com.tptogiar.util.IOUtil;
 import lombok.Data;
 import org.slf4j.Logger;
@@ -19,7 +20,7 @@ import java.io.IOException;
  * @createTime 2022年05月02日 00:06:00
  */
 @Data
-public class ResourceServlet implements Servlet {
+public class ResourceServlet extends HttpServlet {
 
 
     private static Logger logger = LoggerFactory.getLogger(ResourceServlet.class);
@@ -27,20 +28,11 @@ public class ResourceServlet implements Servlet {
     private String uri;
 
 
-
     public ResourceServlet(String uri) {
         this.uri = uri;
     }
 
-    @Override
-    public void init() {
 
-    }
-
-    @Override
-    public void destory() {
-
-    }
 
     @Override
     public void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -48,6 +40,12 @@ public class ResourceServlet implements Servlet {
         handleResource(req,resp);
     }
 
+    /**
+     * 读取文件二进制内容并添加到response的body里面
+     * @param req
+     * @param resp
+     * @throws IOException
+     */
     public static void handleResource(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         logger.info("处理静态资源...");
         HttpResponseBuilder responseBuilder = new HttpResponseBuilder(req,resp);
@@ -57,10 +55,15 @@ public class ResourceServlet implements Servlet {
         setContentType(uri,resp);
         resp.setBody(bytesFromFile);
 
-        responseBuilder.buildResponse();
-
+//        responseBuilder.buildResponse();
     }
 
+
+    /**
+     * 根据文件类型，给response对象设置对应的content-type
+     * @param uriStr
+     * @param resp
+     */
     public static void setContentType(String uriStr,HttpServletResponse resp){
         // TODO
         String uri = uriStr.toLowerCase();

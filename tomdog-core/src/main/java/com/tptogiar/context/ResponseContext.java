@@ -1,5 +1,7 @@
 package com.tptogiar.context;
 
+import com.tptogiar.servlet.component.ServletOutputStream;
+
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -14,16 +16,8 @@ public interface ResponseContext {
 
     OutputStream getOutputStream() throws IOException;
 
+    OutputStream getServletOutputStream();
 
 
-
-
-
-
-
-
-
-
-
-
+    void createServletOutPutStream();
 }

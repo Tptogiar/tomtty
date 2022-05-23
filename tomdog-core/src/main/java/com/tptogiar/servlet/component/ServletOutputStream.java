@@ -1,4 +1,4 @@
-package com.tptogiar.temp;
+package com.tptogiar.servlet.component;
 
 import java.io.ByteArrayOutputStream;
 

@@ -1,9 +1,7 @@
 package servlet;
 
-import com.tptogiar.temp.HttpServletRequest;
-import com.tptogiar.temp.HttpServletRequestWrapper;
-import com.tptogiar.temp.HttpServletResponse;
-import com.tptogiar.temp.HttpServletResponseWrapper;
+import com.tptogiar.servlet.wrapper.HttpServletRequest;
+import com.tptogiar.servlet.wrapper.HttpServletResponse;
 import com.tptogiar.servlet.HttpServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

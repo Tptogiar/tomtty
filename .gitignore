@@ -5,3 +5,4 @@
 .idea/
 tomdog-core/.idea/
 /tomdog-core/target/
+/out/

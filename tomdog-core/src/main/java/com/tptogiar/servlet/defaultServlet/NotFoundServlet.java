@@ -1,9 +1,10 @@
 package com.tptogiar.servlet.defaultServlet;
 
 import com.tptogiar.config.TomdogConfig;
-import com.tptogiar.temp.HttpServletRequest;
-import com.tptogiar.temp.HttpServletResponse;
 import com.tptogiar.servlet.HttpServlet;
+import com.tptogiar.servlet.wrapper.HttpServletRequest;
+import com.tptogiar.servlet.wrapper.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

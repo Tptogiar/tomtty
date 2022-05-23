@@ -22,6 +22,7 @@ import java.net.URLDecoder;
 import java.util.*;
 
 /**
+ * 解析http请求报文
  * @author Tptogiar
  * @Description
  * @createTime 2022年05月01日 12:46:00
@@ -37,8 +38,17 @@ public class HttpRequsetParser {
     private RequestContext reqContext = new RequestContextImpl();
 
 
+    public static RequestContext parseHttpRequest(
+            BioHttpHandler httpHandler, byte[] requestData)
+            throws RequestInvaildException {
 
-    public HttpRequsetParser(BioHttpHandler httpHandler, byte[] requestData) throws RequestInvaildException {
+        HttpRequsetParser httpRequsetParser = new HttpRequsetParser(httpHandler, requestData);
+        return httpRequsetParser.getReqContext();
+
+    }
+
+
+    private HttpRequsetParser(BioHttpHandler httpHandler, byte[] requestData) throws RequestInvaildException {
         logger.info("解析HTTP二进制报文...");
 
         reqContext.setHttpHandler(httpHandler);

@@ -7,16 +7,22 @@ import com.tptogiar.context.RequestContext;
 import com.tptogiar.exception.RequestInvaildException;
 import com.tptogiar.exception.ServletException;
 import com.tptogiar.network.HttpHandler;
+import com.tptogiar.network.builder.HttpResponseBuilder;
 import com.tptogiar.servlet.Servlet;
-import com.tptogiar.temp.*;
+import com.tptogiar.servlet.wrapper.HttpServletRequest;
+import com.tptogiar.servlet.wrapper.HttpServletRequestWrapper;
+import com.tptogiar.servlet.wrapper.HttpServletResponse;
+import com.tptogiar.servlet.wrapper.HttpServletResponseWrapper;
 import com.tptogiar.component.dispatch.ServletDispatcher;
 import com.tptogiar.network.parser.HttpRequsetParser;
+import com.tptogiar.util.IOUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.net.Socket;
 
 /**
+ * 用于处理一条http连接
  * @author Tptogiar
  * @Description
  * @createTime 2022年04月30日 23:17:00
@@ -49,13 +55,22 @@ public class BioHttpHandler implements HttpHandler {
             }
 
 
+            RequestContext reqContext = HttpRequsetParser.parseHttpRequest(this, readBuffer);
+            HttpServletRequest req = new HttpServletRequestWrapper(reqContext);
+            HttpServletResponse resp = new HttpServletResponseWrapper(reqContext);
+            Servlet result = ServletDispatcher.doDispatcher(req);
+            result.doService(req, resp);
 
-            HttpRequsetParser requsetWrapper = new HttpRequsetParser(this,readBuffer);
-            RequestContext reqContext = requsetWrapper.getReqContext();
-            HttpServletRequest httpServletRequest = new HttpServletRequestWrapper(reqContext);
-            HttpServletResponse httpServletResponse = new HttpServletResponseWrapper(reqContext);
-            Servlet result = ServletDispatcher.doDispatcher(reqContext);
-            result.service(httpServletRequest, httpServletResponse);
+            HttpResponseBuilder httpResponseBuilder = new HttpResponseBuilder(req, resp);
+            httpResponseBuilder.buildResponse();
+
+
+            byte[] responseBytes = httpResponseBuilder.transferToResponseBytes();
+
+            writeResponseBytes(responseBytes);
+
+            closeResource();
+
         } catch (ServletException e) {
 
             logger.info(e.getMessage());
@@ -82,4 +97,17 @@ public class BioHttpHandler implements HttpHandler {
     public InputStream getInputStream() {
         return inputStream;
     }
+
+
+    public void writeResponseBytes(byte[] responseBytes) throws IOException {
+        outputStream.write(responseBytes);
+        outputStream.flush();
+    }
+
+
+
+    public void closeResource() throws IOException {
+        IOUtil.closeAll(inputStream,outputStream);
+    }
+
 }
