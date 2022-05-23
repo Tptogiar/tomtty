@@ -1,11 +1,10 @@
-package com.tptogiar.component;
+package com.tptogiar.component.dispatch;
 
 import com.tptogiar.context.RequestContext;
-import com.tptogiar.holder.ResourceHolder;
+import com.tptogiar.servlet.defaultServlet.ResourceServlet;
 import com.tptogiar.holder.ServletHolder;
 import com.tptogiar.servlet.defaultServlet.NotFoundServlet;
 import com.tptogiar.servlet.Servlet;
-import com.tptogiar.temp.DispatchResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,14 +25,14 @@ public class ServletDispatcher {
     private static Map<String,String> patternNameMap = new HashMap<>();
 
 
-    private static Map<String,ResourceHolder> uriResourceMap = new HashMap<>();
+    private static Map<String, ResourceServlet> uriResourceMap = new HashMap<>();
 
 
     static {
 
         try {
-            ServletCollector.collectServlet(nameServletMap,patternNameMap);
 
+            ServletCollector.collectServlet(nameServletMap,patternNameMap);
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -46,10 +45,10 @@ public class ServletDispatcher {
 
 
 
-    public static DispatchResult doDispatcher(RequestContext requestContext) throws IllegalAccessException, InstantiationException {
+    public static Servlet doDispatcher(RequestContext requestContext) throws IllegalAccessException, InstantiationException {
         String uri = requestContext.getUri();
         logger.info("request uri = {}",uri);
-        DispatchResult servlet = matchingServlet(uri);
+        Servlet servlet = matchingServlet(uri);
 
         if (servlet == null){
             servlet = matchingResource(uri);
@@ -76,16 +75,16 @@ public class ServletDispatcher {
     }
 
 
-    public static DispatchResult matchingResource(String uri){
+    public static Servlet matchingResource(String uri){
         URL resource = ServletDispatcher.class.getResource(uri);
         // TODO 首页处理
         if ("/".equals(uri)){
-            return new ResourceHolder("/default/pages/html/index.html");
+            return new ResourceServlet("/default/pages/html/index.html");
         }
         if (resource==null){
             return null;
         }
-        return new ResourceHolder(uri);
+        return new ResourceServlet(uri);
     }
 
 

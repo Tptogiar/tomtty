@@ -47,10 +47,8 @@ public class HttpRequsetParser {
         String[] lines =null;
         try {
             String httpMessage = URLDecoder.decode(
-                    new String(requestData, CharsetProperties.UTF_8_CHARSET), CharsetProperties.UTF_8);
-            logger.debug("\n================================\n"
-                    +httpMessage.trim()
-                    +"\n================================\n");
+                    new String(requestData, CharsetProperties.UTF_8_CHARSET),
+                    CharsetProperties.UTF_8);
             lines =httpMessage.split(CharContant.CRLF);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

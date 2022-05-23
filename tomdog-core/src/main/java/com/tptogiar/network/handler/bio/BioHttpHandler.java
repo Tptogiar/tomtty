@@ -1,18 +1,18 @@
 package com.tptogiar.network.handler.bio;
 
 
+
 import com.tptogiar.config.TomdogConfig;
 import com.tptogiar.context.RequestContext;
 import com.tptogiar.exception.RequestInvaildException;
 import com.tptogiar.exception.ServletException;
 import com.tptogiar.network.HttpHandler;
+import com.tptogiar.servlet.Servlet;
 import com.tptogiar.temp.*;
-import com.tptogiar.component.ServletDispatcher;
-
+import com.tptogiar.component.dispatch.ServletDispatcher;
 import com.tptogiar.network.parser.HttpRequsetParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.*;
 import java.net.Socket;
 
@@ -54,8 +54,8 @@ public class BioHttpHandler implements HttpHandler {
             RequestContext reqContext = requsetWrapper.getReqContext();
             HttpServletRequest httpServletRequest = new HttpServletRequestWrapper(reqContext);
             HttpServletResponse httpServletResponse = new HttpServletResponseWrapper(reqContext);
-            DispatchResult result = ServletDispatcher.doDispatcher(reqContext);
-            result.doService(httpServletRequest, httpServletResponse);
+            Servlet result = ServletDispatcher.doDispatcher(reqContext);
+            result.service(httpServletRequest, httpServletResponse);
         } catch (ServletException e) {
 
             logger.info(e.getMessage());

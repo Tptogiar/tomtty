@@ -9,16 +9,14 @@ import java.io.IOException;
  * @Description
  * @createTime 2022年05月01日 13:02:00
  */
-public interface Servlet extends DispatchResult {
+public interface Servlet  {
 
 
     void init();
 
     void destory();
 
-    @Override
-    void doService(HttpServletRequest req, HttpServletResponse resp) throws IOException;
-
+    void service(HttpServletRequest req, HttpServletResponse resp) throws IOException;
 
 
 }

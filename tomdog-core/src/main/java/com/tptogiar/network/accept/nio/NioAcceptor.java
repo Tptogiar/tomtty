@@ -1,5 +1,7 @@
 package com.tptogiar.network.accept.nio;
 
+import com.tptogiar.network.endpoint.nio.NioEndPoint;
+
 /**
  * @author Tptogiar
  * @Description
@@ -7,9 +9,10 @@ package com.tptogiar.network.accept.nio;
  */
 public class NioAcceptor {
 
+    private NioEndPoint endPoint;
 
 
-
-
-
+    public NioAcceptor(NioEndPoint nioEndPoint) {
+        endPoint = nioEndPoint;
+    }
 }
