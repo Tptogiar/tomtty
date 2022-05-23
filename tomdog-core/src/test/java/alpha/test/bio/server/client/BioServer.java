@@ -88,12 +88,15 @@ class Handler implements Runnable{
                     "HTTP/1.1 200 OK\n" +
                             "Server:Tptogiar\n" +
                             "Content-Type:text/html; charset=utf-8\n" +
+                            "Content-Length:"+content.getBytes().length+"\n"+
                             "\n"+content;
-
-
+            String temp = content+htmlStr;
+            System.out.println(temp.length());
             outputStream.write(htmlStr.getBytes());
             outputStream.flush();
-            outputStream.close();
+//            outputStream.close();
+            System.out.println("in:");
+            System.in.read();
         } catch (IOException e) {
             e.printStackTrace();
         }

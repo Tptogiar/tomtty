@@ -37,7 +37,7 @@ public class BioServerDemo {
             BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
             //读取客户端发送来的消息
             String mess = br.readLine();
-            System.out.println("客户端："+mess);
+            System.out.println("收到客户端发送的消息："+mess);
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
             bw.write("This is the message from 服务端...");
             bw.flush();

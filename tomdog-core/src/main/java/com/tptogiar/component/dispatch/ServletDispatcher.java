@@ -42,9 +42,13 @@ public class ServletDispatcher {
     }
 
 
-
-
-
+    /**
+     * 分发处理
+     * @param requestContext
+     * @return
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     */
     public static Servlet doDispatcher(RequestContext requestContext) throws IllegalAccessException, InstantiationException {
         String uri = requestContext.getUri();
         logger.info("request uri = {}",uri);
@@ -62,9 +66,13 @@ public class ServletDispatcher {
     }
 
 
-
-
-
+    /**
+     * 根据uri匹配servlet
+     * @param uri
+     * @return
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     */
     public static Servlet matchingServlet(String uri) throws IllegalAccessException, InstantiationException {
         String servletName = patternNameMap.get(uri);
         ServletHolder servletHolder = nameServletMap.get(servletName);

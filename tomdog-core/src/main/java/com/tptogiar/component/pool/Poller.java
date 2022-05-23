@@ -1,4 +1,4 @@
-package com.tptogiar.component;
+package com.tptogiar.component.pool;
 
 
 import com.tptogiar.network.HttpHandler;
@@ -22,14 +22,23 @@ public class Poller {
 
     static {
         poolExecutor = new ThreadPoolExecutor(
-                5,10,1000,
+                5,1000,1000,
                 TimeUnit.MILLISECONDS,new ArrayBlockingQueue<Runnable>(5));
+
+
+        poolExecutor.setRejectedExecutionHandler(new RejectPolicyHandler());
+
+
     }
 
     public static void execute(HttpHandler httpHandler){
-        logger.info("线程池进行任务调度...");
-        logger.debug(poolExecutor.toString());
-        poolExecutor.execute(httpHandler);
+        try{
+            logger.warn(poolExecutor.toString());
+            logger.info("线程池进行任务调度...");
+            poolExecutor.execute(httpHandler);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -38,3 +47,5 @@ public class Poller {
 
 
 }
+
+

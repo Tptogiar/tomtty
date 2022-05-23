@@ -11,8 +11,9 @@ import java.net.UnknownHostException;
  * @Description
  * @createTime 2022年05月03日 17:55:00
  */
-public class BioClientDemo {
 
+
+public class BioClientDemo {
 
 
 
@@ -20,6 +21,13 @@ public class BioClientDemo {
     public  void testBioClientDemo() {
         startBioClient();
     }
+
+
+
+
+
+
+
 
 
     public void startBioClient(){
@@ -38,7 +46,7 @@ public class BioClientDemo {
             //读取服务器返回的消息
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             String mess = br.readLine();
-            System.out.println("服务器："+mess);
+            System.out.println("收到服务器发送的消息："+mess);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
