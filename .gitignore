@@ -4,3 +4,4 @@
 */target/*.*
 .idea/
 tomdog-core/.idea/
+/tomdog-core/target/

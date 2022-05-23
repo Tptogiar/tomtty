@@ -1,6 +1,6 @@
 package alpha.test.temp;
 
-import com.tptogiar.component.ServletDispatcher;
+import com.tptogiar.component.dispatch.ServletDispatcher;
 import org.junit.Test;
 
 import java.net.URL;

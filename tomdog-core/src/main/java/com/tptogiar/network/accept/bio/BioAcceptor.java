@@ -14,13 +14,13 @@ import java.net.Socket;
  * @Description
  * @createTime 2022年04月30日 21:46:00
  */
-public class BioAccept implements Runnable{
+public class BioAcceptor implements Runnable{
 
-    private Logger logger = LoggerFactory.getLogger(BioAccept.class);
+    private Logger logger = LoggerFactory.getLogger(BioAcceptor.class);
 
     private BioEndPoint endPoint;
 
-    public BioAccept(BioEndPoint endPoint) {
+    public BioAcceptor(BioEndPoint endPoint) {
         this.endPoint = endPoint;
     }
 
@@ -28,9 +28,9 @@ public class BioAccept implements Runnable{
     public void run() {
         try {
             while (true){
-                logger.info("等待fd...");
+                logger.info("等待客户端连接...");
                 Socket socket = endPoint.serverSocketAccept();
-                logger.info("Accept了一个fd...");
+                logger.info("接收到客户端连接，accept了一个fd...");
                 BioHttpHandler bioHttpHandler = new BioHttpHandler(socket);
                 Poller.execute(bioHttpHandler);
             }

@@ -1,4 +1,4 @@
-package com.tptogiar.component;
+package com.tptogiar.component.dispatch;
 
 import com.tptogiar.config.TomdogConfig;
 import com.tptogiar.holder.ServletHolder;
@@ -7,7 +7,6 @@ import com.tptogiar.util.XMLUtil;
 import org.dom4j.Document;
 import org.dom4j.Element;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
