@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
+ * 封装servlet信息
  * @author Tptogiar
  * @Description
  * @createTime 2022年05月01日 18:00:00

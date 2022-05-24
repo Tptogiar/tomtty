@@ -1,5 +1,6 @@
 package com.tptogiar.servlet.wrapper;
 
+import com.tptogiar.constant.http.HttpMethod;
 import com.tptogiar.context.RequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,14 +37,10 @@ public class HttpServletRequestWrapper implements HttpServletRequest {
         return requestContext;
     }
 
-
-
-
-
-
-
-
-
+    @Override
+    public HttpMethod getMethod() {
+        return requestContext.getMethod();
+    }
 
 
 }

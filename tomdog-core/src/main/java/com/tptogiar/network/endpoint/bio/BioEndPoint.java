@@ -12,6 +12,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
+ * 负责bio模式下的端到端连接
  * @author Tptogiar
  * @Description
  * @createTime 2022年04月30日 21:42:00
