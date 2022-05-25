@@ -14,9 +14,9 @@ import java.util.concurrent.TimeUnit;
  * @Description
  * @createTime 2022年04月30日 22:26:00
  */
-public class Poller {
+public class ThreadPool {
 
-    private static Logger logger = LoggerFactory.getLogger(Poller.class);
+    private static Logger logger = LoggerFactory.getLogger(ThreadPool.class);
 
     private static ThreadPoolExecutor poolExecutor;
 
