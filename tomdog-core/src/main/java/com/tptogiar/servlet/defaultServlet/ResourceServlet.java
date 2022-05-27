@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 /**
+ * 静态资源处理
  * @author Tptogiar
  * @Description
  * @createTime 2022年05月02日 00:06:00

@@ -2,6 +2,7 @@ package com.tptogiar.servlet;
 
 import com.tptogiar.servlet.AbstractHttpServlet;
 import com.tptogiar.servlet.Servlet;
+import com.tptogiar.constant.http.HttpMethod;
 import com.tptogiar.servlet.wrapper.HttpServletRequest;
 import com.tptogiar.servlet.wrapper.HttpServletResponse;
 
@@ -30,22 +31,33 @@ public class HttpServlet extends AbstractHttpServlet implements Servlet {
 
     @Override
     public void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
+        HttpMethod method = req.getMethod();
+        if (method.equals(HttpMethod.GET)){
+            doGet(req,resp);
+            return;
+        }
+        else if (method.equals(HttpMethod.POST)){
+            doPost(req,resp);
+            return;
+        }
+        notSupportMethod(req,resp);
     }
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        OutputStream outPutStream = resp.getOutPutStream();
-        String defaultMessage = "This get method is not support...";
-        outPutStream.write(defaultMessage.getBytes());
+        notSupportMethod(req,resp);
     }
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        OutputStream outPutStream = resp.getOutPutStream();
-        String defaultMessage = "This post method is not support...";
-        outPutStream.write(defaultMessage.getBytes());
+        notSupportMethod(req,resp);
     }
 
+    // 给方法暂未被支持
+    private void notSupportMethod(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        OutputStream outPutStream = resp.getOutPutStream();
+        String defaultMessage = "This method is not support...";
+        outPutStream.write(defaultMessage.getBytes());
+    }
 
 }

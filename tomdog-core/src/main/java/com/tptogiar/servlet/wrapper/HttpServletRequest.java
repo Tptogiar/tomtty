@@ -1,5 +1,6 @@
 package com.tptogiar.servlet.wrapper;
 
+import com.tptogiar.constant.http.HttpMethod;
 import com.tptogiar.context.RequestContext;
 
 /**
@@ -14,7 +15,7 @@ public interface HttpServletRequest {
     void setUri(String uri);
 
     RequestContext getRequestContext ();
-
+    HttpMethod getMethod();
 
 
 }

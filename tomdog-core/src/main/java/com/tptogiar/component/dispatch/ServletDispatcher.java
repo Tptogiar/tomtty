@@ -12,7 +12,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
+/** 进行请求分发，分发到对应的servlet
  * @author Tptogiar
  * @Description
  * @createTime 2022年05月01日 12:59:00

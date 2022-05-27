@@ -7,7 +7,7 @@ import com.tptogiar.servlet.component.ServletOutputStream;
 import java.io.IOException;
 
 /**
- *
+ * 负责在调用service.service之时，做一些前置或后置的工作
  * @author Tptogiar
  * @Description
  * @createTime 2022年05月03日 13:54:00
