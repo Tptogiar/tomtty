@@ -5,9 +5,8 @@ package com.tptogiar.context.impl;
 
 import com.tptogiar.constant.http.HttpMethod;
 import com.tptogiar.context.RequestContext;
-
-import com.tptogiar.network.HttpHandler;
 import com.tptogiar.info.cookie.Cookie;
+import com.tptogiar.network.bio.handler.bio.BioHttpHandler;
 import lombok.Data;
 
 
@@ -31,7 +30,7 @@ public class RequestContextImpl implements RequestContext {
     private String uri;
 
 
-    private HttpHandler httpHandler;
+    private BioHttpHandler httpHandler;
 
 
 
