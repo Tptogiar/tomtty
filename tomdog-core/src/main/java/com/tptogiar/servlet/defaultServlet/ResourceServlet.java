@@ -2,7 +2,7 @@ package com.tptogiar.servlet.defaultServlet;
 
 
 import com.tptogiar.constant.http.HttpContentType;
-import com.tptogiar.network.builder.HttpResponseBuilder;
+import com.tptogiar.network.bio.builder.HttpResponseBuilder;
 
 import com.tptogiar.servlet.HttpServlet;
 import com.tptogiar.servlet.wrapper.HttpServletRequest;

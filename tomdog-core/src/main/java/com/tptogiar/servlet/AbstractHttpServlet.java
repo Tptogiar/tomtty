@@ -1,6 +1,5 @@
 package com.tptogiar.servlet;
 
-import com.tptogiar.network.builder.HttpResponseBuilder;
 import com.tptogiar.servlet.wrapper.HttpServletRequest;
 import com.tptogiar.servlet.wrapper.HttpServletResponse;
 import com.tptogiar.servlet.component.ServletOutputStream;
