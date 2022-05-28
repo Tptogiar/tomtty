@@ -1,6 +1,6 @@
 package com.tptogiar.network.nio.poller;
 
-import com.tptogiar.network.nio.reactor.NioEnventLoop;
+import com.tptogiar.network.nio.eventloop.NioEnventLoop;
 
 import lombok.Data;
 import org.slf4j.Logger;
@@ -49,6 +49,7 @@ public class MianPoller implements Poller {
                 if (selectionKey.isAcceptable()){
                     ServerSocketChannel serverSocketChannel = nioEnventLoop.getServerSocketChannel();
                     SocketChannel clientChannel = serverSocketChannel.accept();
+                    clientChannel.configureBlocking(false);
                     nioEnventLoop.dispatcherToSubReactor(clientChannel);
                 }
 

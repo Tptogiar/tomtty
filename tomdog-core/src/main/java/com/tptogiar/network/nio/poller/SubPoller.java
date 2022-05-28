@@ -1,14 +1,13 @@
 package com.tptogiar.network.nio.poller;
 
 import com.tptogiar.network.nio.handler.TCPHandler;
-import com.tptogiar.network.nio.reactor.NioEnventLoop;
+import com.tptogiar.network.nio.eventloop.NioEnventLoop;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
-import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -30,7 +29,6 @@ public class SubPoller implements Poller {
 
     public SubPoller(NioEnventLoop nioEnventLoop) {
         this.nioEnventLoop = nioEnventLoop;
-
         selector = nioEnventLoop.getSelector();
         tcpHandler = new TCPHandler();
     }
@@ -39,7 +37,12 @@ public class SubPoller implements Poller {
     @Override
     public void poll() throws IOException {
         while (true) {
-            selector.select();
+            //
+            if (! nioEnventLoop.isCanSelect()){
+                continue;
+            }
+
+            nioEnventLoop.select();
             Set<SelectionKey> selectionKeys = selector.selectedKeys();
             Iterator<SelectionKey> iterator = selectionKeys.iterator();
             while (iterator.hasNext()) {
