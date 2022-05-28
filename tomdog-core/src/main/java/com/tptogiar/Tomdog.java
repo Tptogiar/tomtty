@@ -1,7 +1,7 @@
 package com.tptogiar;
 
 import com.tptogiar.config.TomdogConfig;
-import com.tptogiar.network.bio.endpoint.bio.BioEndPoint;
+import com.tptogiar.network.bio.endpoint.BioEndPoint;
 
 
 import java.io.IOException;

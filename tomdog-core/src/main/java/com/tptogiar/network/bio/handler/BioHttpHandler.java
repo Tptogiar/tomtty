@@ -1,4 +1,4 @@
-package com.tptogiar.network.bio.handler.bio;
+package com.tptogiar.network.bio.handler;
 
 
 

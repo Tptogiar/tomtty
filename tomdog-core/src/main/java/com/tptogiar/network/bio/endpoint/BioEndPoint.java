@@ -1,7 +1,7 @@
-package com.tptogiar.network.bio.endpoint.bio;
+package com.tptogiar.network.bio.endpoint;
 
 
-import com.tptogiar.network.bio.accept.bio.BioAcceptor;
+import com.tptogiar.network.bio.accept.BioAcceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
