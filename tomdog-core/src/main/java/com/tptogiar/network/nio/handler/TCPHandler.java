@@ -43,6 +43,7 @@ public class TCPHandler {
         int readCount = channel.read(buffer);
         buffer.flip();
         if (readCount == -1 || readCount ==0){
+            // TODO 关闭连接？
             channel.shutdownInput();
             channel.close();
             subEventLoop.getSelector().select(10);

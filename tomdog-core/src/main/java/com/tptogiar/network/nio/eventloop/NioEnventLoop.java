@@ -13,6 +13,7 @@ import java.net.InetSocketAddress;
 import java.nio.channels.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -25,9 +26,11 @@ public class NioEnventLoop extends Thread{
 
     private static final Logger logger = LoggerFactory.getLogger(NioEnventLoop.class);
 
+
     private NioEventLoopGroup eventLoopGroup;
 
-    private BlockingQueue<EventTask> eventQueue = new ArrayBlockingQueue<>(10);
+    // 任务队列
+    private BlockingQueue<EventTask> eventQueue = new LinkedBlockingQueue<>();
 
     private final Selector selector;
 
@@ -37,9 +40,9 @@ public class NioEnventLoop extends Thread{
 
     private int subReactorIndex = 0;
 
-    // 该原子变量用以防止当MainReactor将fd注册到SubReactor时，MainReactor中register方法
-    // 与SubReactor中的select发生死锁；
-    private AtomicBoolean canSelect = new AtomicBoolean(true);
+    private AtomicBoolean selecting = new AtomicBoolean(false);
+
+    private AtomicBoolean running = new AtomicBoolean(true);
 
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
@@ -48,8 +51,6 @@ public class NioEnventLoop extends Thread{
     private static final String  EVENT_LOOP_NAME_MAIN = "MainReactor";
 
     private static final String  EVENT_LOOP_NAME_SUB = "SubReactor";
-
-
 
 
     /**
@@ -70,8 +71,6 @@ public class NioEnventLoop extends Thread{
     }
 
 
-
-
     /**
      * 构造器，用于构造SubReactor
      * @param index
@@ -86,20 +85,15 @@ public class NioEnventLoop extends Thread{
     }
 
 
-
     public static NioEnventLoop createSubEventLoop(int index) throws IOException {
         return new NioEnventLoop(index,EVENT_LOOP_NAME_SUB);
     }
-
-
 
 
     public static NioEnventLoop createMainEventLoop(int port, NioEventLoopGroup eventLoopGroup) throws IOException {
         logger.info("初始化MainEventLoop...");
         return new NioEnventLoop(port, eventLoopGroup,EVENT_LOOP_NAME_MAIN);
     }
-
-
 
 
     private static ServerSocketChannel initServerSocket(int port) throws IOException {
@@ -111,19 +105,14 @@ public class NioEnventLoop extends Thread{
     }
 
 
-
-
-
     @Override
     public void run() {
         try {
             poller.poll();
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
-
-
 
 
     public int select() throws IOException {
@@ -132,41 +121,53 @@ public class NioEnventLoop extends Thread{
     }
 
 
-
-
     public void dispatcherToSubReactor(SocketChannel clientChannel) throws IOException {
         NioEnventLoop subEventLoop = eventLoopGroup.getEventLoop();
-        logger.info(String.valueOf(clientChannel.getRemoteAddress())+"分配到了"+subEventLoop);
-        registerReadToSelector(clientChannel,subEventLoop);
+        logger.info(String.valueOf(clientChannel.getRemoteAddress())+"分配到的subReactor："+subEventLoop);
+        registerEventToSelector(clientChannel,subEventLoop, SelectionKey.OP_READ,null);
     }
 
 
+    public void registerEventToSelector(SocketChannel clientChannel, NioEnventLoop curEventLoop, int ops,Object attchment) {
 
+        Selector curSelector = curEventLoop.getSelector();
+        BlockingQueue<EventTask> eventQueue = curEventLoop.getEventQueue();
+        addEvent(curSelector,eventQueue,() ->{
+            try {
+                if (attchment==null){
+                    clientChannel.register(curSelector,ops);
+                }else{
+                    clientChannel.register(curSelector,ops,attchment);
+                }
 
-    public void registerReadToSelector(SocketChannel clientChannel, NioEnventLoop subEventLoop) throws ClosedChannelException {
-        Selector subSelector = subEventLoop.getSelector();
-        // 为防止channel的register方法与subSelector的select发生死锁，这里
-        // 将canSelect标识置为false以防止subSelector重新陷入select阻塞
-        canSelect.set(false);
-        subEventLoop.selectorWakeup();
-        clientChannel.register(subSelector,SelectionKey.OP_READ);
-        canSelect.set(true);
+            } catch (ClosedChannelException e) {
+                e.printStackTrace();
+            }
+        });
+
+        // 如果正在进行select，则考虑把其唤醒
+        // TODO 唤醒有代价，待考虑更好的方式
+        if (curEventLoop.getSelecting().get()){
+            curEventLoop.selectorWakeup();
+        }
     }
 
-    public void registerWriteToSelector(SocketChannel clientChannel) throws ClosedChannelException {
-        // 为防止channel的register方法与subSelector的select发生死锁，这里
-        // 将canSelect标识置为false以防止subSelector重新陷入select阻塞
-        canSelect.set(false);
-        this.selectorWakeup();
-        clientChannel.register(selector,SelectionKey.OP_WRITE);
-        canSelect.set(true);
-    }
 
+    public void addEvent(Selector selector,BlockingQueue<EventTask> eventQueue,Runnable runnable){
+        if (runnable == null){
+            throw new NullPointerException("the evnet runnable must not be null");
+        }
+        if (! selector.isOpen()){
+            return;
+        }
+        eventQueue.add(new EventTask(runnable));
+    }
 
 
     private void selectorWakeup(){
         selector.wakeup();
     }
+
 
     @Override
     public String toString() {

@@ -11,6 +11,7 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 /**
@@ -26,17 +27,19 @@ public class MianPoller implements Poller {
 
     private NioEnventLoop nioEnventLoop;
 
+    private AtomicBoolean running;
 
 
     public MianPoller(NioEnventLoop nioEnventLoop) {
         this.nioEnventLoop = nioEnventLoop;
+        running = nioEnventLoop.getRunning();
     }
 
 
 
     @Override
     public void poll() throws IOException {
-        while (true) {
+        while (running.get()) {
             int select = nioEnventLoop.select();
             Set<SelectionKey> selectionKeys = nioEnventLoop.getSelector().selectedKeys();
             Iterator<SelectionKey> iterator = selectionKeys.iterator();

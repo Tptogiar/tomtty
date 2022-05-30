@@ -21,13 +21,11 @@ public class NioHttpHandler extends HttpHandler implements Runnable {
 
     private NioEnventLoop subEventLoop;
 
-    private Selector subSelector;
 
     public NioHttpHandler(ByteBuffer buffer, SelectionKey selectionKey, NioEnventLoop subEventLoop) {
         this.selectionKey = selectionKey;
         this.buffer = buffer;
         this.subEventLoop = subEventLoop;
-        this.subSelector = subSelector;
     }
 
 
@@ -35,11 +33,11 @@ public class NioHttpHandler extends HttpHandler implements Runnable {
     public void run() {
         byte[] responseBytes = null;
         try {
+
             responseBytes = process(buffer.array());
-//            selectionKey.channel().register(subSelector, SelectionKey.OP_WRITE);
             SocketChannel channel = (SocketChannel) selectionKey.channel();
-            subEventLoop.registerWriteToSelector(channel);
-            selectionKey.attach(responseBytes);
+            subEventLoop.registerEventToSelector(channel,subEventLoop,SelectionKey.OP_WRITE,responseBytes);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
