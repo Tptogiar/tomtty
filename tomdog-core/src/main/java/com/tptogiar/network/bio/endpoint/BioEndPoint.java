@@ -29,7 +29,7 @@ public class BioEndPoint{
         this.acceptor = new BioAcceptor(this);
         ServerSocket socket = new ServerSocket();
         socket.bind(new InetSocketAddress(hostname,port));
-        socket = socket;
+        this.socket = socket;
     }
 
 

@@ -1,11 +1,11 @@
 package com.tptogiar.network.bio.handler;
 
 
-
 import com.tptogiar.config.TomdogConfig;
 import com.tptogiar.context.RequestContext;
 import com.tptogiar.exception.RequestInvaildException;
 import com.tptogiar.exception.ServletException;
+import com.tptogiar.network.HttpHandler;
 import com.tptogiar.network.bio.builder.HttpResponseBuilder;
 import com.tptogiar.servlet.Servlet;
 import com.tptogiar.servlet.wrapper.HttpServletRequest;
@@ -15,18 +15,21 @@ import com.tptogiar.servlet.wrapper.HttpServletResponseWrapper;
 import com.tptogiar.component.dispatch.ServletDispatcher;
 import com.tptogiar.network.bio.parser.HttpRequsetParser;
 import com.tptogiar.util.IOUtil;
+import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.*;
 import java.net.Socket;
 
 /**
  * 用于处理一条http连接
+ *
  * @author Tptogiar
  * @Description
  * @createTime 2022年04月30日 23:17:00
  */
-public class BioHttpHandler implements Runnable {
+public class BioHttpHandler extends HttpHandler implements Runnable {
 
     private Logger logger = LoggerFactory.getLogger(BioHttpHandler.class);
 
@@ -43,54 +46,30 @@ public class BioHttpHandler implements Runnable {
     }
 
 
+    @SneakyThrows
     @Override
     public void run() {
-        try {
-
-            logger.info("开始处理请求...");
-            int read = inputStream.read(readBuffer);
-            if (read<=0){
-                throw new RequestInvaildException();
-            }
 
 
-            RequestContext reqContext = HttpRequsetParser.parseHttpRequest(this, readBuffer);
-            HttpServletRequest req = new HttpServletRequestWrapper(reqContext);
-            HttpServletResponse resp = new HttpServletResponseWrapper(reqContext);
-            Servlet result = ServletDispatcher.doDispatcher(req);
-            result.doService(req, resp);
-
-            HttpResponseBuilder httpResponseBuilder = new HttpResponseBuilder(req, resp);
-            httpResponseBuilder.buildResponse();
-
-
-            byte[] responseBytes = httpResponseBuilder.transferToResponseBytes();
-
-            writeResponseBytes(responseBytes);
-
-            closeResource();
-
-        } catch (ServletException e) {
-
-            logger.info(e.getMessage());
-        }catch (IOException  e){
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-
-        } catch (InstantiationException e) {
-            e.printStackTrace();
+        logger.info("开始处理请求...");
+        int read = inputStream.read(readBuffer);
+        if (read <= 0) {
+            throw new RequestInvaildException();
         }
+
+        byte[] responseBytes = process(readBuffer);
+
+        writeResponseBytes(responseBytes);
+        closeResource();
+
+
         logger.info("请求处理完成...");
     }
-
-
-
 
 
     public OutputStream getOutputStream() {
         return outputStream;
     }
-
 
 
     public InputStream getInputStream() {
@@ -104,9 +83,8 @@ public class BioHttpHandler implements Runnable {
     }
 
 
-
     public void closeResource() throws IOException {
-        IOUtil.closeAll(inputStream,outputStream);
+        IOUtil.closeAll(inputStream, outputStream);
     }
 
 }

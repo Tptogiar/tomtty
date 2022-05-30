@@ -16,18 +16,12 @@ public class ServerBootstrap {
 
     private static final Logger logger = LoggerFactory.getLogger(ServerBootstrap.class);
 
-    static void start(int port,int childLoopCount) throws IOException {
+    public static void start(int port,int childLoopCount) throws IOException {
         NioEventLoopGroup eventLoopGroup = NioEventLoopGroup.createEventLoopGroup(childLoopCount);
         NioEnventLoop mainEventLoop = NioEnventLoop.createMainEventLoop(port, eventLoopGroup);
+        mainEventLoop.setName(mainEventLoop.toString());
         logger.info("MainEventLoop及EventLoopGroup启动完成...");
         mainEventLoop.start();
-
-
-    }
-
-
-    public static void main(String[] args) throws IOException {
-        start(8848,5);
     }
     
 }

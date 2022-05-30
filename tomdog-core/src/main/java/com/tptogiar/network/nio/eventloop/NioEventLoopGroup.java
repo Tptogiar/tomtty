@@ -28,6 +28,7 @@ public class NioEventLoopGroup {
         NioEnventLoop[] enventLoops = new NioEnventLoop[childLoopCount];
         for (int i = 0; i < childLoopCount; i++) {
             enventLoops[i] = NioEnventLoop.createSubEventLoop(i);
+            enventLoops[i].setName(enventLoops[i].toString());
             enventLoops[i].start();
         }
         return new NioEventLoopGroup(enventLoops);

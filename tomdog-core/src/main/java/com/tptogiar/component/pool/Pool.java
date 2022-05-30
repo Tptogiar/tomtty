@@ -33,7 +33,7 @@ public class Pool {
 
     public static void execute(Runnable task) {
         try {
-            logger.warn(poolExecutor.toString());
+            logger.debug(poolExecutor.toString());
             logger.info("线程池进行任务调度...");
             poolExecutor.execute(task);
         } catch (Exception e) {
@@ -44,6 +44,7 @@ public class Pool {
 
 
     public static void submit(Runnable task) {
+        logger.debug(poolExecutor.toString());
         Future<?> result = poolExecutor.submit(task);
 
     }

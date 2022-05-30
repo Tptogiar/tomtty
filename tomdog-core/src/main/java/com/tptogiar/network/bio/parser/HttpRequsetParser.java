@@ -11,6 +11,7 @@ import com.tptogiar.constant.http.HttpMethod;
 
 import com.tptogiar.context.impl.RequestContextImpl;
 import com.tptogiar.exception.RequestInvaildException;
+import com.tptogiar.network.HttpHandler;
 import com.tptogiar.network.bio.handler.BioHttpHandler;
 import com.tptogiar.info.cookie.Cookie;
 import lombok.Data;
@@ -39,7 +40,7 @@ public class HttpRequsetParser {
 
 
     public static RequestContext parseHttpRequest(
-            BioHttpHandler httpHandler, byte[] requestData)
+            HttpHandler httpHandler, byte[] requestData)
             throws RequestInvaildException {
 
         HttpRequsetParser httpRequsetParser = new HttpRequsetParser(httpHandler, requestData);
@@ -48,7 +49,7 @@ public class HttpRequsetParser {
     }
 
 
-    private HttpRequsetParser(BioHttpHandler httpHandler, byte[] requestData) throws RequestInvaildException {
+    private HttpRequsetParser(HttpHandler httpHandler, byte[] requestData) throws RequestInvaildException {
         logger.info("解析HTTP二进制报文...");
 
         reqContext.setHttpHandler(httpHandler);

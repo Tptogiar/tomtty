@@ -77,7 +77,7 @@ public class HttpServletResponseWrapper implements HttpServletResponse{
 
 
     @Override
-    public OutputStream getOutPutStream() throws IOException {
+    public OutputStream getOutputStream() throws IOException {
         if (responseContext.getServletOutputStream()==null){
             responseContext.createServletOutPutStream();
         }

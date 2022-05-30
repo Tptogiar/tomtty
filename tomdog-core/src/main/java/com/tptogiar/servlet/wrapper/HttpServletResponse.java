@@ -28,7 +28,7 @@ public interface HttpServletResponse {
 
 
 
-    OutputStream getOutPutStream() throws IOException;
+    OutputStream getOutputStream() throws IOException;
 
 
 

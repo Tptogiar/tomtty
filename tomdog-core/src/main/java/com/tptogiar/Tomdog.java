@@ -14,17 +14,9 @@ import java.io.IOException;
 public class Tomdog {
 
 
-    public static void start(String[] args) throws IOException {
-        BioEndPoint bioEndPoint =
-                new BioEndPoint(
-                        TomdogConfig.SERVER_HOSTNAME, TomdogConfig.SERVER_PORT);
-
+    public static void start(String hostname,int port) throws IOException {
+        BioEndPoint bioEndPoint = new BioEndPoint(hostname,port);
         bioEndPoint.start();
-
-
-
-
-
     }
 
 

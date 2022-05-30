@@ -11,6 +11,7 @@ public class TomdogConfig {
     public static String SERVER_HOSTNAME = "127.0.0.1";
     public static int SERVER_PORT =8848;
 
+    public static final int SERVER_NIO_SUB_REACTOR_COUNT = 10;
 
     public static int HTTP_READ_BUFFER_SIZE = 8*1024;
 

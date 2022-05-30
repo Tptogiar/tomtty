@@ -25,7 +25,7 @@ public abstract class AbstractHttpServlet implements Servlet{
         // 判断是resourceServlet还是普通的servlet，
         // resourceServlet中不会把数据写入ServletOutputStream，也就是为null
         if (resp.hasOutPutStream()){
-            ServletOutputStream outPutStream = (ServletOutputStream) resp.getOutPutStream();
+            ServletOutputStream outPutStream = (ServletOutputStream) resp.getOutputStream();
             resp.setBody(outPutStream.getOutputBuffer().toByteArray());
         }
     }

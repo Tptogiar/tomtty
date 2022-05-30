@@ -22,7 +22,7 @@ public class TestServlet extends HttpServlet {
     @Override
     public void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         logger.info("do service ----From TestServlet...");
-        OutputStream outPutStream = resp.getOutPutStream();
+        OutputStream outPutStream = resp.getOutputStream();
         String jsonStr = "<h1 style='color:red'>do service success</h1>";
         outPutStream.write(jsonStr.getBytes());
     }

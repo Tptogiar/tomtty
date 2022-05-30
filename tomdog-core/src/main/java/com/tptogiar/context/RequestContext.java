@@ -4,6 +4,7 @@ import com.tptogiar.constant.http.HttpMethod;
 
 
 import com.tptogiar.info.cookie.Cookie;
+import com.tptogiar.network.HttpHandler;
 import com.tptogiar.network.bio.handler.BioHttpHandler;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.Map;
  */
 public interface RequestContext {
 
-    void setHttpHandler(BioHttpHandler httpHandler);
+    void setHttpHandler(HttpHandler httpHandler);
 
 
 
@@ -41,7 +42,7 @@ public interface RequestContext {
 
     void setUri(String uri) ;
 
-    BioHttpHandler getHttpHandler();
+    HttpHandler getHttpHandler();
 
 
 

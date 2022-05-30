@@ -37,7 +37,7 @@ public class MianPoller implements Poller {
     @Override
     public void poll() throws IOException {
         while (true) {
-            nioEnventLoop.select();
+            int select = nioEnventLoop.select();
             Set<SelectionKey> selectionKeys = nioEnventLoop.getSelector().selectedKeys();
             Iterator<SelectionKey> iterator = selectionKeys.iterator();
             while (iterator.hasNext()) {

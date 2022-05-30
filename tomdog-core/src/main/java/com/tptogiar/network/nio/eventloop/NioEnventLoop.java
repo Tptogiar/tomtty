@@ -3,6 +3,7 @@ package com.tptogiar.network.nio.eventloop;
 import com.tptogiar.network.nio.poller.MianPoller;
 import com.tptogiar.network.nio.poller.Poller;
 import com.tptogiar.network.nio.poller.SubPoller;
+import com.tptogiar.network.nio.task.EventTask;
 import lombok.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,9 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.channels.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author Tptogiar
@@ -23,6 +27,8 @@ public class NioEnventLoop extends Thread{
 
     private NioEventLoopGroup eventLoopGroup;
 
+    private BlockingQueue<EventTask> eventQueue = new ArrayBlockingQueue<>(10);
+
     private final Selector selector;
 
     private ServerSocketChannel serverSocketChannel;
@@ -31,7 +37,9 @@ public class NioEnventLoop extends Thread{
 
     private int subReactorIndex = 0;
 
-    private volatile boolean canSelect = true;
+    // 该原子变量用以防止当MainReactor将fd注册到SubReactor时，MainReactor中register方法
+    // 与SubReactor中的select发生死锁；
+    private AtomicBoolean canSelect = new AtomicBoolean(true);
 
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
@@ -44,6 +52,13 @@ public class NioEnventLoop extends Thread{
 
 
 
+    /**
+     * 构造器，用于构造MainReactor
+     * @param port
+     * @param eventLoopGroup
+     * @param name
+     * @throws IOException
+     */
     private NioEnventLoop(int port, NioEventLoopGroup eventLoopGroup,String name) throws IOException {
         this.eventLoopGroup = eventLoopGroup;
         this.name = name;
@@ -57,17 +72,19 @@ public class NioEnventLoop extends Thread{
 
 
 
-    private NioEnventLoop() throws IOException {
-        this.selector = Selector.open();
-        this.poller = new SubPoller(this);
-    }
-
+    /**
+     * 构造器，用于构造SubReactor
+     * @param index
+     * @param name
+     * @throws IOException
+     */
     public NioEnventLoop(int index,String name) throws IOException {
         selector = Selector.open();
         poller = new SubPoller(this);
         this.subReactorIndex = index;
         this.name = name;
     }
+
 
 
     public static NioEnventLoop createSubEventLoop(int index) throws IOException {
@@ -96,18 +113,22 @@ public class NioEnventLoop extends Thread{
 
 
 
-    @SneakyThrows
+
     @Override
     public void run() {
-        poller.poll();
+        try {
+            poller.poll();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
 
 
-    public void select() throws IOException {
+    public int select() throws IOException {
         logger.info(this+"执行select...");
-        selector.select();
+        return selector.select();
     }
 
 
@@ -116,19 +137,29 @@ public class NioEnventLoop extends Thread{
     public void dispatcherToSubReactor(SocketChannel clientChannel) throws IOException {
         NioEnventLoop subEventLoop = eventLoopGroup.getEventLoop();
         logger.info(String.valueOf(clientChannel.getRemoteAddress())+"分配到了"+subEventLoop);
-        registerToSubEventLoop(clientChannel,subEventLoop);
+        registerReadToSelector(clientChannel,subEventLoop);
     }
 
 
 
 
-    public void registerToSubEventLoop(SocketChannel clientChannel, NioEnventLoop subEventLoop) throws ClosedChannelException {
+    public void registerReadToSelector(SocketChannel clientChannel, NioEnventLoop subEventLoop) throws ClosedChannelException {
         Selector subSelector = subEventLoop.getSelector();
         // 为防止channel的register方法与subSelector的select发生死锁，这里
         // 将canSelect标识置为false以防止subSelector重新陷入select阻塞
-        canSelect = false;
+        canSelect.set(false);
         subEventLoop.selectorWakeup();
         clientChannel.register(subSelector,SelectionKey.OP_READ);
+        canSelect.set(true);
+    }
+
+    public void registerWriteToSelector(SocketChannel clientChannel) throws ClosedChannelException {
+        // 为防止channel的register方法与subSelector的select发生死锁，这里
+        // 将canSelect标识置为false以防止subSelector重新陷入select阻塞
+        canSelect.set(false);
+        this.selectorWakeup();
+        clientChannel.register(selector,SelectionKey.OP_WRITE);
+        canSelect.set(true);
     }
 
 

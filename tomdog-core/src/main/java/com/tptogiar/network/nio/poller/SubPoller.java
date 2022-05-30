@@ -18,32 +18,31 @@ import java.util.Set;
  */
 public class SubPoller implements Poller {
 
-
     Logger logger = LoggerFactory.getLogger(SubPoller.class);
 
-    private NioEnventLoop nioEnventLoop;
+    private NioEnventLoop subEventLoop;
 
-    private Selector selector;
+    private Selector subSelector;
 
     private TCPHandler tcpHandler;
 
-    public SubPoller(NioEnventLoop nioEnventLoop) {
-        this.nioEnventLoop = nioEnventLoop;
-        selector = nioEnventLoop.getSelector();
-        tcpHandler = new TCPHandler();
+    public SubPoller(NioEnventLoop subEventLoop) {
+        this.subEventLoop = subEventLoop;
+        subSelector = subEventLoop.getSelector();
+        tcpHandler = new TCPHandler(subEventLoop);
     }
 
 
     @Override
     public void poll() throws IOException {
         while (true) {
-            //
-            if (! nioEnventLoop.isCanSelect()){
+            // 当MainReactor不在操作selector是才进行select
+            if (! subEventLoop.getCanSelect().get()) {
                 continue;
             }
 
-            nioEnventLoop.select();
-            Set<SelectionKey> selectionKeys = selector.selectedKeys();
+            int select = subEventLoop.select();
+            Set<SelectionKey> selectionKeys = subSelector.selectedKeys();
             Iterator<SelectionKey> iterator = selectionKeys.iterator();
             while (iterator.hasNext()) {
                 SelectionKey selectionKey = iterator.next();
@@ -54,8 +53,7 @@ public class SubPoller implements Poller {
 
                 if (selectionKey.isReadable()) {
                     tcpHandler.read(selectionKey);
-                }
-                else if (selectionKey.isWritable()){
+                } else if (selectionKey.isWritable()) {
                     tcpHandler.write(selectionKey);
                 }
 

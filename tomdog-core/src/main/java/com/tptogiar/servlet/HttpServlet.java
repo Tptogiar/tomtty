@@ -1,8 +1,8 @@
 package com.tptogiar.servlet;
 
+import com.tptogiar.constant.http.HttpMethod;
 import com.tptogiar.servlet.AbstractHttpServlet;
 import com.tptogiar.servlet.Servlet;
-import com.tptogiar.constant.http.HttpMethod;
 import com.tptogiar.servlet.wrapper.HttpServletRequest;
 import com.tptogiar.servlet.wrapper.HttpServletResponse;
 
@@ -55,7 +55,7 @@ public class HttpServlet extends AbstractHttpServlet implements Servlet {
 
     // 给方法暂未被支持
     private void notSupportMethod(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        OutputStream outPutStream = resp.getOutPutStream();
+        OutputStream outPutStream = resp.getOutputStream();
         String defaultMessage = "This method is not support...";
         outPutStream.write(defaultMessage.getBytes());
     }
