@@ -19,11 +19,15 @@ public class Starter {
      * @param args
      * @throws IOException
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
+        try {
 //        Tomdog.start(TomdogConfig.SERVER_HOSTNAME,TomdogConfig.SERVER_PORT);
 
-        ServerBootstrap.start(TomdogConfig.SERVER_PORT,TomdogConfig.SERVER_NIO_SUB_REACTOR_COUNT);
-        logger.info(Thread.currentThread().getName());
+            ServerBootstrap.start(TomdogConfig.SERVER_PORT,TomdogConfig.SERVER_NIO_SUB_REACTOR_COUNT);
+            logger.info(Thread.currentThread().getName());
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }
     }
 
 

@@ -111,12 +111,13 @@ public class NioEnventLoop extends Thread{
             poller.poll();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
         }
     }
 
 
     public int select() throws IOException {
-        logger.info(this+"执行select...");
         return selector.select();
     }
 
@@ -133,6 +134,7 @@ public class NioEnventLoop extends Thread{
         Selector curSelector = curEventLoop.getSelector();
         BlockingQueue<EventTask> eventQueue = curEventLoop.getEventQueue();
         addEvent(curSelector,eventQueue,() ->{
+
             try {
                 if (attchment==null){
                     clientChannel.register(curSelector,ops);

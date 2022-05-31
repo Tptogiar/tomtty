@@ -1,6 +1,7 @@
 package com.tptogiar.component.pool;
 
 
+import com.tptogiar.config.TomdogConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,8 +23,11 @@ public class Pool {
 
     static {
         poolExecutor = new ThreadPoolExecutor(
-                5, 1000, 1000,
-                TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(5));
+                TomdogConfig.THREAD_POOL_CORE_POOL_SIZE,
+                TomdogConfig.THREAD_POOL_MAXIMUM_POOL_SIZE,
+                TomdogConfig.THREAD_POOL_KEEP_ALIVE_TIME ,
+                TimeUnit.MILLISECONDS,
+                new ArrayBlockingQueue<Runnable>(TomdogConfig.THTEAD_POOL_BLOCKING_QUEUE_SIZE));
 
 
         poolExecutor.setRejectedExecutionHandler(new RejectPolicyHandler());

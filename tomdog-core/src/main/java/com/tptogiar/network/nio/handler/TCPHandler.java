@@ -60,11 +60,13 @@ public class TCPHandler {
 
 
     public void write(SelectionKey selectionKey) throws IOException {
+        logger.info("处理写事件...");
         byte[] responseBytes = (byte[]) selectionKey.attachment();
         SocketChannel channel = (SocketChannel) selectionKey.channel();
         // TODO 从源头转为byteBuffer
         ByteBuffer byteBuffer = ByteBuffer.wrap(responseBytes);
         channel.write(byteBuffer);
+        logger.info("在Selector:{}上取消事件注册...",selectionKey.selector().hashCode());
         selectionKey.cancel();
         channel.shutdownInput();
         channel.close();

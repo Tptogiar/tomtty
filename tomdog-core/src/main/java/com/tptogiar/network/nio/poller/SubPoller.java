@@ -45,42 +45,55 @@ public class SubPoller implements Poller {
 
 
     @Override
-    public void poll() throws IOException, InterruptedException {
-        while (running.get()) {
+    public void poll() {
+        try {
+            while (running.get()) {
+                logger.info(subEventLoop+" 新一轮poll()");
+                // 先处理任务队列里面的任务（如：有新的client要注册到该subSelector等）
+                executeTask();
 
-            // 先处理任务队列里面的任务（如：有新的client要注册到该subSelector等）
-            executeTask();
+                doSelect();
 
-            doSelect();
+                scanSelectionKey();
 
-            scanSelectionKey();
-
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
 
     private void executeTask() throws InterruptedException {
+        logger.info(subEventLoop + "处理任务队列, eventQueue.size:" + eventQueue.size());
         EventTask eventTask = eventQueue.poll(1000, TimeUnit.MILLISECONDS);
-        if (eventTask==null){
-            return;
+        while (eventTask!=null){
+            eventTask.getRunnable().run();
+            eventTask = eventQueue.poll(1000, TimeUnit.MILLISECONDS);
         }
-        eventTask.getRunnable().run();
+        logger.info(subEventLoop + "任务队列处理完毕...");
     }
 
 
     private void doSelect() throws IOException {
+        logger.info(subEventLoop+"执行select...");
         // 把select标识位置为true，以便在mainReactor线程可以根据该标志为决定是否进行selector.wakeup()
         subEventLoop.getSelecting().set(true);
         int select = subEventLoop.select();
         subEventLoop.getSelecting().set(false);
+        logger.info(subEventLoop+"select返回...");
     }
 
 
     private void scanSelectionKey() throws IOException {
+
         Set<SelectionKey> selectionKeys = subSelector.selectedKeys();
+        logger.info("在Selector:{}上开始遍历selectionKey...",subSelector.hashCode());
         Iterator<SelectionKey> iterator = selectionKeys.iterator();
         while (iterator.hasNext()) {
-            SelectionKey selectionKey = iterator.next();
+            SelectionKey selectionKey = null;
+            selectionKey = iterator.next();
             iterator.remove();
             if (!selectionKey.isValid()) {
                 continue;
@@ -91,9 +104,9 @@ public class SubPoller implements Poller {
             } else if (selectionKey.isWritable()) {
                 tcpHandler.write(selectionKey);
             }
-
-
         }
+        logger.info("在Selector:{}上结束遍历selectionKey...",subSelector.hashCode());
+
     }
 
 
