@@ -1,5 +1,6 @@
 package com.tptogiar.network.nio.eventloop;
 
+import com.tptogiar.network.nio.eventloop.NioEventLoopGroup;
 import com.tptogiar.network.nio.poller.MianPoller;
 import com.tptogiar.network.nio.poller.Poller;
 import com.tptogiar.network.nio.poller.SubPoller;
@@ -11,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.channels.*;
-import java.util.concurrent.ArrayBlockingQueue;
+
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -109,11 +110,10 @@ public class NioEnventLoop extends Thread{
     public void run() {
         try {
             poller.poll();
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        } catch (Exception e){
+        }catch (Exception e){
             e.printStackTrace();
         }
+        logger.info(this+"将要停止运行...");
     }
 
 
@@ -125,11 +125,11 @@ public class NioEnventLoop extends Thread{
     public void dispatcherToSubReactor(SocketChannel clientChannel) throws IOException {
         NioEnventLoop subEventLoop = eventLoopGroup.getEventLoop();
         logger.info(String.valueOf(clientChannel.getRemoteAddress())+"分配到的subReactor："+subEventLoop);
-        registerEventToSelector(clientChannel,subEventLoop, SelectionKey.OP_READ,null);
+        registerEvent2SelectorTaskQueue(clientChannel,subEventLoop, SelectionKey.OP_READ,null);
     }
 
 
-    public void registerEventToSelector(SocketChannel clientChannel, NioEnventLoop curEventLoop, int ops,Object attchment) {
+    public void registerEvent2SelectorTaskQueue(SocketChannel clientChannel, NioEnventLoop curEventLoop, int ops, Object attchment) {
 
         Selector curSelector = curEventLoop.getSelector();
         BlockingQueue<EventTask> eventQueue = curEventLoop.getEventQueue();

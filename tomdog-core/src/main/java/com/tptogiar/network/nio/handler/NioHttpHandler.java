@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 
 /**
@@ -42,7 +41,7 @@ public class NioHttpHandler extends HttpHandler implements Runnable {
         try {
             responseBytes = process(buffer.array());
             SocketChannel channel = (SocketChannel) selectionKey.channel();
-            subEventLoop.registerEventToSelector(channel,subEventLoop,SelectionKey.OP_WRITE,responseBytes);
+            subEventLoop.registerEvent2SelectorTaskQueue(channel,subEventLoop,SelectionKey.OP_WRITE,responseBytes);
 
         } catch (Exception e) {
             e.printStackTrace();

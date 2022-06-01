@@ -46,21 +46,25 @@ public class BioHttpHandler extends HttpHandler implements Runnable {
     }
 
 
-    @SneakyThrows
     @Override
     public void run() {
 
 
-        logger.info("开始处理请求...");
-        int read = inputStream.read(readBuffer);
-        if (read <= 0) {
-            throw new RequestInvaildException();
+        try {
+            logger.info("开始处理请求...");
+            int read = inputStream.read(readBuffer);
+            if (read <= 0) {
+                closeResource();
+                return;
+            }
+
+            byte[] responseBytes = process(readBuffer);
+
+            writeResponseBytes(responseBytes);
+            closeResource();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        byte[] responseBytes = process(readBuffer);
-
-        writeResponseBytes(responseBytes);
-        closeResource();
 
 
         logger.info("请求处理完成...");

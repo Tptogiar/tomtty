@@ -7,6 +7,8 @@ import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
@@ -46,14 +48,13 @@ public class TCPHandler {
             // TODO 关闭连接？
             channel.shutdownInput();
             channel.close();
-            subEventLoop.getSelector().select(10);
             boolean registered = channel.isRegistered();
             return;
         }
+        logger.info("读取通道内数据读取完毕，大小为{}...",buffer.limit());
         logger.debug("\n"+new String(buffer.array(),0,buffer.limit())+"\n");
         // 将读取的数据交给业务线程处理
         NioHttpHandler nioHttpHandler = new NioHttpHandler( buffer,selectionKey, subEventLoop);
-//        Pool.submit(nioHttpHandler);
         Pool.execute(nioHttpHandler);
 
     }
@@ -67,10 +68,8 @@ public class TCPHandler {
         ByteBuffer byteBuffer = ByteBuffer.wrap(responseBytes);
         channel.write(byteBuffer);
         logger.info("在Selector:{}上取消事件注册...",selectionKey.selector().hashCode());
-        selectionKey.cancel();
         channel.shutdownInput();
         channel.close();
-        boolean registered = channel.isRegistered();
     }
 
 
