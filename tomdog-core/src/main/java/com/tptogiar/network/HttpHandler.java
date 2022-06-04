@@ -3,6 +3,7 @@ package com.tptogiar.network;
 import com.tptogiar.component.dispatch.ServletDispatcher;
 import com.tptogiar.context.RequestContext;
 import com.tptogiar.network.bio.builder.HttpResponseBuilder;
+import com.tptogiar.network.bio.handler.ProcessResult;
 import com.tptogiar.network.bio.parser.HttpRequsetParser;
 import com.tptogiar.servlet.Servlet;
 import com.tptogiar.servlet.wrapper.HttpServletRequest;
@@ -18,25 +19,36 @@ import java.io.OutputStream;
  * @description
  * @date 2022/5/28 - 14:10
  */
-public abstract class HttpHandler{
+public abstract class HttpHandler {
 
 
+    public ProcessResult process(byte[] requestData) throws Exception {
 
 
-    public byte[] process(byte[] requestData) throws Exception {
         RequestContext reqContext = HttpRequsetParser.parseHttpRequest(this, requestData);
         HttpServletRequest req = new HttpServletRequestWrapper(reqContext);
         HttpServletResponse resp = new HttpServletResponseWrapper(reqContext);
-        Servlet result = ServletDispatcher.doDispatcher(req);
+        Servlet result = ServletDispatcher.doDispatcher(req,resp);
+
         result.doService(req, resp);
 
+        ProcessResult processResult = (ProcessResult) resp.attachment();
+        if (processResult==null){
+            processResult = new ProcessResult();
+        }
+
         HttpResponseBuilder httpResponseBuilder = new HttpResponseBuilder(req, resp);
-        httpResponseBuilder.buildResponse();
-
-
-        return httpResponseBuilder.transferToResponseBytes();
-
-
+        byte[] responseHeader = httpResponseBuilder.buildResponseHeader(resp.getBody().length,processResult);
+        // 当响应的是静态资源文件，为其添加对应的响应头
+        if (resp.isFileTransfer()){
+            processResult.setResponseHeaderBytes(responseHeader);
+        }
+        // 对于普通响应，组合响应头和响应体
+        else{
+            byte[] responseBytes = httpResponseBuilder.combineRespHeaderAndHeader(responseHeader);
+            processResult.setResponseBytes(responseBytes);
+        }
+        return processResult;
     }
 
 

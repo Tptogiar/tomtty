@@ -16,23 +16,15 @@ import java.net.UnknownHostException;
 public class BioClientDemo {
 
 
-
     @Test
-    public  void testBioClientDemo() {
+    public void testBioClientDemo() {
         startBioClient();
     }
 
 
-
-
-
-
-
-
-
-    public void startBioClient(){
+    public void startBioClient() {
         try {
-            Socket s = new Socket("127.0.0.1",8840);
+            Socket s = new Socket("127.0.0.1", 8840);
             System.out.println("已连接上服务器...");
             //构建IO
             InputStream is = s.getInputStream();
@@ -46,7 +38,7 @@ public class BioClientDemo {
             //读取服务器返回的消息
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             String mess = br.readLine();
-            System.out.println("收到服务器发送的消息："+mess);
+            System.out.println("收到服务器发送的消息：" + mess);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {

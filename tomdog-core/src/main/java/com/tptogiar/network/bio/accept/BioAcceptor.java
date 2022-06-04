@@ -11,11 +11,12 @@ import java.net.Socket;
 
 /**
  * 负责accept新连接
+ *
  * @author Tptogiar
  * @Description
  * @createTime 2022年04月30日 21:46:00
  */
-public class BioAcceptor implements Runnable{
+public class BioAcceptor implements Runnable {
 
     private Logger logger = LoggerFactory.getLogger(BioAcceptor.class);
 
@@ -28,7 +29,7 @@ public class BioAcceptor implements Runnable{
     @Override
     public void run() {
         try {
-            while (true){
+            while (true) {
                 logger.info("等待客户端连接...");
                 Socket socket = endPoint.serverSocketAccept();
                 logger.info("接收到客户端连接，accept了一个fd...");

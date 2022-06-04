@@ -12,14 +12,13 @@ public class TestHttpMethod {
 
 
     @Test
-    public void testHttpMethodEnum(){
+    public void testHttpMethodEnum() {
 
         HttpMethod get = HttpMethod.valueOf("GET");
         System.out.println(get);
 
 
     }
-
 
 
 }

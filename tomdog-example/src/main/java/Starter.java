@@ -30,9 +30,9 @@ public class Starter {
 //            Tomdog.start(TomdogConfig.SERVER_HOSTNAME, TomdogConfig.SERVER_PORT);
 
             ServerBootstrap.start(TomdogConfig.SERVER_PORT, TomdogConfig.SERVER_NIO_SUB_REACTOR_COUNT);
-            logger.info(Thread.currentThread().getName());
+            logger.info("服务器启动完成...,端口号为{}",TomdogConfig.SERVER_PORT);
         } catch (IOException e) {
-            logger.error(e.getMessage());
+            e.printStackTrace();
         }
     }
 

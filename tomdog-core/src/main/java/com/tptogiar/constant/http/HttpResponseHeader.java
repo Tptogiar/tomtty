@@ -13,8 +13,4 @@ public class HttpResponseHeader {
     public static final String CONTENT_LENGTH = "Content-Length: ";
 
 
-
-
-
-
 }

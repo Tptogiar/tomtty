@@ -1,29 +1,31 @@
 package com.tptogiar.network.nio.eventloop;
 
-import com.tptogiar.network.nio.eventloop.NioEventLoopGroup;
 import com.tptogiar.network.nio.poller.MianPoller;
 import com.tptogiar.network.nio.poller.Poller;
 import com.tptogiar.network.nio.poller.SubPoller;
 import com.tptogiar.network.nio.task.EventTask;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.channels.*;
-
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author Tptogiar
- * @Description
- * @createTime 2022年05月26日 15:49:00
+ * @description
+ * @date 2022/6/1 - 17:17
  */
 @Data
-public class NioEnventLoop extends Thread{
+public class NioEnventLoop extends Thread {
+
 
     private static final Logger logger = LoggerFactory.getLogger(NioEnventLoop.class);
 
@@ -49,19 +51,20 @@ public class NioEnventLoop extends Thread{
     @Setter(AccessLevel.NONE)
     private String name;
 
-    private static final String  EVENT_LOOP_NAME_MAIN = "MainReactor";
+    private static final String EVENT_LOOP_NAME_MAIN = "MainReactor";
 
-    private static final String  EVENT_LOOP_NAME_SUB = "SubReactor";
+    private static final String EVENT_LOOP_NAME_SUB = "SubReactor";
 
 
     /**
      * 构造器，用于构造MainReactor
+     *
      * @param port
      * @param eventLoopGroup
      * @param name
      * @throws IOException
      */
-    private NioEnventLoop(int port, NioEventLoopGroup eventLoopGroup,String name) throws IOException {
+    private NioEnventLoop(int port, NioEventLoopGroup eventLoopGroup, String name) throws IOException {
         this.eventLoopGroup = eventLoopGroup;
         this.name = name;
         serverSocketChannel = initServerSocket(port);
@@ -74,11 +77,12 @@ public class NioEnventLoop extends Thread{
 
     /**
      * 构造器，用于构造SubReactor
+     *
      * @param index
      * @param name
      * @throws IOException
      */
-    public NioEnventLoop(int index,String name) throws IOException {
+    public NioEnventLoop(int index, String name) throws IOException {
         selector = Selector.open();
         poller = new SubPoller(this);
         this.subReactorIndex = index;
@@ -87,13 +91,13 @@ public class NioEnventLoop extends Thread{
 
 
     public static NioEnventLoop createSubEventLoop(int index) throws IOException {
-        return new NioEnventLoop(index,EVENT_LOOP_NAME_SUB);
+        return new NioEnventLoop(index, EVENT_LOOP_NAME_SUB);
     }
 
 
     public static NioEnventLoop createMainEventLoop(int port, NioEventLoopGroup eventLoopGroup) throws IOException {
         logger.info("初始化MainEventLoop...");
-        return new NioEnventLoop(port, eventLoopGroup,EVENT_LOOP_NAME_MAIN);
+        return new NioEnventLoop(port, eventLoopGroup, EVENT_LOOP_NAME_MAIN);
     }
 
 
@@ -101,7 +105,7 @@ public class NioEnventLoop extends Thread{
         ServerSocketChannel channel = ServerSocketChannel.open();
         channel.configureBlocking(false);
         channel.bind(new InetSocketAddress(port));
-        logger.info("监听端口号为："+port+" ...");
+        logger.info("监听端口号为：" + port + " ...");
         return channel;
     }
 
@@ -110,10 +114,10 @@ public class NioEnventLoop extends Thread{
     public void run() {
         try {
             poller.poll();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        logger.info(this+"将要停止运行...");
+        logger.info(this + "将要停止运行...");
     }
 
 
@@ -124,8 +128,8 @@ public class NioEnventLoop extends Thread{
 
     public void dispatcherToSubReactor(SocketChannel clientChannel) throws IOException {
         NioEnventLoop subEventLoop = eventLoopGroup.getEventLoop();
-        logger.info(String.valueOf(clientChannel.getRemoteAddress())+"分配到的subReactor："+subEventLoop);
-        registerEvent2SelectorTaskQueue(clientChannel,subEventLoop, SelectionKey.OP_READ,null);
+        logger.info(String.valueOf(clientChannel.getRemoteAddress()) + "分配到的subReactor：" + subEventLoop);
+        registerEvent2SelectorTaskQueue(clientChannel, subEventLoop, SelectionKey.OP_READ, null);
     }
 
 
@@ -133,13 +137,13 @@ public class NioEnventLoop extends Thread{
 
         Selector curSelector = curEventLoop.getSelector();
         BlockingQueue<EventTask> eventQueue = curEventLoop.getEventQueue();
-        addEvent(curSelector,eventQueue,() ->{
+        addEvent(curSelector, eventQueue, () -> {
 
             try {
-                if (attchment==null){
-                    clientChannel.register(curSelector,ops);
-                }else{
-                    clientChannel.register(curSelector,ops,attchment);
+                if (attchment == null) {
+                    clientChannel.register(curSelector, ops);
+                } else {
+                    clientChannel.register(curSelector, ops, attchment);
                 }
 
             } catch (ClosedChannelException e) {
@@ -147,37 +151,49 @@ public class NioEnventLoop extends Thread{
             }
         });
 
-        // 如果正在进行select，则考虑把其唤醒
-        // TODO 唤醒有代价，待考虑更好的方式
-        if (curEventLoop.getSelecting().get()){
-            curEventLoop.selectorWakeup();
-        }
+        selectorWakeupIfSelecting(curEventLoop);
+    }
+
+    public void closeClientChannel(SocketChannel channel) {
+        addEvent(selector, eventQueue, () -> {
+            try {
+                channel.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        selectorWakeupIfSelecting(this);
     }
 
 
-    public void addEvent(Selector selector,BlockingQueue<EventTask> eventQueue,Runnable runnable){
-        if (runnable == null){
+    public void addEvent(Selector selector, BlockingQueue<EventTask> eventQueue, Runnable runnable) {
+        if (runnable == null) {
             throw new NullPointerException("the evnet runnable must not be null");
         }
-        if (! selector.isOpen()){
+        if (!selector.isOpen()) {
             return;
         }
         eventQueue.add(new EventTask(runnable));
     }
 
 
-    private void selectorWakeup(){
-        selector.wakeup();
+    private void selectorWakeupIfSelecting(NioEnventLoop curEventLoop) {
+        // 如果正在进行select，则考虑把其唤醒
+        if (curEventLoop.getSelecting().get()) {
+            curEventLoop.getSelector().wakeup();
+        }
     }
 
 
     @Override
     public String toString() {
-        if (EVENT_LOOP_NAME_MAIN.equals(name)){
+        if (EVENT_LOOP_NAME_MAIN.equals(name)) {
             return "{MainReactor}";
-        }
-        else{
-            return "{SubReactor_"+subReactorIndex+"}";
+        } else {
+            return "{SubReactor_" + subReactorIndex + "}";
         }
     }
+
+
 }

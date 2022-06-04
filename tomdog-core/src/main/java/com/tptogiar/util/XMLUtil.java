@@ -13,7 +13,7 @@ import java.io.InputStream;
  */
 public class XMLUtil {
 
-    public static Document getXMLDocument(InputStream inputStream){
+    public static Document getXMLDocument(InputStream inputStream) {
         try {
             SAXReader reader = new SAXReader();
             return reader.read(inputStream);
@@ -22,11 +22,6 @@ public class XMLUtil {
         }
         return null;
     }
-
-
-
-
-
 
 
 }

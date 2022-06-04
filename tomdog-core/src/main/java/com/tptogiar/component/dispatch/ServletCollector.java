@@ -8,10 +8,12 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 
 import java.io.InputStream;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 收集servlet注册信息
+ *
  * @author Tptogiar
  * @Description
  * @createTime 2022年05月01日 18:03:00
@@ -19,10 +21,9 @@ import java.util.*;
 public class ServletCollector {
 
 
-
     public static void collectServlet(
             Map<String, ServletHolder> nameServletMap,
-             Map<String, String> patternNameMap)
+            Map<String, String> patternNameMap)
             throws ClassNotFoundException {
 
 
@@ -31,15 +32,14 @@ public class ServletCollector {
 
 
         Document doc = XMLUtil.getXMLDocument(inputStream);
-        if (doc==null){
-            return ;
+        if (doc == null) {
+            return;
         }
         Element docRoot = doc.getRootElement();
 
-        parseServlet(nameServletMap,patternNameMap,docRoot);
+        parseServlet(nameServletMap, patternNameMap, docRoot);
 
     }
-
 
 
     public static void parseServlet
@@ -53,7 +53,7 @@ public class ServletCollector {
             String name = servletEle.element("servlet-name").getText();
             String calssName = servletEle.element("servlet-class").getText();
             ServletHolder holder = packingServletHolder(calssName);
-            nameServletMap.put(name,holder);
+            nameServletMap.put(name, holder);
         }
 
         List<Element> servletMapping = root.elements("servlet-mapping");
@@ -68,17 +68,10 @@ public class ServletCollector {
     }
 
 
-
-
     public static ServletHolder packingServletHolder(String className) throws ClassNotFoundException {
         Class clazz = ReflectUtil.getClassForName(className);
         return new ServletHolder(clazz, className);
     }
-
-
-
-
-
 
 
 }

@@ -8,8 +8,4 @@ package com.tptogiar.info.session;
 public class Session {
 
 
-
-
-
-
 }

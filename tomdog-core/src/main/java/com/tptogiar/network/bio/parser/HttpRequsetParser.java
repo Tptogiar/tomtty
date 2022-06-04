@@ -1,29 +1,29 @@
 package com.tptogiar.network.bio.parser;
 
 
-
-
 import com.tptogiar.constant.CharContant;
 import com.tptogiar.constant.CharsetProperties;
-import com.tptogiar.constant.http.HttpRequestHeader;
 import com.tptogiar.constant.http.HttpMethod;
-
-
+import com.tptogiar.constant.http.HttpRequestHeader;
+import com.tptogiar.context.RequestContext;
 import com.tptogiar.context.impl.RequestContextImpl;
 import com.tptogiar.exception.RequestInvaildException;
-import com.tptogiar.network.HttpHandler;
-import com.tptogiar.network.bio.handler.BioHttpHandler;
 import com.tptogiar.info.cookie.Cookie;
+import com.tptogiar.network.HttpHandler;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.tptogiar.context.RequestContext;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 解析http请求报文
+ *
  * @author Tptogiar
  * @Description
  * @createTime 2022年05月01日 12:46:00
@@ -55,34 +55,32 @@ public class HttpRequsetParser {
         reqContext.setHttpHandler(httpHandler);
         this.requestData = requestData;
 
-        String[] lines =null;
+        String[] lines = null;
         try {
             String httpMessage = URLDecoder.decode(
                     new String(requestData, CharsetProperties.UTF_8_CHARSET),
                     CharsetProperties.UTF_8);
-            lines =httpMessage.split(CharContant.CRLF);
+            lines = httpMessage.split(CharContant.CRLF);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
-        if (lines==null || lines.length<=1){
+        if (lines == null || lines.length <= 1) {
             throw new RequestInvaildException("请求头异常...");
         }
         parseHeaders(lines);
-        if (reqContext.getHeaders()!=null
+        if (reqContext.getHeaders() != null
                 && reqContext.getHeaders().containsKey(HttpRequestHeader.CONTENT_LENGTH)
-                && ! "0".equals(reqContext.getHeaders().get(HttpRequestHeader.CONTENT_LENGTH).get(0))
-        ){
-            parseBody(lines[lines.length-1]);
+                && !"0".equals(reqContext.getHeaders().get(HttpRequestHeader.CONTENT_LENGTH).get(0))
+        ) {
+            parseBody(lines[lines.length - 1]);
         }
 
-        logger.info("\n"+reqContext.toString());
+        logger.info("\n" + reqContext.toString());
     }
 
 
-
-
-    public void parseHeaders(String[] lines){
+    public void parseHeaders(String[] lines) {
         logger.info("解析请求报文...");
         String firstLine = lines[0];
 
@@ -105,27 +103,27 @@ public class HttpRequsetParser {
 
     }
 
-    private void parseMethod(String method){
-         reqContext.setMethod(HttpMethod.valueOf(method));
+    private void parseMethod(String method) {
+        reqContext.setMethod(HttpMethod.valueOf(method));
     }
 
-    private void parseUri(String uri){
+    private void parseUri(String uri) {
         reqContext.setUri(uri);
     }
 
 
-    private void parseParams(String uriSlices){
+    private void parseParams(String uriSlices) {
         logger.debug("解析参数...");
         Map<String, String> params = reqContext.getParams();
-        String[] keyAndValues= uriSlices.split("&");
+        String[] keyAndValues = uriSlices.split("&");
         for (String kav : keyAndValues) {
             String[] kv = kav.split("=");
-            params.put(kv[0],kv[1]);
+            params.put(kv[0], kv[1]);
         }
     }
 
 
-    private void parseHeaderItems(String[] lines){
+    private void parseHeaderItems(String[] lines) {
         String header;
         Map<String, List<String>> map = new HashMap<>();
         for (int i = 1; i < lines.length; i++) {
@@ -141,8 +139,8 @@ public class HttpRequsetParser {
         reqContext.setHeaders(map);
     }
 
-    private void parseCookie(Map<String, List<String>> headers){
-        Cookie[] cookies =null;
+    private void parseCookie(Map<String, List<String>> headers) {
+        Cookie[] cookies = null;
         if (headers.containsKey("Cookie")) {
             String[] rawCookies = headers.get("Cookie").get(0).split("; ");
             cookies = new Cookie[rawCookies.length];
@@ -158,25 +156,11 @@ public class HttpRequsetParser {
     }
 
 
-
     private void parseBody(String line) {
         logger.debug("解析请求体...");
 
 
-
-
-
-
-
-
-
-
-
-
-
-
     }
-
 
 
 }

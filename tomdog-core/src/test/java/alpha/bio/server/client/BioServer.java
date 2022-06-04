@@ -4,7 +4,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -23,8 +25,8 @@ public class BioServer {
     public void testServer() throws IOException, InterruptedException {
 
         ServerSocket serverSocket = new ServerSocket();
-        serverSocket.bind(new InetSocketAddress("127.0.0.1",8840));
-        while (true){
+        serverSocket.bind(new InetSocketAddress("127.0.0.1", 8840));
+        while (true) {
             logger.info("等待来自客户端的连接...");
 
             Socket clientSocket = serverSocket.accept();
@@ -33,15 +35,12 @@ public class BioServer {
         }
 
 
-
     }
-
-
 
 
 }
 
-class Handler implements Runnable{
+class Handler implements Runnable {
 
     private Socket socket;
 
@@ -61,7 +60,7 @@ class Handler implements Runnable{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println(new String(buf,0,read));
+            System.out.println(new String(buf, 0, read));
 
 
 //            InputStream inputStream = BioServer.class.getResourceAsStream("/src/main/webapp/Test.html");
@@ -75,7 +74,7 @@ class Handler implements Runnable{
 //            }
 //            String str = sb.toString();
 
-            String content ="<html>\n" +
+            String content = "<html>\n" +
                     "　　<head>\n" +
                     "　　<title>HTTP响应示例</title>\n" +
                     "　　</head>\n" +
@@ -88,9 +87,9 @@ class Handler implements Runnable{
                     "HTTP/1.1 200 OK\n" +
                             "Server:Tptogiar\n" +
                             "Content-Type:text/html; charset=utf-8\n" +
-                            "Content-Length:"+content.getBytes().length+"\n"+
-                            "\n"+content;
-            String temp = content+htmlStr;
+                            "Content-Length:" + content.getBytes().length + "\n" +
+                            "\n" + content;
+            String temp = content + htmlStr;
             System.out.println(temp.length());
             outputStream.write(htmlStr.getBytes());
             outputStream.flush();

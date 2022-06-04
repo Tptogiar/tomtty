@@ -3,16 +3,10 @@ package alpha.bio.server.client;
 
 import org.junit.Test;
 
-
 import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.Scanner;
 
 /**
  * @author Tptogiar
@@ -44,15 +38,12 @@ public class BioClient {
             System.out.println(new String(buf));
 
 
-
         } catch (IOException e) {
             e.printStackTrace();
         }
 
 
     }
-
-
 
 
 }

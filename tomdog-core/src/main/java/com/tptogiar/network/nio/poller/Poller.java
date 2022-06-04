@@ -7,11 +7,10 @@ import java.io.IOException;
  * @Description
  * @createTime 2022年05月27日 22:22:00
  */
-public interface Poller{
+public interface Poller {
 
 
     void poll() throws IOException, InterruptedException, Exception;
-
 
 
 }

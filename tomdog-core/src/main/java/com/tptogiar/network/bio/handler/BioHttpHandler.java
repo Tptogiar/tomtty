@@ -2,24 +2,14 @@ package com.tptogiar.network.bio.handler;
 
 
 import com.tptogiar.config.TomdogConfig;
-import com.tptogiar.context.RequestContext;
-import com.tptogiar.exception.RequestInvaildException;
-import com.tptogiar.exception.ServletException;
 import com.tptogiar.network.HttpHandler;
-import com.tptogiar.network.bio.builder.HttpResponseBuilder;
-import com.tptogiar.servlet.Servlet;
-import com.tptogiar.servlet.wrapper.HttpServletRequest;
-import com.tptogiar.servlet.wrapper.HttpServletRequestWrapper;
-import com.tptogiar.servlet.wrapper.HttpServletResponse;
-import com.tptogiar.servlet.wrapper.HttpServletResponseWrapper;
-import com.tptogiar.component.dispatch.ServletDispatcher;
-import com.tptogiar.network.bio.parser.HttpRequsetParser;
 import com.tptogiar.util.IOUtil;
-import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 
 /**
@@ -58,9 +48,9 @@ public class BioHttpHandler extends HttpHandler implements Runnable {
                 return;
             }
 
-            byte[] responseBytes = process(readBuffer);
+            ProcessResult processResult = process(readBuffer);
 
-            writeResponseBytes(responseBytes);
+            writeResponseBytes(processResult.getResponseBytes());
             closeResource();
         } catch (Exception e) {
             e.printStackTrace();

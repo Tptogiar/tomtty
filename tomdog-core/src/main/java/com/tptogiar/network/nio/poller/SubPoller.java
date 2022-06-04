@@ -1,10 +1,11 @@
 package com.tptogiar.network.nio.poller;
 
-import com.tptogiar.network.nio.handler.TCPHandler;
 import com.tptogiar.network.nio.eventloop.NioEnventLoop;
+import com.tptogiar.network.nio.handler.TCPHandler;
 import com.tptogiar.network.nio.task.EventTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
@@ -12,7 +13,6 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -101,6 +101,8 @@ public class SubPoller implements Poller {
                     tcpHandler.read(selectionKey);
                 } else if (selectionKey.isWritable()) {
                     logger.info("来自{}的写事件", ((SocketChannel) selectionKey.channel()).getRemoteAddress());
+                    // 即使取消事件注册（NIO采用的是水平触发模式）
+                    selectionKey.cancel();
                     tcpHandler.write(selectionKey);
                 }
             }

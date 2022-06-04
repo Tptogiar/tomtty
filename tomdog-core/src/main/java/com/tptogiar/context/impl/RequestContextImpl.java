@@ -1,16 +1,14 @@
 package com.tptogiar.context.impl;
 
 
-
-
 import com.tptogiar.constant.http.HttpMethod;
 import com.tptogiar.context.RequestContext;
 import com.tptogiar.info.cookie.Cookie;
 import com.tptogiar.network.HttpHandler;
 import lombok.Data;
 
-
 import java.net.Socket;
+import java.nio.channels.SocketChannel;
 import java.util.List;
 import java.util.Map;
 
@@ -26,12 +24,15 @@ public class RequestContextImpl implements RequestContext {
     private Map<String, List<String>> headers;
     private HttpMethod method;
     private Cookie[] cookies;
-    private Map<String,String> params;
+    private Map<String, String> params;
     private String uri;
 
 
     private HttpHandler httpHandler;
 
 
-
+    @Override
+    public SocketChannel getSocketChannel() {
+        return socket.getChannel();
+    }
 }

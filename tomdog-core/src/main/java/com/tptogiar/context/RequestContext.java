@@ -1,17 +1,16 @@
 package com.tptogiar.context;
 
 import com.tptogiar.constant.http.HttpMethod;
-
-
 import com.tptogiar.info.cookie.Cookie;
 import com.tptogiar.network.HttpHandler;
-import com.tptogiar.network.bio.handler.BioHttpHandler;
 
+import java.nio.channels.SocketChannel;
 import java.util.List;
 import java.util.Map;
 
 /**
  * 请求上下文信息
+ *
  * @author Tptogiar
  * @Description
  * @createTime 2022年05月02日 09:44:00
@@ -21,39 +20,29 @@ public interface RequestContext {
     void setHttpHandler(HttpHandler httpHandler);
 
 
+    Map<String, List<String>> getHeaders();
 
-    Map<String, List<String>> getHeaders() ;
+    void setHeaders(Map<String, List<String>> headers);
 
-    void setHeaders(Map<String, List<String>> headers) ;
+    HttpMethod getMethod();
 
-    HttpMethod getMethod() ;
+    void setMethod(HttpMethod method);
 
-    void setMethod(HttpMethod method) ;
+    Cookie[] getCookies();
 
-    Cookie[] getCookies() ;
+    void setCookies(Cookie[] cookies);
 
-    void setCookies(Cookie[] cookies) ;
+    Map<String, String> getParams();
 
-    Map<String, String> getParams() ;
+    void setParams(Map<String, String> params);
 
-    void setParams(Map<String, String> params) ;
+    String getUri();
 
-    String getUri() ;
-
-    void setUri(String uri) ;
+    void setUri(String uri);
 
     HttpHandler getHttpHandler();
 
-
-
-
-
-
-
-
-
-
-
+    SocketChannel getSocketChannel();
 
 
 

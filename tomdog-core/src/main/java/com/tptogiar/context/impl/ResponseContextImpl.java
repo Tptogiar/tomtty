@@ -6,7 +6,6 @@ import com.tptogiar.servlet.component.ServletOutputStream;
 import com.tptogiar.servlet.component.ServletOutputStreamImpl;
 import lombok.Data;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -20,18 +19,19 @@ import java.io.OutputStream;
 public class ResponseContextImpl implements ResponseContext {
 
 
-
-
     private OutputStream outputStream;
     private InputStream inputStream;
 
+    private boolean isFileTransfer;
 
     private ServletOutputStream servletOutputStream;
+
+    private Object attachment;
 
 
     public ResponseContextImpl(RequestContext reqContext) {
         this.outputStream = reqContext.getHttpHandler().getOutputStream();
-        this.inputStream =  reqContext.getHttpHandler().getInputStream();
+        this.inputStream = reqContext.getHttpHandler().getInputStream();
     }
 
     @Override
@@ -40,10 +40,14 @@ public class ResponseContextImpl implements ResponseContext {
     }
 
     @Override
-    public void createServletOutPutStream(){
+    public void createServletOutPutStream() {
         servletOutputStream = new ServletOutputStreamImpl();
     }
 
+    @Override
+    public void attach(Object attachment) {
+        this.attachment = attachment;
+    }
 
 
 }

@@ -14,7 +14,7 @@ public class TestRUL {
 
 
     @Test
-    public void testRUL(){
+    public void testRUL() {
         URL resource = ServletDispatcher.class.getResource("/sdfsdf.xml");
         System.out.println(resource);
     }

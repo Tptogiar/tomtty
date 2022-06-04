@@ -9,7 +9,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.channels.*;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -31,33 +34,33 @@ public class NioServer {
             serverSocketChannel.configureBlocking(false);
             serverSocketChannel.socket().bind(
                     new InetSocketAddress(TomdogConfig.SERVER_HOSTNAME, TomdogConfig.SERVER_PORT));
-            serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT,ByteBuffer.allocate(1024));
+            serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT, ByteBuffer.allocate(1024));
 
             logger.info("服务器已启动... hostname = {} port = {}", TomdogConfig.SERVER_HOSTNAME, TomdogConfig.SERVER_PORT);
 
-            while(true){
-                if (selector.select(1000)==0){
+            while (true) {
+                if (selector.select(1000) == 0) {
                     logger.info("当前无就绪fd");
                     continue;
                 }
 
                 Set<SelectionKey> selectionKeys = selector.selectedKeys();
                 Iterator<SelectionKey> iterator = selectionKeys.iterator();
-                while (iterator.hasNext()){
+                while (iterator.hasNext()) {
                     SelectionKey selectionKey = iterator.next();
-                    if(selectionKey.isAcceptable()){
-                        acceptEvent(selector,serverSocketChannel);
+                    if (selectionKey.isAcceptable()) {
+                        acceptEvent(selector, serverSocketChannel);
                     }
-                    if(selectionKey.isReadable()){
-                        readEvent(selectionKey,selector);
+                    if (selectionKey.isReadable()) {
+                        readEvent(selectionKey, selector);
                     }
-                    if (selectionKey.isWritable()){
+                    if (selectionKey.isWritable()) {
                         writeEvent(selectionKey);
                     }
                     iterator.remove();
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -66,7 +69,7 @@ public class NioServer {
     public static void acceptEvent(Selector selector, ServerSocketChannel serverSocketChannel) throws IOException {
         SocketChannel socketChannel = serverSocketChannel.accept();
         socketChannel.configureBlocking(false);
-        socketChannel.register(selector,SelectionKey.OP_READ,ByteBuffer.allocate(10240));
+        socketChannel.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(10240));
     }
 
 
@@ -75,18 +78,18 @@ public class NioServer {
         try {
             channel = (SocketChannel) selectionKey.channel();
             ByteBuffer buffer = (ByteBuffer) selectionKey.attachment();
-            channel.register(selector,SelectionKey.OP_WRITE);
-            int count  = 0;
+            channel.register(selector, SelectionKey.OP_WRITE);
+            int count = 0;
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            while((count = channel.read(buffer))>0){
-                byteArrayOutputStream.write(buffer.array(),0,count);
+            while ((count = channel.read(buffer)) > 0) {
+                byteArrayOutputStream.write(buffer.array(), 0, count);
                 buffer.clear();
             }
             // tcp连接断了
-            if (count==-1){
+            if (count == -1) {
                 logger.info("有一个TCP断连了");
                 selectionKey.cancel();
-                if (channel!=null){
+                if (channel != null) {
                     channel.close();
                 }
                 return;
@@ -94,7 +97,7 @@ public class NioServer {
             String result = new String(byteArrayOutputStream.toByteArray());
             System.out.println(result);
             buffer.clear();
-            String content ="<html>\n" +
+            String content = "<html>\n" +
                     "　　<head>\n" +
                     "　　<title>HTTP响应示例</title>\n" +
                     "　　</head>\n" +
@@ -105,9 +108,9 @@ public class NioServer {
                     "</html>";
             String htmlStr =
                     "HTTP/1.1 200 OK\n" +
-                    "Server:Tptogiar\n" +
-                    "Content-Type:text/html; charset=utf-8\n" +
-                    "\n"+content;
+                            "Server:Tptogiar\n" +
+                            "Content-Type:text/html; charset=utf-8\n" +
+                            "\n" + content;
             System.out.println(content.getBytes().length);
             buffer.put(htmlStr.getBytes());
             buffer.flip();
@@ -115,7 +118,7 @@ public class NioServer {
 
 
         } catch (IOException e) {
-            if (channel!=null){
+            if (channel != null) {
                 channel.close();
             }
         }
@@ -128,18 +131,16 @@ public class NioServer {
         logger.info("有写出事件...");
         SocketChannel channel = (SocketChannel) selectionKey.channel();
         ByteBuffer buffer = (ByteBuffer) selectionKey.attachment();
-        if (buffer==null){
+        if (buffer == null) {
             return;
         }
-        logger.info("写出内容: \n{}",new String(buffer.array()).trim());
+        logger.info("写出内容: \n{}", new String(buffer.array()).trim());
         int write = channel.write(buffer);
-        logger.debug("channel.write 的字节数 = "+write);
+        logger.debug("channel.write 的字节数 = " + write);
         selectionKey.cancel();
         channel.shutdownInput();
         channel.close();
     }
-
-
 
 
 }

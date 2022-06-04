@@ -10,7 +10,6 @@ import java.io.*;
 public class IOUtil {
 
 
-
     public static byte[] getBytesFromFile(String fileName) throws IOException {
         InputStream in = IOUtil.class.getResourceAsStream(fileName);
         if (in == null) {
@@ -23,7 +22,7 @@ public class IOUtil {
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
         int len = -1;
-        while((len = in.read(buffer)) != -1){
+        while ((len = in.read(buffer)) != -1) {
             outStream.write(buffer, 0, len);
         }
         outStream.close();
@@ -46,9 +45,6 @@ public class IOUtil {
             }
         }
     }
-
-
-
 
 
 }

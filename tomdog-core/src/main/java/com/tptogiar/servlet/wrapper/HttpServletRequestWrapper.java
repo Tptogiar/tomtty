@@ -5,8 +5,13 @@ import com.tptogiar.context.RequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.channels.SocketChannel;
+
 /**
+ * RequestContext类的包装类
+ * 只对用户暴露context内的部分内容
  * 将request传递给用户的servlet时，传递的是这个类的示例
+ *
  * @author Tptogiar
  * @Description
  * @createTime 2022年05月01日 13:09:00
@@ -40,6 +45,11 @@ public class HttpServletRequestWrapper implements HttpServletRequest {
     @Override
     public HttpMethod getMethod() {
         return requestContext.getMethod();
+    }
+
+    @Override
+    public SocketChannel getSocketChannel() {
+        return requestContext.getSocketChannel();
     }
 
 

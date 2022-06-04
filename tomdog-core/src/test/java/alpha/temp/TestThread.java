@@ -5,7 +5,7 @@ package alpha.temp;
  * @Description
  * @createTime 2022年05月27日 15:54:00
  */
-public class TestThread extends Thread{
+public class TestThread extends Thread {
 
     @Override
     public void run() {

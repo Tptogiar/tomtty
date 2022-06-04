@@ -11,7 +11,6 @@ public enum HttpRequestHeader {
     CONTENT_LENGTH("Content-Length");
 
 
-
     private String header;
 
     HttpRequestHeader(String header) {

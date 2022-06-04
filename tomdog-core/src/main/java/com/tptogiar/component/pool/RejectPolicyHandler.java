@@ -21,7 +21,7 @@ public class RejectPolicyHandler implements RejectedExecutionHandler {
     @Override
     public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
         rejectCount++;
-        logger.warn("current reject count = {}",rejectCount);
+        logger.warn("current reject count = {}", rejectCount);
 
     }
 }

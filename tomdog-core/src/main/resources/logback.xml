@@ -14,38 +14,38 @@
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
         </encoder>
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>error</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
+<!--        <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+<!--            <level>debug</level>-->
+<!--            <onMatch>ACCEPT</onMatch>-->
+<!--            <onMismatch>DENY</onMismatch>-->
+<!--        </filter>-->
     </appender>
 
-    <appender name="File" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
-        </encoder>
-<!--        <file>${log_file_path}/debug.%d{yyyy-MM-dd}.%i.log</file>-->
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>debug</level>
-            <!--            <onMatch>ACCEPT</onMatch>-->
-            <!--            <onMismatch>DENY</onMismatch>-->
-        </filter>
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${log_file_path}/debug.%d{yyyy-MM-dd}--%d{HH-mm-ss,aux}.%i.log</fileNamePattern>
-            <maxFileSize>${max.file.size}</maxFileSize>
-            <maxHistory>${max.history}</maxHistory>
-            <totalSizeCap>${total.size.cap}</totalSizeCap>
-        </rollingPolicy>
-    </appender>
+<!--    <appender name="File" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        <encoder>-->
+<!--            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>-->
+<!--        </encoder>-->
+<!--&lt;!&ndash;        <file>${log_file_path}/debug.%d{yyyy-MM-dd}.%i.log</file>&ndash;&gt;-->
+<!--        <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+<!--            <level>debug</level>-->
+<!--            &lt;!&ndash;            <onMatch>ACCEPT</onMatch>&ndash;&gt;-->
+<!--            &lt;!&ndash;            <onMismatch>DENY</onMismatch>&ndash;&gt;-->
+<!--        </filter>-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>${log_file_path}/debug.%d{yyyy-MM-dd}&#45;&#45;%d{HH-mm-ss,aux}.%i.log</fileNamePattern>-->
+<!--            <maxFileSize>${max.file.size}</maxFileSize>-->
+<!--            <maxHistory>${max.history}</maxHistory>-->
+<!--            <totalSizeCap>${total.size.cap}</totalSizeCap>-->
+<!--        </rollingPolicy>-->
+<!--    </appender>-->
 
-    <logger name="com.tptogiar.network.nio" level="error">
+<!--    <logger name="com.tptogiar.network.nio" level="error">-->
+<!--&lt;!&ndash;        <appender-ref ref="File"/>&ndash;&gt;-->
+<!--    </logger>-->
+
+    <root>
+        <appender-ref ref="Console" level="debug"/>
 <!--        <appender-ref ref="File"/>-->
-    </logger>
-
-    <root level="error">
-        <appender-ref ref="Console"/>
-        <appender-ref ref="File"/>
     </root>
 
 

@@ -1,10 +1,11 @@
 package com.tptogiar.network.nio.poller;
 
-import com.tptogiar.network.nio.eventloop.NioEnventLoop;
 
+import com.tptogiar.network.nio.eventloop.NioEnventLoop;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.ServerSocketChannel;
@@ -36,7 +37,6 @@ public class MianPoller implements Poller {
     }
 
 
-
     @Override
     public void poll() throws IOException {
         while (running.get()) {
@@ -46,10 +46,10 @@ public class MianPoller implements Poller {
             while (iterator.hasNext()) {
                 SelectionKey selectionKey = iterator.next();
                 iterator.remove();
-                if (! selectionKey.isValid()){
+                if (!selectionKey.isValid()) {
                     continue;
                 }
-                if (selectionKey.isAcceptable()){
+                if (selectionKey.isAcceptable()) {
                     ServerSocketChannel serverSocketChannel = nioEnventLoop.getServerSocketChannel();
                     SocketChannel clientChannel = serverSocketChannel.accept();
                     clientChannel.configureBlocking(false);

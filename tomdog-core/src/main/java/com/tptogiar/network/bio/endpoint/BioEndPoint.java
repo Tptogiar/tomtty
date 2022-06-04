@@ -12,11 +12,12 @@ import java.net.Socket;
 
 /**
  * 负责bio模式下的端到端连接
+ *
  * @author Tptogiar
  * @Description
  * @createTime 2022年04月30日 21:42:00
  */
-public class BioEndPoint{
+public class BioEndPoint {
 
     protected ServerSocket socket = null;
 
@@ -25,13 +26,12 @@ public class BioEndPoint{
     private BioAcceptor acceptor;
 
 
-    public BioEndPoint(String  hostname, Integer port) throws IOException {
+    public BioEndPoint(String hostname, Integer port) throws IOException {
         this.acceptor = new BioAcceptor(this);
         ServerSocket socket = new ServerSocket();
-        socket.bind(new InetSocketAddress(hostname,port));
+        socket.bind(new InetSocketAddress(hostname, port));
         this.socket = socket;
     }
-
 
 
     public void start() {
@@ -44,11 +44,6 @@ public class BioEndPoint{
         Socket accept = socket.accept();
         return accept;
     }
-
-
-
-
-
 
 
 }

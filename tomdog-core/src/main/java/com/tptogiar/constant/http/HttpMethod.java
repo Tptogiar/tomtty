@@ -5,7 +5,7 @@ package com.tptogiar.constant.http;
  * @Description
  * @createTime 2022年05月01日 17:27:00
  */
-public enum  HttpMethod {
+public enum HttpMethod {
 
     //
     GET,
