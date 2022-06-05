@@ -23,11 +23,11 @@ public class Pool {
 
     static {
         poolExecutor = new ThreadPoolExecutor(
-                TomdogConfig.THREAD_POOL_CORE_POOL_SIZE,
-                TomdogConfig.THREAD_POOL_MAXIMUM_POOL_SIZE,
-                TomdogConfig.THREAD_POOL_KEEP_ALIVE_TIME,
+                TomdogConfig.threadPoolCorePoolSize,
+                TomdogConfig.threadPoolMaximumPoolSize,
+                TomdogConfig.threadPoolKeepAliveTime,
                 TimeUnit.MILLISECONDS,
-                new ArrayBlockingQueue<Runnable>(TomdogConfig.THTEAD_POOL_BLOCKING_QUEUE_SIZE));
+                new ArrayBlockingQueue<Runnable>(TomdogConfig.thteadPoolBlockingQueueSize));
 
 
         poolExecutor.setRejectedExecutionHandler(new RejectPolicyHandler());

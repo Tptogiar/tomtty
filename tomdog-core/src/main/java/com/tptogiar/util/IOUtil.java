@@ -1,5 +1,7 @@
 package com.tptogiar.util;
 
+import com.tptogiar.config.TomdogConfig;
+
 import java.io.*;
 
 /**
@@ -45,6 +47,18 @@ public class IOUtil {
             }
         }
     }
+
+
+    public static File getFileFromStaticResoucePath(String[] rootPaths,String filePath){
+        for (String rootPath : rootPaths) {
+            File file = new File(rootPath + filePath);
+            if (file.exists()){
+                return file;
+            }
+        }
+        return null;
+    }
+
 
 
 }

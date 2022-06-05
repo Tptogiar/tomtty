@@ -28,7 +28,7 @@ public class ServletCollector {
 
 
         InputStream inputStream = ServletCollector.class
-                .getResourceAsStream(TomdogConfig.WEB_CONFIG_XML_FILE_PATH);
+                .getResourceAsStream(TomdogConfig.webConfigXmlFilePath);
 
 
         Document doc = XMLUtil.getXMLDocument(inputStream);

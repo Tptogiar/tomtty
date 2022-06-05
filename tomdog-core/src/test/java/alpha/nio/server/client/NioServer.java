@@ -33,10 +33,10 @@ public class NioServer {
             Selector selector = Selector.open();
             serverSocketChannel.configureBlocking(false);
             serverSocketChannel.socket().bind(
-                    new InetSocketAddress(TomdogConfig.SERVER_HOSTNAME, TomdogConfig.SERVER_PORT));
+                    new InetSocketAddress(TomdogConfig.serverHostname, TomdogConfig.serverPort));
             serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT, ByteBuffer.allocate(1024));
 
-            logger.info("服务器已启动... hostname = {} port = {}", TomdogConfig.SERVER_HOSTNAME, TomdogConfig.SERVER_PORT);
+            logger.info("服务器已启动... hostname = {} port = {}", TomdogConfig.serverHostname, TomdogConfig.serverPort);
 
             while (true) {
                 if (selector.select(1000) == 0) {

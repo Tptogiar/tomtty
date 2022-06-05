@@ -1,5 +1,15 @@
 package com.tptogiar.config;
 
+import com.tptogiar.Tomdog;
+
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+
 /**
  * @author Tptogiar
  * @Description
@@ -8,29 +18,77 @@ package com.tptogiar.config;
 public class TomdogConfig {
 
     // 服务器地址
-    public static String SERVER_HOSTNAME = "0.0.0.0";
+    public static String serverHostname;
     // 监听的端口
-    public static int SERVER_PORT = 8848;
+    public static int serverPort;
 
     // 从反应器数量
-    public static final int SERVER_NIO_SUB_REACTOR_COUNT = 6;
+    public static int nioSubReactorCount;
 
     // 线程池配置
-    public static int THREAD_POOL_CORE_POOL_SIZE = 10;
-    public static int THREAD_POOL_MAXIMUM_POOL_SIZE = 1000;
-    public static int THREAD_POOL_KEEP_ALIVE_TIME = 1000;
-    public static int THTEAD_POOL_BLOCKING_QUEUE_SIZE = 100;
+    public static int threadPoolCorePoolSize;
+    public static int threadPoolMaximumPoolSize;
+    public static int threadPoolKeepAliveTime;
+    public static int thteadPoolBlockingQueueSize;
 
     // HTTP读取缓存区大小
-    public static int HTTP_READ_BUFFER_SIZE = 8 * 1024;
-    public static int SERVLET_OUT_PUT_STREAM_BUFFER_SIZE = 8 * 1024;
+    public static int httpReadBufferSize;
+    public static int servletOutPutStreamBufferSize;
 
     // web.xml路径
-    public static String WEB_CONFIG_XML_FILE_PATH = "/web.xml";
+    public static String webConfigXmlFilePath;
+
+    public static String[] staticResourceRootPath = new String[8];
 
     // 默认页面路径
-    public static String NOT_FOUND_PAGE_PATH = "/default/pages/html/404.html";
-    public static String INTERNAL_SERVER_ERROR_PAGE_PATH = "/default/pages/html/500.html";
+    public static String notFoundPagePath;
+    public static String internalServerErrorPagePath;
 
+
+
+
+    public static Properties config=new Properties();
+
+    /**
+     * 加载服务器配置
+     * @throws IOException
+     */
+    static {
+        try {
+            config.load(TomdogConfig.class.getResourceAsStream("/tomdog.config.properties"));
+            Set<Map.Entry<Object, Object>> entries = config.entrySet();
+            Iterator<Map.Entry<Object, Object>> iterator = entries.iterator();
+            while (iterator.hasNext()){
+                Map.Entry<Object, Object> next = iterator.next();
+                String key = (String) next.getKey();
+                String value = (String) next.getValue();
+                int index = 0;
+                if (key.endsWith("]")){
+                    index = Integer.parseInt(key.substring(key.indexOf("[")+1,key.length()-1));
+                    key = key.substring(0,key.length()-3);
+                }
+                setValue(key,value,index);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    public static void setValue(String key, String value, int index) throws Exception {
+        Field field = TomdogConfig.class.getField(key);
+        Class<?> type = field.getType();
+        if (type == int.class){
+            field.setInt(null, Integer.parseInt(value));
+        }
+        else if(type == String.class){
+            field.set(null, value);
+        }
+        else if(type == String[].class){
+            String[] strs = (String[]) field.get(null);
+            Array.set(strs,index,value);
+        }
+    }
 
 }

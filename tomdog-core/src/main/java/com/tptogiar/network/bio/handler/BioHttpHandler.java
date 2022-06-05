@@ -26,7 +26,7 @@ public class BioHttpHandler extends HttpHandler implements Runnable {
     private Socket socket;
     private InputStream inputStream;
     private OutputStream outputStream;
-    private byte[] readBuffer = new byte[TomdogConfig.HTTP_READ_BUFFER_SIZE];
+    private byte[] readBuffer = new byte[TomdogConfig.httpReadBufferSize];
 
 
     public BioHttpHandler(Socket socket) throws IOException {

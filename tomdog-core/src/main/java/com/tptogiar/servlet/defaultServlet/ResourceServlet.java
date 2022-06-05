@@ -1,6 +1,7 @@
 package com.tptogiar.servlet.defaultServlet;
 
 
+import com.tptogiar.config.TomdogConfig;
 import com.tptogiar.constant.http.HttpContentType;
 import com.tptogiar.network.bio.handler.ProcessResult;
 import com.tptogiar.servlet.HttpServlet;
@@ -12,14 +13,20 @@ import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.lang.reflect.Field;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
+import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.SocketChannel;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 静态资源处理
@@ -43,7 +50,7 @@ public class ResourceServlet extends HttpServlet {
 
 
     @Override
-    public void service(HttpServletRequest req, HttpServletResponse resp) throws IOException, URISyntaxException {
+    public void service(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         req.setUri(uri);
         handleResource(req, resp);
     }
@@ -55,17 +62,27 @@ public class ResourceServlet extends HttpServlet {
      * @param resp
      * @throws IOException
      */
-    public static void handleResource(HttpServletRequest req, HttpServletResponse resp) throws IOException, URISyntaxException {
+    public static void handleResource
+    (HttpServletRequest req, HttpServletResponse resp) throws Exception {
+
+
         logger.info("处理静态资源...");
         String filePath = req.getUri();
         setContentType(filePath, resp);
-        // 获取项目运行时classes路径
-        String classPath = ResourceServlet.class.getResource("/").toString().substring(6);
-        FileChannel srcFileChannel = new FileInputStream(classPath+filePath).getChannel();
-        ProcessResult processResult = new ProcessResult(true,srcFileChannel);
+        resp.setFileTransfer(true);
+
+        File srcFile = IOUtil.getFileFromStaticResoucePath
+                (TomdogConfig.staticResourceRootPath, filePath);
+
+        if (srcFile==null){
+            new NotFoundServlet().service(req,resp);
+            return;
+        }
+
+        FileChannel srcFileChannel = new FileInputStream(srcFile).getChannel();
+        ProcessResult processResult = new ProcessResult(true, srcFileChannel);
         // 这里将文件信息封装进ProcessResult里面，待com.tptogiar.network.HttpHandler.process运行时在做响应的处理
         resp.attach(processResult);
-
     }
 
 
@@ -91,6 +108,9 @@ public class ResourceServlet extends HttpServlet {
             resp.setContentType(HttpContentType.IMAGE);
         }
     }
+
+
+
 
 
 }
