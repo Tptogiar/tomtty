@@ -49,6 +49,12 @@ public class IOUtil {
     }
 
 
+    /**
+     * 从多个静态资源根路径rootPaths下寻找特定静态资源filePath
+     * @param rootPaths
+     * @param filePath
+     * @return
+     */
     public static File getFileFromStaticResoucePath(String[] rootPaths,String filePath){
         for (String rootPath : rootPaths) {
             File file = new File(rootPath + filePath);

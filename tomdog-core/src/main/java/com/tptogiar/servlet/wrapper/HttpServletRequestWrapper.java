@@ -1,7 +1,7 @@
 package com.tptogiar.servlet.wrapper;
 
 import com.tptogiar.constant.http.HttpMethod;
-import com.tptogiar.context.RequestContext;
+import com.tptogiar.servlet.context.RequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

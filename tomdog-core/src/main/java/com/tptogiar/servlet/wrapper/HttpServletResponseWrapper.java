@@ -2,9 +2,9 @@ package com.tptogiar.servlet.wrapper;
 
 import com.tptogiar.constant.http.HttpContentType;
 import com.tptogiar.constant.http.HttpStatus;
-import com.tptogiar.context.RequestContext;
-import com.tptogiar.context.ResponseContext;
-import com.tptogiar.context.impl.ResponseContextImpl;
+import com.tptogiar.servlet.context.RequestContext;
+import com.tptogiar.servlet.context.ResponseContext;
+import com.tptogiar.servlet.context.impl.ResponseContextImpl;
 import com.tptogiar.info.cookie.Cookie;
 import com.tptogiar.info.header.Header;
 import lombok.Data;

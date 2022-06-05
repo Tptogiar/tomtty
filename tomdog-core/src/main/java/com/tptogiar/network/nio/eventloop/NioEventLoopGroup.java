@@ -15,20 +15,27 @@ public class NioEventLoopGroup {
 
     private static final Logger logger = LoggerFactory.getLogger(NioEventLoopGroup.class);
 
-    private NioEnventLoop[] enventLoops;
+    private NioEventLoop[] enventLoops;
 
     private int subEventLoopIndex;
 
 
-    public NioEventLoopGroup(NioEnventLoop[] enventLoops) {
+    public NioEventLoopGroup(NioEventLoop[] enventLoops) {
         this.enventLoops = enventLoops;
     }
 
+
+    /**
+     * 创建指定个数的subReactor
+     * @param childLoopCount
+     * @return
+     * @throws IOException
+     */
     public static NioEventLoopGroup createEventLoopGroup(int childLoopCount) throws IOException {
         logger.info("初始化EventLoopGroup...");
-        NioEnventLoop[] enventLoops = new NioEnventLoop[childLoopCount];
+        NioEventLoop[] enventLoops = new NioEventLoop[childLoopCount];
         for (int i = 0; i < childLoopCount; i++) {
-            enventLoops[i] = NioEnventLoop.createSubEventLoop(i);
+            enventLoops[i] = NioEventLoop.createSubEventLoop(i);
             enventLoops[i].setName(enventLoops[i].toString());
             enventLoops[i].start();
         }
@@ -36,8 +43,12 @@ public class NioEventLoopGroup {
     }
 
 
-    public NioEnventLoop getEventLoop() {
-        NioEnventLoop enventLoop = enventLoops[(subEventLoopIndex % enventLoops.length)];
+    /**
+     * 轮询实现负载均衡
+     * @return
+     */
+    public NioEventLoop getEventLoop() {
+        NioEventLoop enventLoop = enventLoops[(subEventLoopIndex % enventLoops.length)];
         subEventLoopIndex++;
         return enventLoop;
     }

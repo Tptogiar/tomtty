@@ -1,7 +1,7 @@
 package com.tptogiar.network.nio.poller;
 
 
-import com.tptogiar.network.nio.eventloop.NioEnventLoop;
+import com.tptogiar.network.nio.eventloop.NioEventLoop;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,12 +26,12 @@ public class MianPoller implements Poller {
     Logger logger = LoggerFactory.getLogger(MianPoller.class);
 
 
-    private NioEnventLoop nioEnventLoop;
+    private NioEventLoop nioEnventLoop;
 
     private AtomicBoolean running;
 
 
-    public MianPoller(NioEnventLoop nioEnventLoop) {
+    public MianPoller(NioEventLoop nioEnventLoop) {
         this.nioEnventLoop = nioEnventLoop;
         running = nioEnventLoop.getRunning();
     }

@@ -5,16 +5,15 @@ import com.tptogiar.constant.CharContant;
 import com.tptogiar.constant.CharsetProperties;
 import com.tptogiar.constant.http.HttpMethod;
 import com.tptogiar.constant.http.HttpRequestHeader;
-import com.tptogiar.context.RequestContext;
-import com.tptogiar.context.impl.RequestContextImpl;
 import com.tptogiar.exception.RequestInvaildException;
 import com.tptogiar.info.cookie.Cookie;
 import com.tptogiar.network.HttpHandler;
+import com.tptogiar.servlet.context.RequestContext;
+import com.tptogiar.servlet.context.impl.RequestContextImpl;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -40,48 +39,76 @@ public class HttpRequsetParser {
 
 
     public static RequestContext parseHttpRequest(
-            HttpHandler httpHandler, byte[] requestData)
-            throws RequestInvaildException {
+            HttpHandler httpHandler, byte[] requestData) throws Exception {
 
         HttpRequsetParser httpRequsetParser = new HttpRequsetParser(httpHandler, requestData);
         return httpRequsetParser.getReqContext();
 
     }
 
-
-    private HttpRequsetParser(HttpHandler httpHandler, byte[] requestData) throws RequestInvaildException {
+    /**
+     * 解析http请求
+     *
+     * @param httpHandler
+     * @param requestData
+     * @throws RequestInvaildException
+     */
+    private HttpRequsetParser(HttpHandler httpHandler, byte[] requestData) throws Exception {
         logger.info("解析HTTP二进制报文...");
 
         reqContext.setHttpHandler(httpHandler);
         this.requestData = requestData;
 
         String[] lines = null;
-        try {
-            String httpMessage = URLDecoder.decode(
-                    new String(requestData, CharsetProperties.UTF_8_CHARSET),
-                    CharsetProperties.UTF_8);
-            lines = httpMessage.split(CharContant.CRLF);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+
+        String httpMessage = URLDecoder.decode(
+                new String(requestData, CharsetProperties.UTF_8_CHARSET),
+                CharsetProperties.UTF_8);
+        lines = httpMessage.split(CharContant.CRLF);
+
 
         if (lines == null || lines.length <= 1) {
             throw new RequestInvaildException("请求头异常...");
         }
+
+        // 解析请求头
         parseHeaders(lines);
-        if (reqContext.getHeaders() != null
-                && reqContext.getHeaders().containsKey(HttpRequestHeader.CONTENT_LENGTH)
-                && !"0".equals(reqContext.getHeaders().get(HttpRequestHeader.CONTENT_LENGTH).get(0))
-        ) {
+
+
+        if (hasRequestBody(reqContext)) {
             parseBody(lines[lines.length - 1]);
         }
+
 
         logger.info("\n" + reqContext.toString());
     }
 
 
+    /**
+     * 解析请求头
+     *
+     * @param lines
+     */
     public void parseHeaders(String[] lines) {
         logger.info("解析请求报文...");
+
+        parseRequestLine(lines);
+
+        parseHeaderItems(lines);
+
+        parseCookie(reqContext.getHeaders());
+
+        parseConnection(reqContext.getHeaders());
+
+    }
+
+
+
+    /**
+     * 解析请求行
+     * @param lines
+     */
+    private void parseRequestLine(String[] lines){
         String firstLine = lines[0];
 
         String[] firstLineSlices = firstLine.split(CharContant.BLANK);
@@ -95,17 +122,13 @@ public class HttpRequsetParser {
         if (urlSlices.length > 1) {
             parseParams(urlSlices[1]);
         }
-
-        parseHeaderItems(lines);
-
-
-        parseCookie(reqContext.getHeaders());
-
     }
 
     private void parseMethod(String method) {
         reqContext.setMethod(HttpMethod.valueOf(method));
     }
+
+
 
     private void parseUri(String uri) {
         reqContext.setUri(uri);
@@ -122,7 +145,10 @@ public class HttpRequsetParser {
         }
     }
 
-
+    /**
+     * 解析请求头部
+     * @param lines
+     */
     private void parseHeaderItems(String[] lines) {
         String header;
         Map<String, List<String>> map = new HashMap<>();
@@ -141,8 +167,8 @@ public class HttpRequsetParser {
 
     private void parseCookie(Map<String, List<String>> headers) {
         Cookie[] cookies = null;
-        if (headers.containsKey("Cookie")) {
-            String[] rawCookies = headers.get("Cookie").get(0).split("; ");
+        if (headers.containsKey(HttpRequestHeader.COOKIE)) {
+            String[] rawCookies = headers.get(HttpRequestHeader.COOKIE).get(0).split("; ");
             cookies = new Cookie[rawCookies.length];
             for (int i = 0; i < rawCookies.length; i++) {
                 String[] keyValue = rawCookies[i].split("=");
@@ -156,10 +182,40 @@ public class HttpRequsetParser {
     }
 
 
+    private void parseConnection(Map<String, List<String>> headers) {
+        if (headers.containsKey(HttpRequestHeader.CONNECTION)){
+            reqContext.setKeepAlive(true);
+            return;
+        }
+        reqContext.setKeepAlive(false);
+    }
+
+
+    /**
+     * 判断是否有请求体
+     *
+     * @param reqContext
+     * @return
+     */
+    public static boolean hasRequestBody(RequestContext reqContext) {
+        Map<String, List<String>> headers = reqContext.getHeaders();
+        if (headers != null) {
+            return false;
+        }
+        if (!headers.containsKey(HttpRequestHeader.CONTENT_LENGTH)) {
+            return false;
+        }
+        if (!"0".equals(reqContext.getHeaders().get(HttpRequestHeader.CONTENT_LENGTH).get(0))) {
+            return false;
+        }
+        return true;
+    }
+
+
+    // 解析请求体
     private void parseBody(String line) {
         logger.debug("解析请求体...");
-
-
+        // TODO 解析请求体
     }
 
 

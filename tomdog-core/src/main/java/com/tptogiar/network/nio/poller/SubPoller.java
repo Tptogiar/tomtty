@@ -1,7 +1,8 @@
 package com.tptogiar.network.nio.poller;
 
-import com.tptogiar.network.nio.eventloop.NioEnventLoop;
-import com.tptogiar.network.nio.handler.TCPHandler;
+import com.tptogiar.component.connection.ConnectionMgr;
+import com.tptogiar.network.nio.eventloop.NioEventLoop;
+import com.tptogiar.network.nio.handler.tcp.TCPHandler;
 import com.tptogiar.network.nio.task.EventTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +25,7 @@ public class SubPoller implements Poller {
 
     Logger logger = LoggerFactory.getLogger(SubPoller.class);
 
-    private NioEnventLoop subEventLoop;
+    private NioEventLoop subEventLoop;
 
     private Selector subSelector;
 
@@ -34,21 +35,27 @@ public class SubPoller implements Poller {
 
     private BlockingQueue<EventTask> eventQueue;
 
+    private ConnectionMgr connectionMgr;
 
-    public SubPoller(NioEnventLoop subEventLoop) {
+
+    public SubPoller(NioEventLoop subEventLoop) {
         this.subEventLoop = subEventLoop;
         subSelector = subEventLoop.getSelector();
         tcpHandler = new TCPHandler(subEventLoop);
         running = subEventLoop.getRunning();
         eventQueue = subEventLoop.getEventQueue();
+        connectionMgr=subEventLoop.getConnectionMgr();
     }
 
 
+    /**
+     * 轮询
+     * @throws Exception
+     */
     @Override
     public void poll() throws Exception {
-
         while (running.get()) {
-            logger.info(subEventLoop + " 新一轮poll()");
+            logger.info(subEventLoop + " 开始新一轮poll()");
             // 先处理任务队列里面的任务（如：有新的client要注册到该subSelector等）
             executeTask();
 
@@ -56,8 +63,10 @@ public class SubPoller implements Poller {
 
             scanSelectionKey();
 
+            handlerExpiredConnection();
         }
     }
+
 
 
     private void executeTask() throws InterruptedException {
@@ -89,20 +98,15 @@ public class SubPoller implements Poller {
             Iterator<SelectionKey> iterator = selectionKeys.iterator();
             logger.info("selectionKeys大小为：{}", selectionKeys.size());
             while (iterator.hasNext()) {
-                SelectionKey selectionKey = null;
-                selectionKey = iterator.next();
+                SelectionKey selectionKey = iterator.next();
                 iterator.remove();
                 if (!selectionKey.isValid()) {
                     continue;
                 }
-
                 if (selectionKey.isReadable()) {
-                    logger.info("来自{}的读事件", ((SocketChannel) selectionKey.channel()).getRemoteAddress());
                     tcpHandler.read(selectionKey);
                 } else if (selectionKey.isWritable()) {
                     logger.info("来自{}的写事件", ((SocketChannel) selectionKey.channel()).getRemoteAddress());
-                    // 即使取消事件注册（NIO采用的是水平触发模式）
-                    selectionKey.cancel();
                     tcpHandler.write(selectionKey);
                 }
             }
@@ -113,6 +117,20 @@ public class SubPoller implements Poller {
             running.set(false);
         }
 
+    }
+
+
+    /**
+     * 处理超时的连接
+     */
+    private void handlerExpiredConnection() {
+        if (connectionMgr.isEmpty()){
+            return;
+        }
+
+        while (connectionMgr.hasExpiredConnection()){
+            connectionMgr.removeConnection();
+        }
     }
 
 

@@ -24,11 +24,13 @@ public class ProcessResult {
 
     protected boolean isFileTransfer = false;
 
+    protected boolean isKeepAlive = false;
+
     private FileChannel srcFileChannel;
 
-
-
-
+    public ProcessResult(boolean isFileTransfer) {
+        this.isFileTransfer = isFileTransfer;
+    }
 
     public ProcessResult(boolean isFileTransfer, FileChannel srcFileChannel) {
         this.isFileTransfer = isFileTransfer;

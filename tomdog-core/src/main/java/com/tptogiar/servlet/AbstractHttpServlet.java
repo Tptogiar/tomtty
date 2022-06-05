@@ -20,8 +20,6 @@ public abstract class AbstractHttpServlet implements Servlet {
     @Override
     public void doService(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         service(req, resp);
-
-
         // 判断是resourceServlet还是普通的servlet，
         // resourceServlet中不会把数据写入ServletOutputStream，也就是为null
         if (resp.hasOutPutStream()) {

@@ -1,14 +1,11 @@
 package com.tptogiar.servlet;
 
 import com.tptogiar.constant.http.HttpMethod;
-import com.tptogiar.servlet.AbstractHttpServlet;
-import com.tptogiar.servlet.Servlet;
 import com.tptogiar.servlet.wrapper.HttpServletRequest;
 import com.tptogiar.servlet.wrapper.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URISyntaxException;
 
 /**
  * 供用户继承并重写service方法的servlet
@@ -59,5 +56,6 @@ public class HttpServlet extends AbstractHttpServlet implements Servlet {
         String defaultMessage = "This method is not support...";
         outPutStream.write(defaultMessage.getBytes());
     }
+
 
 }

@@ -1,7 +1,7 @@
 package com.tptogiar.network;
 
 import com.tptogiar.component.dispatch.ServletDispatcher;
-import com.tptogiar.context.RequestContext;
+import com.tptogiar.servlet.context.RequestContext;
 import com.tptogiar.network.bio.builder.HttpResponseBuilder;
 import com.tptogiar.network.bio.handler.ProcessResult;
 import com.tptogiar.network.bio.parser.HttpRequsetParser;
@@ -48,6 +48,7 @@ public abstract class HttpHandler {
             byte[] responseBytes = httpResponseBuilder.combineRespHeaderAndHeader(responseHeader);
             processResult.setResponseBytes(responseBytes);
         }
+        processResult.setKeepAlive(reqContext.isKeepAlive());
         return processResult;
     }
 

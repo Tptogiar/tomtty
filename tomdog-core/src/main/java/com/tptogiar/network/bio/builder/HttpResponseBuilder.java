@@ -4,7 +4,7 @@ import com.tptogiar.constant.CharContant;
 import com.tptogiar.constant.CharsetProperties;
 import com.tptogiar.constant.http.HttpContentType;
 import com.tptogiar.constant.http.HttpResponseHeader;
-import com.tptogiar.context.ResponseContext;
+import com.tptogiar.servlet.context.ResponseContext;
 import com.tptogiar.info.cookie.Cookie;
 import com.tptogiar.info.header.Header;
 import com.tptogiar.network.bio.handler.ProcessResult;
@@ -107,7 +107,6 @@ public class HttpResponseBuilder {
 
     public byte[] combineRespHeaderAndHeader(byte[] respHeaderBytes) {
         byte[] body = resp.getBody();
-        respHeaderBytes = headerAppender.toString().getBytes(CharsetProperties.UTF_8_CHARSET);
         // TODO 待优化
         byte[] responseBytes = new byte[respHeaderBytes.length + body.length];
         System.arraycopy(respHeaderBytes, 0, responseBytes, 0, respHeaderBytes.length);

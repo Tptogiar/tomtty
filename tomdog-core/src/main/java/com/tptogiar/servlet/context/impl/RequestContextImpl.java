@@ -1,8 +1,8 @@
-package com.tptogiar.context.impl;
+package com.tptogiar.servlet.context.impl;
 
 
 import com.tptogiar.constant.http.HttpMethod;
-import com.tptogiar.context.RequestContext;
+import com.tptogiar.servlet.context.RequestContext;
 import com.tptogiar.info.cookie.Cookie;
 import com.tptogiar.network.HttpHandler;
 import lombok.Data;
@@ -26,6 +26,7 @@ public class RequestContextImpl implements RequestContext {
     private Cookie[] cookies;
     private Map<String, String> params;
     private String uri;
+    private boolean isKeepAlive;
 
 
     private HttpHandler httpHandler;

@@ -1,7 +1,7 @@
 package com.tptogiar.servlet.wrapper;
 
 import com.tptogiar.constant.http.HttpMethod;
-import com.tptogiar.context.RequestContext;
+import com.tptogiar.servlet.context.RequestContext;
 
 import java.nio.channels.SocketChannel;
 

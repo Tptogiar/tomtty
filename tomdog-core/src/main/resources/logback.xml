@@ -43,10 +43,10 @@
 <!--&lt;!&ndash;        <appender-ref ref="File"/>&ndash;&gt;-->
 <!--    </logger>-->
 
-    <root>
-        <appender-ref ref="Console" level="debug"/>
-<!--        <appender-ref ref="File"/>-->
-    </root>
+<!--    <root>-->
+<!--        <appender-ref ref="Console" level="debug"/>-->
+<!--&lt;!&ndash;        <appender-ref ref="File"/>&ndash;&gt;-->
+<!--    </root>-->
 
 
 

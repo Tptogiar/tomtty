@@ -1,6 +1,6 @@
 package com.tptogiar.network.bio.accept;
 
-import com.tptogiar.component.pool.Pool;
+import com.tptogiar.component.pool.WorkerThreadPool;
 import com.tptogiar.network.bio.endpoint.BioEndPoint;
 import com.tptogiar.network.bio.handler.BioHttpHandler;
 import org.slf4j.Logger;
@@ -34,7 +34,7 @@ public class BioAcceptor implements Runnable {
                 Socket socket = endPoint.serverSocketAccept();
                 logger.info("接收到客户端连接，accept了一个fd...");
                 BioHttpHandler bioHttpHandler = new BioHttpHandler(socket);
-                Pool.execute(bioHttpHandler);
+                WorkerThreadPool.execute(bioHttpHandler);
             }
         } catch (IOException e) {
             e.printStackTrace();

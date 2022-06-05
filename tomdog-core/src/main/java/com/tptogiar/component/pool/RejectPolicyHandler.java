@@ -7,6 +7,7 @@ import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
+ * 拒接策略
  * @author Tptogiar
  * @Description
  * @createTime 2022年05月05日 12:54:00

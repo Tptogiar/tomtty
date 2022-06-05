@@ -1,6 +1,7 @@
 package com.tptogiar.network.nio;
 
-import com.tptogiar.network.nio.eventloop.NioEnventLoop;
+
+import com.tptogiar.network.nio.eventloop.NioEventLoop;
 import com.tptogiar.network.nio.eventloop.NioEventLoopGroup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,7 @@ public class ServerBootstrap {
 
     public static void start(int port, int childLoopCount) throws IOException {
         NioEventLoopGroup eventLoopGroup = NioEventLoopGroup.createEventLoopGroup(childLoopCount);
-        NioEnventLoop mainEventLoop = NioEnventLoop.createMainEventLoop(port, eventLoopGroup);
+        NioEventLoop mainEventLoop = NioEventLoop.createMainEventLoop(port, eventLoopGroup);
         mainEventLoop.setName(mainEventLoop.toString());
         logger.info("MainEventLoop及EventLoopGroup启动完成...");
         mainEventLoop.start();

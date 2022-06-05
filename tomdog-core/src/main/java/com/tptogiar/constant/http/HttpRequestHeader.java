@@ -5,15 +5,12 @@ package com.tptogiar.constant.http;
  * @Description
  * @createTime 2022年05月01日 13:46:00
  */
-public enum HttpRequestHeader {
+public class HttpRequestHeader {
 
     //
-    CONTENT_LENGTH("Content-Length");
+    public static final String CONTENT_LENGTH = "Content-Length";
 
+    public static final String COOKIE = "Cookie";
 
-    private String header;
-
-    HttpRequestHeader(String header) {
-        this.header = header;
-    }
+    public static final String CONNECTION = "Connection";
 }

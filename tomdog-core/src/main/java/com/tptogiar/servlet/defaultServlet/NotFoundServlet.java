@@ -1,11 +1,14 @@
 package com.tptogiar.servlet.defaultServlet;
 
 import com.tptogiar.config.TomdogConfig;
+import com.tptogiar.servlet.AbstractHttpServlet;
 import com.tptogiar.servlet.HttpServlet;
 import com.tptogiar.servlet.wrapper.HttpServletRequest;
 import com.tptogiar.servlet.wrapper.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.OutputStream;
 
 /**
  * 默认的404 处理
@@ -23,8 +26,17 @@ public class NotFoundServlet extends HttpServlet {
     public void service(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         logger.info("404 NOT FOUND  ----From NotFoundServlet...");
         logger.debug("request Uri = {} ,TomdogConfig.NOT_FOUND_PAGE_PATH = {}", req.getUri(), TomdogConfig.notFoundPagePath);
+        if (TomdogConfig.notFoundPagePath.equals(req.getUri())){
+            // 默认的404.html也找不到,则以文字形式回写
+            OutputStream outPutStream = resp.getOutputStream();
+            String jsonStr = "<h1>404 Not Found</h1>";
+            outPutStream.write(jsonStr.getBytes());
+            return;
+        }
+
         req.setUri(TomdogConfig.notFoundPagePath);
         ResourceServlet notFoundHtmlResourceServlet = new ResourceServlet(req.getUri());
         notFoundHtmlResourceServlet.service(req, resp);
     }
+
 }

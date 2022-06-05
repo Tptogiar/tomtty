@@ -1,7 +1,7 @@
-package com.tptogiar.context.impl;
+package com.tptogiar.servlet.context.impl;
 
-import com.tptogiar.context.RequestContext;
-import com.tptogiar.context.ResponseContext;
+import com.tptogiar.servlet.context.RequestContext;
+import com.tptogiar.servlet.context.ResponseContext;
 import com.tptogiar.servlet.component.ServletOutputStream;
 import com.tptogiar.servlet.component.ServletOutputStreamImpl;
 import lombok.Data;

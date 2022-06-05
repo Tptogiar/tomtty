@@ -1,4 +1,4 @@
-package com.tptogiar.context;
+package com.tptogiar.servlet.context;
 
 import com.tptogiar.constant.http.HttpMethod;
 import com.tptogiar.info.cookie.Cookie;
@@ -44,6 +44,8 @@ public interface RequestContext {
 
     SocketChannel getSocketChannel();
 
+    boolean isKeepAlive();
 
+    void setKeepAlive(boolean keepAlive);
 
 }

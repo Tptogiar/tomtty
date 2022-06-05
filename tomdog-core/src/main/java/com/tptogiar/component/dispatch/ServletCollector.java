@@ -6,6 +6,8 @@ import com.tptogiar.util.ReflectUtil;
 import com.tptogiar.util.XMLUtil;
 import org.dom4j.Document;
 import org.dom4j.Element;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.util.List;
@@ -20,6 +22,8 @@ import java.util.Map;
  */
 public class ServletCollector {
 
+    private static Logger logger = LoggerFactory.getLogger(ServletCollector.class);
+
 
     public static void collectServlet(
             Map<String, ServletHolder> nameServletMap,
@@ -33,6 +37,7 @@ public class ServletCollector {
 
         Document doc = XMLUtil.getXMLDocument(inputStream);
         if (doc == null) {
+            logger.error("web.xml 文件获取失败...");
             return;
         }
         Element docRoot = doc.getRootElement();

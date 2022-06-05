@@ -1,8 +1,8 @@
-package com.tptogiar.network.nio.handler;
+package com.tptogiar.network.nio.handler.http;
 
 import com.tptogiar.network.HttpHandler;
 import com.tptogiar.network.bio.handler.ProcessResult;
-import com.tptogiar.network.nio.eventloop.NioEnventLoop;
+import com.tptogiar.network.nio.eventloop.NioEventLoop;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,6 +11,7 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 
 /**
+ * 业务worker
  * @author Tptogiar
  * @Description
  * @createTime 2022年05月27日 23:36:00
@@ -23,10 +24,10 @@ public class NioHttpHandler extends HttpHandler implements Runnable {
 
     private SelectionKey selectionKey;
 
-    private NioEnventLoop subEventLoop;
+    private NioEventLoop subEventLoop;
 
 
-    public NioHttpHandler(ByteBuffer buffer, SelectionKey selectionKey, NioEnventLoop subEventLoop) {
+    public NioHttpHandler(ByteBuffer buffer, SelectionKey selectionKey, NioEventLoop subEventLoop) {
         this.selectionKey = selectionKey;
         this.buffer = buffer;
         this.subEventLoop = subEventLoop;

@@ -1,4 +1,4 @@
-package com.tptogiar.context;
+package com.tptogiar.servlet.context;
 
 import java.io.IOException;
 import java.io.OutputStream;

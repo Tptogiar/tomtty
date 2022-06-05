@@ -4,6 +4,7 @@ package com.tptogiar.servlet.defaultServlet;
 import com.tptogiar.config.TomdogConfig;
 import com.tptogiar.constant.http.HttpContentType;
 import com.tptogiar.network.bio.handler.ProcessResult;
+import com.tptogiar.servlet.AbstractHttpServlet;
 import com.tptogiar.servlet.HttpServlet;
 import com.tptogiar.servlet.wrapper.HttpServletRequest;
 import com.tptogiar.servlet.wrapper.HttpServletResponse;
@@ -75,7 +76,11 @@ public class ResourceServlet extends HttpServlet {
                 (TomdogConfig.staticResourceRootPath, filePath);
 
         if (srcFile==null){
-            new NotFoundServlet().service(req,resp);
+            AbstractHttpServlet servlet =  new  NotFoundServlet();
+            servlet.doService(req,resp);
+            resp.setFileTransfer(false);
+            ProcessResult processResult = new ProcessResult(false);
+            resp.attach(processResult);
             return;
         }
 
