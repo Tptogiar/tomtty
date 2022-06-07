@@ -1,8 +1,8 @@
 # Project exclude paths
-/tomdog-example/target/
+/tomtty-example/target/
 
 */target/*.*
 .idea/
-tomdog-core/.idea/
-/tomdog-core/target/
+tomtty-core/.idea/
+/tomtty-core/target/
 /out/

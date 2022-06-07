@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="false" scanPeriod="60000" debug="false">
+
+    <property name="log_file_path" value="/myFiles/log"/>
+    <!-- 活动文件的大小 -->
+    <property name="max.file.size" value="500MB"/>
+    <!-- 保留的归档文件的最大数量 -->
+    <property name="max.history" value="30"/>
+    <!-- 控制所有归档日志文件的总大小 -->
+    <property name="total.size.cap" value="30GB"/>
+
+
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+        </encoder>
+<!--        <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+<!--            <level>debug</level>-->
+<!--            <onMatch>ACCEPT</onMatch>-->
+<!--            <onMismatch>DENY</onMismatch>-->
+<!--        </filter>-->
+    </appender>
+
+<!--    <appender name="File" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        <encoder>-->
+<!--            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>-->
+<!--        </encoder>-->
+<!--&lt;!&ndash;        <file>${log_file_path}/debug.%d{yyyy-MM-dd}.%i.log</file>&ndash;&gt;-->
+<!--        <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+<!--            <level>debug</level>-->
+<!--            &lt;!&ndash;            <onMatch>ACCEPT</onMatch>&ndash;&gt;-->
+<!--            &lt;!&ndash;            <onMismatch>DENY</onMismatch>&ndash;&gt;-->
+<!--        </filter>-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>${log_file_path}/debug.%d{yyyy-MM-dd}&#45;&#45;%d{HH-mm-ss,aux}.%i.log</fileNamePattern>-->
+<!--            <maxFileSize>${max.file.size}</maxFileSize>-->
+<!--            <maxHistory>${max.history}</maxHistory>-->
+<!--            <totalSizeCap>${total.size.cap}</totalSizeCap>-->
+<!--        </rollingPolicy>-->
+<!--    </appender>-->
+
+<!--    <logger name="com.tptogiar.network.nio" level="error">-->
+<!--&lt;!&ndash;        <appender-ref ref="File"/>&ndash;&gt;-->
+<!--    </logger>-->
+
+    <root>
+        <appender-ref ref="Console" level="debug"/>
+<!--        <appender-ref ref="File"/>-->
+    </root>
+
+
+
+</configuration>

@@ -5,37 +5,33 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.tptogiar</groupId>
-    <artifactId>tomtty</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>tomtty-example</artifactId>
     <version>1.0</version>
 
 
 
 
+
     <dependencies>
+<!--        导入服务器依赖-->
         <dependency>
             <groupId>com.tptogiar</groupId>
             <artifactId>tomtty-core</artifactId>
             <version>1.0</version>
         </dependency>
-
-
-        <dependency>
-            <groupId>com.tptogiar</groupId>
-            <artifactId>tomtty-example</artifactId>
-            <version>1.0</version>
-        </dependency>
     </dependencies>
 
 
-    <modules>
-        <module>tomtty-example</module>
-        <module>tomtty-core</module>
-    </modules>
+    <build>
+        <resources>
+            <resource>
+                <directory>src\main\webapp</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+    </build>
 
-
-
-
-    
 </project>
-

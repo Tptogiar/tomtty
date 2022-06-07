@@ -9,7 +9,7 @@
   * [环境版本说明](#环境版本说明)
   * [配置编译输出路径](#配置编译输出路径)
   * [调整配置文件](#调整配置文件)
-  * [启动example模块下的TomdogStarter](#启动example模块下的TomdogStarter)
+  * [启动tomtty-example模块下的TomttyStarter](#启动tomtty-example模块下的TomttyStarter)
   * [启动后日志输出如下](#启动后日志输出如下)
 
 
@@ -83,7 +83,7 @@ staticResourceRootPath[2]=/xxx
 示例配置参考这里[配置文件](#配置文件)
 
 
-## 启动example模块下的TomdogStarter
+## 启动tomtty-example模块下的TomttyStarter
 ![image](https://user-images.githubusercontent.com/79641956/172398935-8fb3d72f-8c0a-4e9f-aab8-9a84d0643d5c.png)
 
 ## 启动后日志输出如下
