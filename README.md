@@ -1,8 +1,29 @@
 # Tomdog
 简易版Tomcat
 
-# 运行
-- 将这两个子模块的编译输出路径设置在同一个地方
+
+
+
+
+
+
+# 运行流程
+## 环境版本说明
+![image](https://user-images.githubusercontent.com/79641956/172396809-946760f8-4516-43f2-9f91-1e080a770446.png)
+![image](https://user-images.githubusercontent.com/79641956/172397186-0c7a2672-fcbf-4c22-b1e2-82af0b5d1fc0.png)
+
+## 配置编译输出路径
+将这两个子模块的编译输出路径设置在同一个地方
+![image](https://user-images.githubusercontent.com/79641956/172397771-5988b74e-f946-4e44-92d2-94a56985ec31.png)
+
+## 启动example模块下的TomdogStarter
+![image](https://user-images.githubusercontent.com/79641956/172398935-8fb3d72f-8c0a-4e9f-aab8-9a84d0643d5c.png)
+
+## 启动后日志输出如下
+![image](https://user-images.githubusercontent.com/79641956/172399136-d5f50741-48e5-4b26-a523-96961e741fc5.png)
+
+
+
 
 
 
