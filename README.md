@@ -2,7 +2,7 @@
 <hr/>
 
 - [Tomdog 简易版Tomcat](#tomdog----tomcat)
-- - [Bio Nio](#bio-nio)
+- [Bio Nio](#bio-nio)
   * [Bio模式下请求处理流程示意图](#Bio模式下请求处理流程示意图)
   * [Nio下的主从Reactor模型](#Nio下的主从Reactor模型)
 - [运行流程](#----)
