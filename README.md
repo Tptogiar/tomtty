@@ -4,6 +4,7 @@
 - [Bio Nio](#Bio-Nio)
   * [Bio模式下请求处理流程示意图](#Bio模式下请求处理流程示意图)
   * [Nio下的主从Reactor模型](#Nio下的主从Reactor模型)
+- [配置文件](#配置文件)
 - [Quick Start](#Quick-Start)
   * [环境版本说明](#环境版本说明)
   * [配置编译输出路径](#配置编译输出路径)
@@ -21,17 +22,8 @@
 ## Nio下的主从Reactor模型
 ![image](https://user-images.githubusercontent.com/79641956/172405455-ea0be3b2-9ec9-4773-a081-fc95cf5b8898.png)
 
-# Quick Start
-## 环境版本说明
-<img src="https://user-images.githubusercontent.com/79641956/172396809-946760f8-4516-43f2-9f91-1e080a770446.png" alt="image" style="zoom:50%;" />
-<img src="https://user-images.githubusercontent.com/79641956/172397186-0c7a2672-fcbf-4c22-b1e2-82af0b5d1fc0.png" alt="image" style="zoom:50%;" />
-
-## 配置编译输出路径
-将这两个子模块的编译输出路径设置在同一个地方
-<img src="https://user-images.githubusercontent.com/79641956/172397771-5988b74e-f946-4e44-92d2-94a56985ec31.png" alt="image" style="zoom:50%;" />
-
-## 调整配置文件
-下面是示例配置
+# 配置文件
+示例配置如下
 ```
 # 服务器地址,及端口
 serverHostname=0.0.0.0
@@ -77,6 +69,19 @@ staticResourceRootPath[0]=C:\\xxxx
 staticResourceRootPath[1]=C:\\xxx
 staticResourceRootPath[2]=/xxx
 ```
+
+# Quick Start
+## 环境版本说明
+<img src="https://user-images.githubusercontent.com/79641956/172396809-946760f8-4516-43f2-9f91-1e080a770446.png" alt="image" style="zoom:50%;" />
+<img src="https://user-images.githubusercontent.com/79641956/172397186-0c7a2672-fcbf-4c22-b1e2-82af0b5d1fc0.png" alt="image" style="zoom:50%;" />
+
+## 配置编译输出路径
+将这两个子模块的编译输出路径设置在同一个地方
+<img src="https://user-images.githubusercontent.com/79641956/172397771-5988b74e-f946-4e44-92d2-94a56985ec31.png" alt="image" style="zoom:50%;" />
+
+## 调整配置文件
+示例配置参考这里[配置文件](#配置文件)
+
 
 ## 启动example模块下的TomdogStarter
 ![image](https://user-images.githubusercontent.com/79641956/172398935-8fb3d72f-8c0a-4e9f-aab8-9a84d0643d5c.png)
