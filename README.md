@@ -1,15 +1,16 @@
 # Tomdog 简易版Tomcat
 <hr/>
 
-- [Tomdog 简易版Tomcat](#tomdog----tomcat)
-- [Bio Nio](#bio-nio)
+- [Tomdog 简易版Tomcat](Tomdog 简易版Tomcat)
+- [Bio Nio](#Bio Nio)
   * [Bio模式下请求处理流程示意图](#Bio模式下请求处理流程示意图)
   * [Nio下的主从Reactor模型](#Nio下的主从Reactor模型)
-- [运行流程](#----)
-  * [环境版本说明](#------)
-  * [配置编译输出路径](#--------)
-  * [启动example模块下的TomdogStarter](#--example----tomdogstarter)
-  * [启动后日志输出如下](#---------)
+- [运行流程](#运行流程)
+  * [环境版本说明](#环境版本说明)
+  * [配置编译输出路径](#配置编译输出路径)
+  * [调整配置文件](#调整配置文件)
+  * [启动example模块下的TomdogStarter](#启动example模块下的TomdogStarter)
+  * [启动后日志输出如下](#启动后日志输出如下)
 
 
 <hr>
@@ -73,9 +74,9 @@ internalServerErrorPagePath=/default/pages/html/500.html
 
 
 # 静态资源根路径，可以以数组的方式配置多个(优先级依次递减)，默认最多8个
-staticResourceRootPath[0]=C:\\MyFiles\\CodeFile\\Project\\Tomdog\\Tomdog\\tomdog-core\\src\\main\\resources
-staticResourceRootPath[1]=C:\\MyFiles\\CodeFile\\Project\\Tomdog\\Tomdog\\tomdog-example\\src\\main\\webapp
-staticResourceRootPath[2]=/myFiles/test/Tomdog
+staticResourceRootPath[0]=C:\\xxxx
+staticResourceRootPath[1]=C:\\xxx
+staticResourceRootPath[2]=/xxx
 ```
 
 ## 启动example模块下的TomdogStarter
