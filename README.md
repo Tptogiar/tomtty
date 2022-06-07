@@ -30,6 +30,54 @@
 将这两个子模块的编译输出路径设置在同一个地方
 <img src="https://user-images.githubusercontent.com/79641956/172397771-5988b74e-f946-4e44-92d2-94a56985ec31.png" alt="image" style="zoom:50%;" />
 
+## 调整配置文件
+下面是示例配置
+```
+# 服务器地址,及端口
+serverHostname=0.0.0.0
+serverPort=8848
+
+
+# 以指定的IO模式启动，支持 bio 和 nio
+ioModel=nio
+
+
+# 从反应器数量
+nioSubReactorCount=4
+
+
+# 线程池配置
+threadPoolCorePoolSize=8
+threadPoolMaximumPoolSize=200
+threadPoolKeepAliveTime=5
+thteadPoolBlockingQueueSize=20
+
+
+# HTTP读取缓存区大小,及Server内OutputStream缓存区大小
+httpReadBufferSize=8096
+servletOutPutStreamBufferSize=8096
+
+
+# http keep-alice长连接保留时长（单位为秒），及长连接最大数量
+httpKeepAliveTime=60
+httpKeepAliveMaxConnection=150
+
+
+# web.xml路径
+webConfigXmlFilePath=/web.xml
+
+
+# 默认页面路径
+notFoundPagePath=/default/pages/html/404.html
+internalServerErrorPagePath=/default/pages/html/500.html
+
+
+# 静态资源根路径，可以以数组的方式配置多个(优先级依次递减)，默认最多8个
+staticResourceRootPath[0]=C:\\MyFiles\\CodeFile\\Project\\Tomdog\\Tomdog\\tomdog-core\\src\\main\\resources
+staticResourceRootPath[1]=C:\\MyFiles\\CodeFile\\Project\\Tomdog\\Tomdog\\tomdog-example\\src\\main\\webapp
+staticResourceRootPath[2]=/myFiles/test/Tomdog
+```
+
 ## 启动example模块下的TomdogStarter
 ![image](https://user-images.githubusercontent.com/79641956/172398935-8fb3d72f-8c0a-4e9f-aab8-9a84d0643d5c.png)
 
