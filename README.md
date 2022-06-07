@@ -2,16 +2,24 @@
 <hr/>
 
 - [Tomdog 简易版Tomcat](#tomdog----tomcat)
+- - [Bio Nio](#bio-nio)
+  * [Bio模式下请求处理流程示意图](#Bio模式下请求处理流程示意图)
+  * [Nio下的主从Reactor模型](#Nio下的主从Reactor模型)
 - [运行流程](#----)
   * [环境版本说明](#------)
   * [配置编译输出路径](#--------)
   * [启动example模块下的TomdogStarter](#--example----tomdogstarter)
   * [启动后日志输出如下](#---------)
-- [Bio Nio](#bio-nio)
-  * [Bio模式下请求处理流程示意图](#Bio模式下请求处理流程示意图)
-  * [Nio下的主从Reactor模型](#Nio下的主从Reactor模型)
+
 
 <hr>
+
+
+# Bio Nio
+## Bio模式下请求处理流程示意图
+![servlet逻辑](https://user-images.githubusercontent.com/79641956/169803890-118191be-aa30-4b07-88f8-a70b14ade969.png)
+## Nio下的主从Reactor模型
+![image](https://user-images.githubusercontent.com/79641956/172405455-ea0be3b2-9ec9-4773-a081-fc95cf5b8898.png)
 
 # 运行流程
 ## 环境版本说明
@@ -27,11 +35,4 @@
 
 ## 启动后日志输出如下
 <img src="https://user-images.githubusercontent.com/79641956/172399136-d5f50741-48e5-4b26-a523-96961e741fc5.png" alt="image" style="zoom:50%;" />
-
-
-# Bio Nio
-## Bio模式下请求处理流程示意图
-![servlet逻辑](https://user-images.githubusercontent.com/79641956/169803890-118191be-aa30-4b07-88f8-a70b14ade969.png)
-## Nio下的主从Reactor模型
-![image](https://user-images.githubusercontent.com/79641956/172405455-ea0be3b2-9ec9-4773-a081-fc95cf5b8898.png)
 
