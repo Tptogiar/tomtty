@@ -11,8 +11,11 @@
   * [调整配置文件](#调整配置文件)
   * [启动tomtty-example模块下的TomttyStarter](#启动tomtty-example模块下的TomttyStarter)
   * [启动后日志输出如下](#启动后日志输出如下)
-
-
+- [使用](#使用)
+  * [servlet容器的使用](#servlet容器的使用)
+    + [添加自定义servlet程序](#添加自定义servlet程序)
+    + [配置servlet](#配置servlet)
+  * [映射静态资源到服务器](#映射静态资源到服务器)
 <hr>
 
 
@@ -84,28 +87,31 @@ staticResourceRootPath[2]=/xxx
 
 
 ## 启动tomtty-example模块下的TomttyStarter
+
 ![image](https://user-images.githubusercontent.com/79641956/172398935-8fb3d72f-8c0a-4e9f-aab8-9a84d0643d5c.png)
 
 ## 启动后日志输出如下
 
+<img src="https://user-images.githubusercontent.com/79641956/172399136-d5f50741-48e5-4b26-a523-96961e741fc5.png" alt="image" style="zoom:50%;" />
 
 # 使用
 ## servlet容器的使用
 ### 添加自定义servlet程序
 - 创建一个Java类并继承自com.tptogiar.servlet.HttpServlet
 - 重写父类的service方法
-- 创建web.xml文件，并为刚刚的servlet程序配置访问的类路径以及URL
 - 在service方法内进行业务处理即可
+### 配置servlet
+- 创建web.xml文件，并为刚刚的servlet程序配置访问的类路径以及URL
 - 下面是示例
+
 ![image](https://user-images.githubusercontent.com/79641956/172555965-06583575-8d4b-4bd5-836c-761171d429e2.png)
 ![image](https://user-images.githubusercontent.com/79641956/172556634-c16f996a-ab2c-4fac-b238-d48117cb5771.png)
 
-### 映射静态资源到服务器
+## 映射静态资源到服务器
 - 将静态资源放置到webapp资源文件夹下即可
+
 ![image](https://user-images.githubusercontent.com/79641956/172557031-751dfcb8-605e-4bca-9c0c-b852f13237fe.png)
 
 
-## 映射静态资源文件
 
-<img src="https://user-images.githubusercontent.com/79641956/172399136-d5f50741-48e5-4b26-a523-96961e741fc5.png" alt="image" style="zoom:50%;" />
 
