@@ -1,6 +1,7 @@
 package com.tptogiar.network.nio.poller;
 
 import com.tptogiar.component.connection.ConnectionMgr;
+import com.tptogiar.component.queue.LinkedDoubleBufferQueue;
 import com.tptogiar.network.nio.eventloop.NioEventLoop;
 import com.tptogiar.network.nio.handler.tcp.NioTCPHandler;
 import com.tptogiar.network.nio.task.EventTask;
@@ -33,7 +34,7 @@ public class SubPoller implements Poller {
 
     private AtomicBoolean running;
 
-    private BlockingQueue<EventTask> eventQueue;
+    private LinkedDoubleBufferQueue<EventTask> eventQueue;
 
     private ConnectionMgr connectionMgr;
 
@@ -70,6 +71,10 @@ public class SubPoller implements Poller {
 
 
     private void executeTask() throws InterruptedException {
+        int taskQueueSize = eventQueue.size();
+        if (taskQueueSize==0){
+            return;
+        }
         logger.info(subEventLoop + "处理任务队列, eventQueue.size:" + eventQueue.size());
         EventTask eventTask = eventQueue.poll();
         while (eventTask != null) {

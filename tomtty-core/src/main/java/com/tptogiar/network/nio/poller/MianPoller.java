@@ -40,26 +40,30 @@ public class MianPoller implements Poller {
     @Override
     public void poll() throws IOException {
         while (running.get()) {
-            int select = nioEnventLoop.select();
-            Set<SelectionKey> selectionKeys = nioEnventLoop.getSelector().selectedKeys();
-            Iterator<SelectionKey> iterator = selectionKeys.iterator();
-            while (iterator.hasNext()) {
-                SelectionKey selectionKey = iterator.next();
-                iterator.remove();
-                if (!selectionKey.isValid()) {
-                    continue;
-                }
-                if (selectionKey.isAcceptable()) {
-                    ServerSocketChannel serverSocketChannel = nioEnventLoop.getServerSocketChannel();
-                    SocketChannel clientChannel = serverSocketChannel.accept();
-                    clientChannel.configureBlocking(false);
-                    nioEnventLoop.dispatcherToSubReactor(clientChannel);
-                }
 
-            }
-
+            scanSelectionKeys();
 
         }
 
+    }
+
+    private void scanSelectionKeys() throws IOException {
+        int select = nioEnventLoop.select();
+        Set<SelectionKey> selectionKeys = nioEnventLoop.getSelector().selectedKeys();
+        Iterator<SelectionKey> iterator = selectionKeys.iterator();
+        while (iterator.hasNext()) {
+            SelectionKey selectionKey = iterator.next();
+            iterator.remove();
+            if (!selectionKey.isValid()) {
+                continue;
+            }
+            if (selectionKey.isAcceptable()) {
+                ServerSocketChannel serverSocketChannel = nioEnventLoop.getServerSocketChannel();
+                SocketChannel clientChannel = serverSocketChannel.accept();
+                clientChannel.configureBlocking(false);
+                nioEnventLoop.dispatcherToSubReactor(clientChannel);
+            }
+
+        }
     }
 }

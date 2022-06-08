@@ -1,6 +1,7 @@
 package com.tptogiar.network.nio.eventloop;
 
 import com.tptogiar.component.connection.ConnectionMgr;
+import com.tptogiar.component.queue.LinkedDoubleBufferQueue;
 import com.tptogiar.network.nio.connection.Connection;
 import com.tptogiar.network.nio.poller.MianPoller;
 import com.tptogiar.network.nio.poller.Poller;
@@ -34,7 +35,7 @@ public class NioEventLoop extends Thread {
     private NioEventLoopGroup eventLoopGroup;
 
     // 任务队列
-    private BlockingQueue<EventTask> eventQueue;
+    private LinkedDoubleBufferQueue<EventTask> eventQueue;
 
     // 连接管理
     private ConnectionMgr connectionMgr;
@@ -88,7 +89,7 @@ public class NioEventLoop extends Thread {
      */
     public NioEventLoop(int index, String name) throws IOException {
         selector = Selector.open();
-        eventQueue = new LinkedBlockingQueue<>();
+        eventQueue = new LinkedDoubleBufferQueue<EventTask>();
         connectionMgr = new ConnectionMgr(this);
         poller = new SubPoller(this);
         this.subReactorIndex = index;
@@ -143,7 +144,7 @@ public class NioEventLoop extends Thread {
     public void registerEvent2SelectorTaskQueue(SocketChannel clientChannel, NioEventLoop curEventLoop, int ops, Object attchment) {
 
         Selector curSelector = curEventLoop.getSelector();
-        BlockingQueue<EventTask> eventQueue = curEventLoop.getEventQueue();
+        LinkedDoubleBufferQueue<EventTask> eventQueue = curEventLoop.getEventQueue();
         addEventTask(curSelector, eventQueue, () -> {
 
             try {
@@ -188,7 +189,7 @@ public class NioEventLoop extends Thread {
      * @param eventQueue
      * @param runnable
      */
-    public void addEventTask(Selector selector, BlockingQueue<EventTask> eventQueue, Runnable runnable) {
+    public void addEventTask(Selector selector, LinkedDoubleBufferQueue<EventTask> eventQueue, Runnable runnable) {
         if (runnable == null) {
             throw new NullPointerException("the evnet runnable must not be null");
         }

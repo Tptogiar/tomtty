@@ -21,23 +21,33 @@ public class TomttyStarter {
      * @param args
      * @throws IOException
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+
+        switchIoModel2Start();
+
+    }
+
+    /**
+     * 根据配置，选择启动对应的IO模式
+     */
+    public static void switchIoModel2Start(){
         try {
-            if ("BIO".equals(TomttyConfig.ioModel.toUpperCase())){
+            String ioModel = TomttyConfig.ioModel.toUpperCase();
 
+            if ("BIO".equals(ioModel)){
                 bioStart(TomttyConfig.serverHostname, TomttyConfig.serverPort);
-
-            }else if ("NIO".equals(TomttyConfig.ioModel.toUpperCase())){
-
+            }else if ("NIO".equals(ioModel)){
                 nioStart(TomttyConfig.serverHostname, TomttyConfig.serverPort);
-
             }
-            logger.info("服务器以{}模式启动完成 , 端口号为{} ",
-                    TomttyConfig.ioModel, TomttyConfig.serverPort);
+
+            logger.info("服务器以{}模式启动完成 , 端口号为{} ", TomttyConfig.ioModel,
+                    TomttyConfig.serverPort);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     /**
      * 以bio模式启动服务器
