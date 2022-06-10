@@ -108,7 +108,7 @@ staticResourceRootPath[2]=/xxx
 ![image](https://user-images.githubusercontent.com/79641956/172556634-c16f996a-ab2c-4fac-b238-d48117cb5771.png)
 
 ## 映射静态资源到服务器
-- 将静态资源放置到webapp资源文件夹下即可
+- 将静态资源放置到webapp资源文件夹下即可，也可在配置文件中指定静态资源根路径
 
 ![image](https://user-images.githubusercontent.com/79641956/172557031-751dfcb8-605e-4bca-9c0c-b852f13237fe.png)
 
