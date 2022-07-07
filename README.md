@@ -116,12 +116,14 @@ staticResourceRootPath[2]=/xxx
 - 创建一个Java类并继承自com.tptogiar.servlet.HttpServlet
 - 重写父类的service方法
 - 在service方法内进行业务处理即可，还原javaWeb使用体验
+
 ![image](https://user-images.githubusercontent.com/79641956/177810666-1ac9dcb9-f182-4e89-8150-f47958d45458.png)
 
 
 ### 配置servlet
 - 创建web.xml文件，将web.xml文件配置至配置文件tomtty.config.properties中，再为刚刚的servlet程序配置访问的类路径以及URL
 - 下面是示例
+- 
 ![image](https://user-images.githubusercontent.com/79641956/172556634-c16f996a-ab2c-4fac-b238-d48117cb5771.png)
 ![image](https://user-images.githubusercontent.com/79641956/177811120-2e5713c9-0d29-4d37-83a4-7dc34b8ca8e3.png)
 
