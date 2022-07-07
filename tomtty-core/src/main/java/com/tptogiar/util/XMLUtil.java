@@ -6,6 +6,7 @@ import org.dom4j.io.SAXReader;
 
 import java.io.InputStream;
 
+
 /**
  * @author Tptogiar
  * @Description
@@ -13,7 +14,9 @@ import java.io.InputStream;
  */
 public class XMLUtil {
 
+
     public static Document getXMLDocument(InputStream inputStream) {
+
         try {
             SAXReader reader = new SAXReader();
             return reader.read(inputStream);

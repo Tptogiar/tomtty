@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
+
 /**
  * 将response请求传递给用户servlet时，用该类来定义传递的response包含的内容
  *
@@ -20,6 +21,7 @@ public interface HttpServletResponse {
 
 
     void addHeader(Header header);
+
 
     void addCookid(Cookie cookie);
 
@@ -35,28 +37,38 @@ public interface HttpServletResponse {
 
     HttpStatus getStatus();
 
+
     void setStatus(HttpStatus status);
+
 
     String getContentType();
 
+
     void setContentType(String contentType);
+
 
     List<Header> getHeaders();
 
+
     List<Cookie> getCookies();
 
+
     byte[] getBody();
+
 
     void setBody(byte[] bytes);
 
 
-
     boolean isFileTransfer();
+
 
     void setFileTransfer(boolean fileTransfer);
 
+
     void attach(Object attach);
 
+
     Object attachment();
+
 
 }

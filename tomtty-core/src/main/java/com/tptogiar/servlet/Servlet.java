@@ -6,6 +6,7 @@ import com.tptogiar.servlet.wrapper.HttpServletResponse;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+
 /**
  * @author Tptogiar
  * @Description
@@ -18,21 +19,27 @@ public interface Servlet {
 
     }
 
+
     default void destory() {
 
     }
 
-    default void service(HttpServletRequest req, HttpServletResponse resp) throws IOException, URISyntaxException, Exception {
+
+    default void service(HttpServletRequest req,
+                         HttpServletResponse resp) throws IOException, URISyntaxException, Exception {
 
     }
+
 
     default void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
     }
 
+
     default void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
     }
+
 
     void doService(HttpServletRequest req, HttpServletResponse resp) throws IOException, Exception;
 

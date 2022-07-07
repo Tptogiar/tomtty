@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.channels.SocketChannel;
 
+
 /**
  * RequestContext类的包装类
  * 只对用户暴露context内的部分内容
@@ -18,37 +19,50 @@ import java.nio.channels.SocketChannel;
  */
 public class HttpServletRequestWrapper implements HttpServletRequest {
 
+
     private Logger logger = LoggerFactory.getLogger(HttpServletRequestWrapper.class);
 
     private RequestContext requestContext;
 
+
     public HttpServletRequestWrapper(RequestContext requestContext) {
+
         logger.info("封装RequsetServlet...");
         this.requestContext = requestContext;
     }
 
+
     @Override
     public String getUri() {
+
         return requestContext.getUri();
     }
 
+
     @Override
     public void setUri(String uri) {
+
         requestContext.setUri(uri);
     }
 
+
     @Override
     public RequestContext getRequestContext() {
+
         return requestContext;
     }
 
+
     @Override
     public HttpMethod getMethod() {
+
         return requestContext.getMethod();
     }
 
+
     @Override
     public SocketChannel getSocketChannel() {
+
         return requestContext.getSocketChannel();
     }
 

@@ -10,6 +10,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+
 /**
  * @author Tptogiar
  * @Description
@@ -17,9 +18,11 @@ import java.util.concurrent.TimeUnit;
  */
 public class WorkerThreadPool {
 
+
     private static Logger logger = LoggerFactory.getLogger(WorkerThreadPool.class);
 
     private static ThreadPoolExecutor poolExecutor;
+
 
     static {
         poolExecutor = new ThreadPoolExecutor(
@@ -35,7 +38,9 @@ public class WorkerThreadPool {
 
     }
 
+
     public static void execute(Runnable task) {
+
         try {
             logger.debug(poolExecutor.toString());
             logger.info("线程池进行任务调度...");
@@ -48,6 +53,7 @@ public class WorkerThreadPool {
 
 
     public static void submit(Runnable task) {
+
         logger.debug(poolExecutor.toString());
         Future<?> result = poolExecutor.submit(task);
 

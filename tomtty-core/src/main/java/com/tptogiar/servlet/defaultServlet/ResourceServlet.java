@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 
+
 /**
  * 静态资源处理
  *
@@ -32,15 +33,18 @@ public class ResourceServlet extends HttpServlet {
 
 
     public ResourceServlet(String uri) {
+
         this.uri = uri;
     }
 
 
     @Override
     public void service(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+
         req.setUri(uri);
         handleResource(req, resp);
     }
+
 
     /**
      * 读取文件二进制内容并添加到response的body里面
@@ -61,9 +65,9 @@ public class ResourceServlet extends HttpServlet {
         File srcFile = IOUtil.getFileFromStaticResoucePath
                 (TomttyConfig.staticResourceRootPath, filePath);
 
-        if (srcFile==null){
-            AbstractHttpServlet servlet =  new  NotFoundServlet();
-            servlet.doService(req,resp);
+        if (srcFile == null) {
+            AbstractHttpServlet servlet = new NotFoundServlet();
+            servlet.doService(req, resp);
             resp.setFileTransfer(false);
             ProcessResult processResult = new ProcessResult(false);
             resp.attach(processResult);
@@ -99,9 +103,6 @@ public class ResourceServlet extends HttpServlet {
             resp.setContentType(HttpContentType.IMAGE);
         }
     }
-
-
-
 
 
 }

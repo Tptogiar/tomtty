@@ -7,6 +7,7 @@ import com.tptogiar.servlet.wrapper.HttpServletResponse;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+
 /**
  * 负责在调用service.service之时，做一些前置或后置的工作
  *
@@ -19,6 +20,7 @@ public abstract class AbstractHttpServlet implements Servlet {
 
     @Override
     public void doService(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+
         service(req, resp);
         // 判断是resourceServlet还是普通的servlet，
         // resourceServlet中不会把数据写入ServletOutputStream，也就是为null

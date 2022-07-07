@@ -10,6 +10,7 @@ import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 
+
 /**
  * @author Tptogiar
  * @Description
@@ -20,6 +21,7 @@ public class NioClient {
 
     @Test
     public void testWrite2Server() throws IOException, InterruptedException {
+
         SocketChannel socketChannel = SocketChannel.open();
         InetSocketAddress inetSocketAddress = new InetSocketAddress("127.0.0.1", 8488);
         socketChannel.configureBlocking(false);
@@ -149,7 +151,7 @@ public class NioClient {
                     Thread.sleep(2000);
                     key.interestOps(SelectionKey.OP_WRITE);
                 }
-                if (key.isWritable()){
+                if (key.isWritable()) {
                     SocketChannel channel = (SocketChannel) key.channel();
                     ByteBuffer wrap = ByteBuffer.wrap("\n\n\nwrite again...\n\n\n".getBytes());
                     channel.write(wrap);

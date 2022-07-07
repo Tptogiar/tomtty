@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
+
 /**
  * 业务worker
  * 用于处理一条http连接
@@ -24,15 +25,20 @@ import java.net.Socket;
  */
 public class BioHttpHandler extends HttpHandler implements Runnable {
 
+
     private Logger logger = LoggerFactory.getLogger(BioHttpHandler.class);
 
     private Socket socket;
+
     private InputStream inputStream;
+
     private OutputStream outputStream;
+
     private byte[] readBuffer = new byte[TomttyConfig.httpReadBufferSize];
 
 
     public BioHttpHandler(Socket socket) throws IOException {
+
         this.socket = socket;
         outputStream = socket.getOutputStream();
         inputStream = socket.getInputStream();
@@ -52,7 +58,7 @@ public class BioHttpHandler extends HttpHandler implements Runnable {
             }
 
             ProcessResult processResult = process(readBuffer);
-            if (processResult.isFileTransfer){
+            if (processResult.isFileTransfer) {
                 File srcFile = processResult.getSrcFile();
                 byte[] responseHeaderBytes = processResult.getResponseHeaderBytes();
                 byte[] bytesFromFile = IOUtil.getBytesFromFile(srcFile);
@@ -70,24 +76,31 @@ public class BioHttpHandler extends HttpHandler implements Runnable {
     }
 
 
+    @Override
     public OutputStream getOutputStream() {
+
         return outputStream;
     }
 
 
+    @Override
     public InputStream getInputStream() {
+
         return inputStream;
     }
 
 
     public void writeResponseBytes(byte[] responseBytes) throws IOException {
+
         outputStream.write(responseBytes);
         outputStream.flush();
     }
 
 
     public void closeResource() throws IOException {
+
         IOUtil.closeAll(inputStream, outputStream);
     }
+
 
 }

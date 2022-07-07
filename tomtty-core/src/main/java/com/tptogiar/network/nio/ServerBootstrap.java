@@ -1,12 +1,14 @@
 package com.tptogiar.network.nio;
 
 
+import com.tptogiar.component.connection.ConnectionMgr;
 import com.tptogiar.network.nio.eventloop.NioEventLoop;
 import com.tptogiar.network.nio.eventloop.NioEventLoopGroup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+
 
 /**
  * @author Tptogiar
@@ -15,14 +17,20 @@ import java.io.IOException;
  */
 public class ServerBootstrap {
 
+
     private static final Logger logger = LoggerFactory.getLogger(ServerBootstrap.class);
 
+
     public static void start(int port, int childLoopCount) throws IOException {
+
         NioEventLoopGroup eventLoopGroup = NioEventLoopGroup.createEventLoopGroup(childLoopCount);
-        NioEventLoop mainEventLoop = NioEventLoop.createMainEventLoop(port, eventLoopGroup);
-        mainEventLoop.setName(mainEventLoop.toString());
-        logger.info("MainEventLoop及EventLoopGroup启动完成...");
-        mainEventLoop.start();
+
+        NioEventLoop.createMainEventLoop(port, eventLoopGroup);
+
+        ConnectionMgr.start();
+
+        logger.info("MainEventLoop,{}个EventLoopGroup,及定时器启动完成...",childLoopCount);
     }
+
 
 }

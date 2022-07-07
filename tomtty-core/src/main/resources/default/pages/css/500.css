@@ -1,10 +1,10 @@
-body,html {
+body, html {
     margin: 0;
     height: 100%;
-    overflow:hidden;
+    overflow: hidden;
 }
 
-main{
+main {
     display: flex;
     height: 100%;
     text-align: center;
@@ -14,7 +14,7 @@ main{
     color: white;
 }
 
-h1{
+h1 {
     font-size: 6em;
     font-family: 'Secular One', sans-serif;
     margin: 0;
@@ -30,8 +30,9 @@ h2 {
 
 p {
     font-family: 'Source Sans Pro', sans-serif;
-    margin:0;
+    margin: 0;
 }
+
 #content {
 
     width: 700px;
@@ -42,6 +43,7 @@ p {
     background-size: contain;
     background-position: center;
 }
+
 #text {
     position: relative;
     top: 352px;

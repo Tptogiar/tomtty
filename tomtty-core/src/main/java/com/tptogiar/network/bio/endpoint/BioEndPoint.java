@@ -10,6 +10,7 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+
 /**
  * 负责bio模式下的端到端连接
  *
@@ -19,6 +20,7 @@ import java.net.Socket;
  */
 public class BioEndPoint {
 
+
     protected ServerSocket socket = null;
 
     private Logger logger = LoggerFactory.getLogger(BioEndPoint.class);
@@ -27,6 +29,7 @@ public class BioEndPoint {
 
 
     public BioEndPoint(String hostname, Integer port) throws IOException {
+
         this.acceptor = new BioAcceptor(this);
         ServerSocket socket = new ServerSocket();
         socket.bind(new InetSocketAddress(hostname, port));
@@ -35,12 +38,14 @@ public class BioEndPoint {
 
 
     public void start() {
+
         Thread thread = new Thread(acceptor);
         thread.start();
     }
 
 
     public Socket serverSocketAccept() throws IOException {
+
         Socket accept = socket.accept();
         return accept;
     }

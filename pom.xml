@@ -10,8 +10,6 @@
     <version>1.0</version>
 
 
-
-
     <dependencies>
         <dependency>
             <groupId>com.tptogiar</groupId>
@@ -34,8 +32,5 @@
     </modules>
 
 
-
-
-    
 </project>
 

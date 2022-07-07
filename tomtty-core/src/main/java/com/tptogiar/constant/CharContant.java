@@ -7,8 +7,12 @@ package com.tptogiar.constant;
  */
 public class CharContant {
 
+
     public static final String BLANK = " ";
+
     public static final String CRLF = "\r\n";
+
     public static final Character COLON = ':';
+
 
 }

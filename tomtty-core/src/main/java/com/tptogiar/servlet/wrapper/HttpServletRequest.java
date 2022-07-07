@@ -5,6 +5,7 @@ import com.tptogiar.servlet.context.RequestContext;
 
 import java.nio.channels.SocketChannel;
 
+
 /**
  * 将request请求传递给用户servlet时，用该类来定义传递的request包含的内容
  *
@@ -14,13 +15,18 @@ import java.nio.channels.SocketChannel;
  */
 public interface HttpServletRequest {
 
+
     String getUri();
+
 
     void setUri(String uri);
 
+
     RequestContext getRequestContext();
 
+
     HttpMethod getMethod();
+
 
     SocketChannel getSocketChannel();
 

@@ -4,6 +4,7 @@ package com.tptogiar.network.nio.task;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+
 /**
  * 用于封装具体的任务及优先级
  * TODO 优先级
@@ -16,6 +17,8 @@ import lombok.Data;
 @Data
 public class EventTask {
 
+
     private Runnable runnable;
+
 
 }

@@ -2,6 +2,7 @@ package com.tptogiar.info.header;
 
 import lombok.Data;
 
+
 /**
  * @author Tptogiar
  * @Description
@@ -10,6 +11,10 @@ import lombok.Data;
 @Data
 public class Header {
 
+
     private String key;
+
     private String value;
+
+
 }

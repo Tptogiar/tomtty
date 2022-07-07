@@ -13,6 +13,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+
 /**
  * 进行请求分发，分发到对应的servlet
  *
@@ -22,9 +23,11 @@ import java.util.Map;
  */
 public class ServletDispatcher {
 
+
     private static Logger logger = LoggerFactory.getLogger(ServletDispatcher.class);
 
     private static Map<String, ServletHolder> nameServletMap = new HashMap<>();
+
     private static Map<String, String> patternNameMap = new HashMap<>();
 
 
@@ -54,7 +57,9 @@ public class ServletDispatcher {
      * @throws IllegalAccessException
      * @throws InstantiationException
      */
-    public static Servlet doDispatcher(HttpServletRequest request, HttpServletResponse resp) throws IllegalAccessException, InstantiationException {
+    public static Servlet doDispatcher(HttpServletRequest request,
+                                       HttpServletResponse resp) throws IllegalAccessException, InstantiationException {
+
         String uri = request.getUri();
         logger.info("request uri = {}", uri);
         Servlet servlet = matchingServlet(uri);
@@ -62,7 +67,7 @@ public class ServletDispatcher {
         if (servlet == null) {
             servlet = matchingResource(uri);
         }
-        if (servlet instanceof ResourceServlet){
+        if (servlet instanceof ResourceServlet) {
             resp.setFileTransfer(true);
         }
 
@@ -83,6 +88,7 @@ public class ServletDispatcher {
      * @throws InstantiationException
      */
     public static Servlet matchingServlet(String uri) throws IllegalAccessException, InstantiationException {
+
         String servletName = patternNameMap.get(uri);
         ServletHolder servletHolder = nameServletMap.get(servletName);
         if (servletHolder == null) {
@@ -93,6 +99,7 @@ public class ServletDispatcher {
 
 
     public static Servlet matchingResource(String uri) {
+
         URL resource = ServletDispatcher.class.getResource(uri);
         // TODO 首页处理
         if ("/".equals(uri)) {

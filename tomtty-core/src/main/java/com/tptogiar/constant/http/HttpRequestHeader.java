@@ -7,10 +7,17 @@ package com.tptogiar.constant.http;
  */
 public class HttpRequestHeader {
 
+
     //
     public static final String CONTENT_LENGTH = "Content-Length";
+
+    public static final String CONTENT_LENGTH_VALUE_KEEP_ALIVE = "keep-alive";
+
+    public static final String CONTENT_LENGTH_VALUE_CLOSE = "close";
 
     public static final String COOKIE = "Cookie";
 
     public static final String CONNECTION = "Connection";
+
+
 }

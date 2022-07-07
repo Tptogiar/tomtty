@@ -9,6 +9,7 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 
+
 /**
  * @author Tptogiar
  * @description
@@ -16,12 +17,14 @@ import java.nio.channels.SocketChannel;
  */
 public class TestZeroCopy {
 
+
     @Test
     public void testZeroCopy() throws IOException {
+
         System.out.println("testZeroCopy...");
-        FileChannel fileChannel1= new FileInputStream("test").getChannel();
+        FileChannel fileChannel1 = new FileInputStream("test").getChannel();
         FileChannel fileChannel2 = new FileInputStream("test").getChannel();
-        fileChannel1.transferTo(0,1,fileChannel2);
+        fileChannel1.transferTo(0, 1, fileChannel2);
 
         ServerSocket serverSocket = new ServerSocket();
         ServerSocketChannel serverSocketChannel = serverSocket.getChannel();

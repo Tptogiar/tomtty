@@ -3,6 +3,7 @@ package com.tptogiar.servlet.context;
 import java.io.IOException;
 import java.io.OutputStream;
 
+
 /**
  * 响应上下文信息
  *
@@ -15,16 +16,23 @@ public interface ResponseContext {
 
     OutputStream getOutputStream() throws IOException;
 
+
     OutputStream getServletOutputStream();
 
 
     void createServletOutPutStream();
 
+
     boolean isFileTransfer();
+
 
     void setFileTransfer(boolean fileTransfer);
 
+
     void attach(Object attachment);
 
+
     Object getAttachment();
+
+
 }

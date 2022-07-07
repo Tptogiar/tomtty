@@ -11,6 +11,7 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.SocketChannel;
 
+
 /**
  * @author Tptogiar
  * @description
@@ -20,6 +21,7 @@ import java.nio.channels.SocketChannel;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProcessResult {
+
 
     private byte[] responseHeaderBytes;
 
@@ -33,14 +35,20 @@ public class ProcessResult {
 
     private FileChannel srcFileChannel;
 
+
     public ProcessResult(boolean isFileTransfer) {
+
         this.isFileTransfer = isFileTransfer;
     }
 
+
     public ProcessResult(boolean isFileTransfer, File srcFile) throws FileNotFoundException {
+
         this.isFileTransfer = isFileTransfer;
         this.srcFile = srcFile;
         FileChannel srcFileChannel = new FileInputStream(srcFile).getChannel();
         this.srcFileChannel = srcFileChannel;
     }
+
+
 }

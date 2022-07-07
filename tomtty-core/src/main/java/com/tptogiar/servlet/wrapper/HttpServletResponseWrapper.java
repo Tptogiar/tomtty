@@ -16,6 +16,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * ResponseContext和RequestContext的包装类
  * 只对用户暴露context内的部分内容
@@ -28,6 +29,7 @@ import java.util.List;
 @Data
 public class HttpServletResponseWrapper implements HttpServletResponse {
 
+
     private Logger logger = LoggerFactory.getLogger(HttpServletResponseWrapper.class);
 
     private RequestContext requestContext;
@@ -36,15 +38,18 @@ public class HttpServletResponseWrapper implements HttpServletResponse {
 
 
     private List<Header> headers;
+
     private List<Cookie> cookies;
 
     private byte[] body = new byte[0];
 
     private HttpStatus status = HttpStatus.OK;
+
     private String contentType = HttpContentType.DEFAULT;
 
 
     public HttpServletResponseWrapper(RequestContext reqContext) {
+
         logger.info("封装ResponseServlet...");
         this.requestContext = reqContext;
         this.responseContext = new ResponseContextImpl(reqContext);
@@ -54,6 +59,7 @@ public class HttpServletResponseWrapper implements HttpServletResponse {
 
     @Override
     public void addHeader(Header header) {
+
         if (headers == null) {
             headers = new ArrayList<Header>();
         } else {
@@ -61,8 +67,10 @@ public class HttpServletResponseWrapper implements HttpServletResponse {
         }
     }
 
+
     @Override
     public void addCookid(Cookie cookie) {
+
         if (cookies == null) {
             cookies = new ArrayList<>();
         } else {
@@ -73,6 +81,7 @@ public class HttpServletResponseWrapper implements HttpServletResponse {
 
     @Override
     public OutputStream getOutputStream() throws IOException {
+
         if (responseContext.getServletOutputStream() == null) {
             responseContext.createServletOutPutStream();
         }
@@ -82,29 +91,38 @@ public class HttpServletResponseWrapper implements HttpServletResponse {
 
     @Override
     public boolean hasOutPutStream() throws IOException {
+
         if (responseContext.getServletOutputStream() == null) {
             return false;
         }
         return true;
     }
 
+
     @Override
     public boolean isFileTransfer() {
+
         return responseContext.isFileTransfer();
     }
 
+
     @Override
     public void setFileTransfer(boolean fileTransfer) {
+
         responseContext.setFileTransfer(fileTransfer);
     }
 
+
     @Override
     public void attach(Object attachment) {
+
         responseContext.attach(attachment);
     }
 
+
     @Override
     public Object attachment() {
+
         return responseContext.getAttachment();
     }
 

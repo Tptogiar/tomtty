@@ -2,6 +2,7 @@ package com.tptogiar.exception;
 
 import com.tptogiar.constant.http.HttpStatus;
 
+
 /**
  * @author Tptogiar
  * @Description
@@ -9,16 +10,23 @@ import com.tptogiar.constant.http.HttpStatus;
  */
 public class ServletException extends Exception {
 
+
     private HttpStatus httpStatus;
+
     private String message;
 
+
     public ServletException(HttpStatus httpStatus) {
+
         this.httpStatus = httpStatus;
     }
 
+
     public ServletException(HttpStatus httpStatus, String message) {
+
         this.httpStatus = httpStatus;
         this.message = message;
     }
+
 
 }

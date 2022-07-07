@@ -2,6 +2,7 @@ package com.tptogiar.network.nio.eventloop;
 
 import com.tptogiar.component.connection.ConnectionMgr;
 import com.tptogiar.component.queue.LinkedDoubleBufferQueue;
+import com.tptogiar.config.TomttyConfig;
 import com.tptogiar.network.nio.connection.Connection;
 import com.tptogiar.network.nio.poller.MianPoller;
 import com.tptogiar.network.nio.poller.Poller;
@@ -21,6 +22,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+
 /**
  * @author Tptogiar
  * @description
@@ -28,6 +30,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 @Data
 public class NioEventLoop extends Thread {
+
 
     private static final Logger logger = LoggerFactory.getLogger(NioEventLoop.class);
 
@@ -38,7 +41,7 @@ public class NioEventLoop extends Thread {
     private LinkedDoubleBufferQueue<EventTask> eventQueue;
 
     // 连接管理
-    private ConnectionMgr connectionMgr;
+//    private ConnectionMgr connectionMgr;
 
     private final Selector selector;
 
@@ -70,6 +73,7 @@ public class NioEventLoop extends Thread {
      * @throws IOException
      */
     private NioEventLoop(int port, NioEventLoopGroup eventLoopGroup, String name) throws IOException {
+
         this.eventLoopGroup = eventLoopGroup;
         this.name = name;
         serverSocketChannel = initServerSocket(port);
@@ -87,10 +91,12 @@ public class NioEventLoop extends Thread {
      * @param name
      * @throws IOException
      */
-    public NioEventLoop(int index, String name) throws IOException {
+    public NioEventLoop(int index,
+                        String name) throws IOException {
+
         selector = Selector.open();
         eventQueue = new LinkedDoubleBufferQueue<EventTask>();
-        connectionMgr = new ConnectionMgr(this);
+//        connectionMgr = new ConnectionMgr(this);
         poller = new SubPoller(this);
         this.subReactorIndex = index;
         this.name = name;
@@ -99,17 +105,24 @@ public class NioEventLoop extends Thread {
 
 
     public static NioEventLoop createSubEventLoop(int index) throws IOException {
+
         return new NioEventLoop(index, EVENT_LOOP_NAME_SUB);
     }
 
 
-    public static NioEventLoop createMainEventLoop(int port, NioEventLoopGroup eventLoopGroup) throws IOException {
+    public static NioEventLoop createMainEventLoop(int port,
+                                                   NioEventLoopGroup eventLoopGroup) throws IOException {
+
         logger.info("初始化MainEventLoop...");
-        return new NioEventLoop(port, eventLoopGroup, EVENT_LOOP_NAME_MAIN);
+        NioEventLoop mainEventLoop = new NioEventLoop(port, eventLoopGroup, EVENT_LOOP_NAME_MAIN);
+        mainEventLoop.setName(mainEventLoop.toString());
+        mainEventLoop.start();
+        return mainEventLoop;
     }
 
 
     private static ServerSocketChannel initServerSocket(int port) throws IOException {
+
         ServerSocketChannel channel = ServerSocketChannel.open();
         channel.configureBlocking(false);
         channel.bind(new InetSocketAddress(port));
@@ -120,6 +133,7 @@ public class NioEventLoop extends Thread {
 
     @Override
     public void run() {
+
         try {
             poller.poll();
         } catch (Exception e) {
@@ -130,18 +144,24 @@ public class NioEventLoop extends Thread {
 
 
     public int select() throws IOException {
+
         return selector.select();
     }
 
 
-    public void dispatcherToSubReactor(SocketChannel clientChannel) throws IOException {
+    public void dispatcherToSubReactor(SocketChannel clientChannel)
+            throws IOException {
+
         NioEventLoop subEventLoop = eventLoopGroup.getEventLoop();
         logger.info(String.valueOf(clientChannel.getRemoteAddress()) + "分配到的subReactor：" + subEventLoop);
         registerEvent2SelectorTaskQueue(clientChannel, subEventLoop, SelectionKey.OP_READ, null);
     }
 
 
-    public void registerEvent2SelectorTaskQueue(SocketChannel clientChannel, NioEventLoop curEventLoop, int ops, Object attchment) {
+    public void registerEvent2SelectorTaskQueue(SocketChannel clientChannel,
+                                                NioEventLoop curEventLoop,
+                                                int ops,
+                                                Object attchment) {
 
         Selector curSelector = curEventLoop.getSelector();
         LinkedDoubleBufferQueue<EventTask> eventQueue = curEventLoop.getEventQueue();
@@ -164,12 +184,15 @@ public class NioEventLoop extends Thread {
         selectorWakeupIfSelecting(curEventLoop);
     }
 
+
     /**
      * 将关闭客户端连接的动作延迟到下一次处理任务时
-     *
+     * 即将关闭通道的动作延迟到下一次poll时在执行，防止引发
+     * SubPoller中scanSelectionKey中Set<SelectionKey>的ConcurrentModificationException
      * @param channel
      */
     public void closeClientChannel(SocketChannel channel) {
+
         addEventTask(selector, eventQueue, () -> {
             try {
                 logger.info("关闭与{}的连接", channel.getRemoteAddress());
@@ -189,7 +212,10 @@ public class NioEventLoop extends Thread {
      * @param eventQueue
      * @param runnable
      */
-    public void addEventTask(Selector selector, LinkedDoubleBufferQueue<EventTask> eventQueue, Runnable runnable) {
+    public void addEventTask(Selector selector,
+                             LinkedDoubleBufferQueue<EventTask> eventQueue,
+                             Runnable runnable) {
+
         if (runnable == null) {
             throw new NullPointerException("the evnet runnable must not be null");
         }
@@ -210,12 +236,15 @@ public class NioEventLoop extends Thread {
 
     @Override
     public String toString() {
+
         if (EVENT_LOOP_NAME_MAIN.equals(name)) {
             return "{MainReactor}";
         } else {
             return "{SubReactor_" + subReactorIndex + "}";
         }
+
     }
+
 
     /**
      * 处理超时的连接
@@ -223,9 +252,11 @@ public class NioEventLoop extends Thread {
      * @param connection
      */
     public void handleExpiredConnection(Connection connection) {
+
         SelectionKey selectionKey = connection.getSelectionKey();
         SocketChannel channel = (SocketChannel) selectionKey.channel();
         closeClientChannel(channel);
+
     }
 
 

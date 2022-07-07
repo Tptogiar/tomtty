@@ -9,10 +9,13 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import static org.junit.Assert.*;
 
+
 public class LinkedDoubleBufferQueueTest {
+
 
     @Test
     public void add() {
+
         LinkedDoubleBufferQueue<Integer> queue = new LinkedDoubleBufferQueue<>();
         queue.add(1);
         queue.add(2);
@@ -20,8 +23,10 @@ public class LinkedDoubleBufferQueueTest {
 
     }
 
+
     @Test
     public void poll() {
+
         LinkedDoubleBufferQueue<Integer> queue = new LinkedDoubleBufferQueue<>();
         queue.add(1);
         queue.add(2);
@@ -33,8 +38,10 @@ public class LinkedDoubleBufferQueueTest {
         System.out.println(queue.poll());
     }
 
+
     @Test
     public void peek() {
+
         LinkedDoubleBufferQueue<Integer> queue = new LinkedDoubleBufferQueue<>();
         queue.add(1);
         queue.add(2);

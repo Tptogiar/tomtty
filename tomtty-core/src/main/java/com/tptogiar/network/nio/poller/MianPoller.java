@@ -23,6 +23,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Data
 public class MianPoller implements Poller {
 
+
     Logger logger = LoggerFactory.getLogger(MianPoller.class);
 
 
@@ -32,6 +33,7 @@ public class MianPoller implements Poller {
 
 
     public MianPoller(NioEventLoop nioEnventLoop) {
+
         this.nioEnventLoop = nioEnventLoop;
         running = nioEnventLoop.getRunning();
     }
@@ -39,6 +41,7 @@ public class MianPoller implements Poller {
 
     @Override
     public void poll() throws IOException {
+
         while (running.get()) {
 
             scanSelectionKeys();
@@ -47,7 +50,9 @@ public class MianPoller implements Poller {
 
     }
 
+
     private void scanSelectionKeys() throws IOException {
+
         int select = nioEnventLoop.select();
         Set<SelectionKey> selectionKeys = nioEnventLoop.getSelector().selectedKeys();
         Iterator<SelectionKey> iterator = selectionKeys.iterator();
@@ -66,4 +71,6 @@ public class MianPoller implements Poller {
 
         }
     }
+
+
 }

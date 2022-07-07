@@ -7,12 +7,14 @@ import java.util.Queue;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+
 /**
  * @author Tptogiar
  * @description
  * @date 2022/6/8 - 0:56
  */
-public class LinkedDoubleBufferQueue<E>{
+public class LinkedDoubleBufferQueue<E> {
+
 
     private LinkedList<E> writeQueue = new LinkedList<>();
 
@@ -23,7 +25,8 @@ public class LinkedDoubleBufferQueue<E>{
     private ReentrantLock writeLock = new ReentrantLock();
 
 
-    public boolean add(E ojb){
+    public boolean add(E ojb) {
+
         writeLock.lock();
         try {
             return writeQueue.offer(ojb);
@@ -33,10 +36,11 @@ public class LinkedDoubleBufferQueue<E>{
     }
 
 
-    public E poll(){
+    public E poll() {
+
         readLock.lock();
         try {
-            if (readQueue.size() == 0){
+            if (readQueue.size() == 0) {
                 switchQueue();
             }
             return readQueue.poll();
@@ -45,10 +49,12 @@ public class LinkedDoubleBufferQueue<E>{
         }
     }
 
-    public E peek(){
+
+    public E peek() {
+
         readLock.lock();
         try {
-            if (readQueue.size()==0){
+            if (readQueue.size() == 0) {
                 switchQueue();
             }
             return readQueue.peek();
@@ -57,10 +63,12 @@ public class LinkedDoubleBufferQueue<E>{
         }
     }
 
-    public void switchQueue(){
+
+    public void switchQueue() {
+
         writeLock.lock();
         try {
-            if (writeQueue.size() > 0){
+            if (writeQueue.size() > 0) {
                 LinkedList<E> temp = readQueue;
                 readQueue = writeQueue;
                 writeQueue = temp;
@@ -70,12 +78,14 @@ public class LinkedDoubleBufferQueue<E>{
         }
     }
 
-    public int size(){
+
+    public int size() {
+
         readLock.lock();
         writeLock.lock();
         try {
             return readQueue.size() + writeQueue.size();
-        }finally {
+        } finally {
             try {
                 writeLock.unlock();
             } finally {
@@ -83,18 +93,6 @@ public class LinkedDoubleBufferQueue<E>{
             }
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

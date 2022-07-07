@@ -12,6 +12,7 @@ import java.nio.channels.SocketChannel;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * @author Tptogiar
  * @Description
@@ -20,12 +21,19 @@ import java.util.Map;
 @Data
 public class RequestContextImpl implements RequestContext {
 
+
     private Socket socket;
+
     private Map<String, List<String>> headers;
+
     private HttpMethod method;
+
     private Cookie[] cookies;
+
     private Map<String, String> params;
+
     private String uri;
+
     private boolean isKeepAlive;
 
 
@@ -34,6 +42,9 @@ public class RequestContextImpl implements RequestContext {
 
     @Override
     public SocketChannel getSocketChannel() {
+
         return socket.getChannel();
     }
+
+
 }

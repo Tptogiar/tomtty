@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.OutputStream;
 
+
 /**
  * 默认的404 处理
  *
@@ -18,14 +19,16 @@ import java.io.OutputStream;
  */
 public class NotFoundServlet extends HttpServlet {
 
+
     private Logger logger = LoggerFactory.getLogger(NotFoundServlet.class);
 
 
     @Override
     public void service(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+
         logger.info("404 NOT FOUND  ----From NotFoundServlet...");
         logger.debug("request Uri = {} ,TomttyConfig.NOT_FOUND_PAGE_PATH = {}", req.getUri(), TomttyConfig.notFoundPagePath);
-        if (TomttyConfig.notFoundPagePath.equals(req.getUri())){
+        if (TomttyConfig.notFoundPagePath.equals(req.getUri())) {
             // 默认的404.html也找不到,则以文字形式回写
             OutputStream outPutStream = resp.getOutputStream();
             String jsonStr = "<h1>404 Not Found</h1>";
@@ -37,5 +40,6 @@ public class NotFoundServlet extends HttpServlet {
         ResourceServlet notFoundHtmlResourceServlet = new ResourceServlet(req.getUri());
         notFoundHtmlResourceServlet.service(req, resp);
     }
+
 
 }

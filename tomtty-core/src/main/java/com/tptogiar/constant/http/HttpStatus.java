@@ -16,11 +16,15 @@ public enum HttpStatus {
 
     private int code;
 
+
     HttpStatus(int code) {
+
         this.code = code;
     }
 
+
     public int getCode() {
+
         return code;
     }
 }

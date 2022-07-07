@@ -2,6 +2,7 @@ package com.tptogiar.util;
 
 import java.io.*;
 
+
 /**
  * @author Tptogiar
  * @Description
@@ -11,6 +12,7 @@ public class IOUtil {
 
 
     public static byte[] getBytesFromFile(String fileName) throws IOException {
+
         InputStream in = IOUtil.class.getResourceAsStream(fileName);
         if (in == null) {
             throw new FileNotFoundException();
@@ -18,12 +20,16 @@ public class IOUtil {
         return getBytesFromStream(in);
     }
 
+
     public static byte[] getBytesFromFile(File file) throws Exception {
+
         FileInputStream fileInputStream = new FileInputStream(file);
         return getBytesFromStream(fileInputStream);
     }
 
+
     public static byte[] getBytesFromStream(InputStream in) throws IOException {
+
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
         int len = -1;
@@ -34,6 +40,7 @@ public class IOUtil {
         in.close();
         return outStream.toByteArray();
     }
+
 
     public static void closeAll(Closeable... closeables) {
         // 遍历数组
@@ -54,20 +61,21 @@ public class IOUtil {
 
     /**
      * 从多个静态资源根路径rootPaths下寻找特定静态资源filePath
+     *
      * @param rootPaths
      * @param filePath
      * @return
      */
-    public static File getFileFromStaticResoucePath(String[] rootPaths,String filePath){
+    public static File getFileFromStaticResoucePath(String[] rootPaths, String filePath) {
+
         for (String rootPath : rootPaths) {
             File file = new File(rootPath + filePath);
-            if (file.exists()){
+            if (file.exists()) {
                 return file;
             }
         }
         return null;
     }
-
 
 
 }

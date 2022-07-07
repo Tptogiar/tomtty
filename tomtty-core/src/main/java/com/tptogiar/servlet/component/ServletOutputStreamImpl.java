@@ -6,6 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+
 /**
  * 封装一个buffer，将servlet的数据先写入这个buffer后再写给浏览器
  * 参考自tomcat
@@ -17,21 +18,27 @@ import java.io.OutputStream;
 @Data
 public class ServletOutputStreamImpl extends OutputStream implements ServletOutputStream {
 
+
     private ByteArrayOutputStream outputBuffer = new ByteArrayOutputStream();
 
 
     @Override
     public void write(int b) throws IOException {
+
         outputBuffer.write(b);
     }
+
 
     @Override
     public void write(byte[] b) throws IOException {
+
         outputBuffer.write(b);
     }
 
+
     @Override
     public void write(byte[] b, int off, int len) {
+
         outputBuffer.write(b, off, len);
     }
 

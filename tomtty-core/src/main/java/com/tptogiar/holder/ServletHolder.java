@@ -4,6 +4,7 @@ import com.tptogiar.servlet.Servlet;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+
 /**
  * 包装servlet信息，方便引用
  *
@@ -15,14 +16,21 @@ import lombok.Data;
 @AllArgsConstructor
 public class ServletHolder {
 
+
     private String uri;
+
     private Class sevletClass;
+
     private Servlet servlet;
+
     private String servletName;
 
 
     public ServletHolder(Class sevletClass, String servletName) {
+
         this.sevletClass = sevletClass;
         this.servletName = servletName;
     }
+
+
 }

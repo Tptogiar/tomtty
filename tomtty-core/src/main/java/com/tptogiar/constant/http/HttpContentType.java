@@ -7,6 +7,7 @@ package com.tptogiar.constant.http;
  */
 public class HttpContentType {
 
+
     public static final String DEFAULT = "text/html;charset=utf-8";
 
     public static final String CSS = "text/css; charset=UTF-8";

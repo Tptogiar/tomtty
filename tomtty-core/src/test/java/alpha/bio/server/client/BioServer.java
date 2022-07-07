@@ -11,12 +11,14 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+
 /**
  * @author Tptogiar
  * @Description
  * @createTime 2022年04月30日 23:29:00
  */
 public class BioServer {
+
 
     private Logger logger = LoggerFactory.getLogger(BioServer.class);
 
@@ -40,16 +42,22 @@ public class BioServer {
 
 }
 
+
 class Handler implements Runnable {
+
 
     private Socket socket;
 
+
     public Handler(Socket socket) {
+
         this.socket = socket;
     }
 
+
     @Override
     public void run() {
+
         try {
             OutputStream outputStream = socket.getOutputStream();
             InputStream inputStream = socket.getInputStream();
@@ -100,4 +108,6 @@ class Handler implements Runnable {
             e.printStackTrace();
         }
     }
+
+
 }

@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.List;
 
+
 /**
  * 组装http响应报文
  *
@@ -30,19 +31,18 @@ public class HttpResponseBuilder {
 
 
     private HttpServletRequest req;
+
     private HttpServletResponse resp;
+
     private ResponseContext respContext;
 
-
     private StringBuilder headerAppender = new StringBuilder();
-
 
     private static String PROTOCOL = "HTTP/1.1";
 
 
-
-
     public HttpResponseBuilder(HttpServletRequest req, HttpServletResponse resp) {
+
         logger.info("封装Http响应...");
         this.req = req;
         this.resp = resp;
@@ -62,7 +62,7 @@ public class HttpResponseBuilder {
         appendCookies();
 
         // 添加Content-length响应头
-        if (length == 0 && processResult.isFileTransfer()){
+        if (length == 0 && processResult.isFileTransfer()) {
             length = (int) processResult.getSrcFileChannel().size();
         }
         headerAppender.append(HttpResponseHeader.CONTENT_LENGTH).append(length);
@@ -73,6 +73,7 @@ public class HttpResponseBuilder {
         return headerAppender.toString().getBytes(CharsetProperties.UTF_8_CHARSET);
     }
 
+
     private void appendFirstLine() {
         // HTTP/1.1 200 OK\r\n
         headerAppender.append(PROTOCOL).append(CharContant.BLANK)
@@ -82,11 +83,14 @@ public class HttpResponseBuilder {
 
 
     private void appendContentType() {
+
         headerAppender.append(HttpResponseHeader.CONTENT_TYPE)
                 .append(resp.getContentType()).append(CharContant.CRLF);
     }
 
+
     private void appendHeaders() {
+
         List<Header> headers = resp.getHeaders();
         if (headers != null) {
             for (Header header : headers) {
@@ -98,6 +102,7 @@ public class HttpResponseBuilder {
 
 
     private void appendCookies() {
+
         List<Cookie> cookies = resp.getCookies();
         if (cookies != null) {
 
@@ -105,7 +110,9 @@ public class HttpResponseBuilder {
     }
 
 
-    public static byte[] combineRespHeaderAndBody(byte[] respHeaderBytes,byte[] body) {
+    public static byte[] combineRespHeaderAndBody(byte[] respHeaderBytes,
+                                                  byte[] body) {
+
         // TODO 待优化
         byte[] responseBytes = new byte[respHeaderBytes.length + body.length];
         System.arraycopy(respHeaderBytes, 0, responseBytes, 0, respHeaderBytes.length);
@@ -116,6 +123,7 @@ public class HttpResponseBuilder {
 
 
     public static String printHttpResponseMsg(HttpServletResponse resp, byte[] header, byte[] body) {
+
         StringBuilder sb = new StringBuilder("\n================================\n" + new String(header));
         if (resp.getContentType() == HttpContentType.DEFAULT) {
             sb.append(new String(body));

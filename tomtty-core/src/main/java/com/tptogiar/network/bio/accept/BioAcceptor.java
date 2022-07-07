@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.Socket;
 
+
 /**
  * 负责accept新连接
  *
@@ -18,16 +19,21 @@ import java.net.Socket;
  */
 public class BioAcceptor implements Runnable {
 
+
     private Logger logger = LoggerFactory.getLogger(BioAcceptor.class);
 
     private BioEndPoint endPoint;
 
+
     public BioAcceptor(BioEndPoint endPoint) {
+
         this.endPoint = endPoint;
     }
 
+
     @Override
     public void run() {
+
         try {
             while (true) {
                 logger.info("等待客户端连接...");
@@ -42,4 +48,6 @@ public class BioAcceptor implements Runnable {
 
 
     }
+
+
 }

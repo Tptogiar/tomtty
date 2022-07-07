@@ -6,13 +6,16 @@ import org.slf4j.LoggerFactory;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 
+
 /**
  * 拒接策略
+ *
  * @author Tptogiar
  * @Description
  * @createTime 2022年05月05日 12:54:00
  */
 public class RejectPolicyHandler implements RejectedExecutionHandler {
+
 
     private Logger logger = LoggerFactory.getLogger(RejectPolicyHandler.class);
 
@@ -21,8 +24,11 @@ public class RejectPolicyHandler implements RejectedExecutionHandler {
 
     @Override
     public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
+
         rejectCount++;
         logger.warn("current reject count = {}", rejectCount);
 
     }
+
+
 }

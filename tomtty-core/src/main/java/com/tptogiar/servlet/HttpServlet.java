@@ -7,6 +7,7 @@ import com.tptogiar.servlet.wrapper.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 
+
 /**
  * 供用户继承并重写service方法的servlet
  *
@@ -16,10 +17,12 @@ import java.io.OutputStream;
  */
 public class HttpServlet extends AbstractHttpServlet implements Servlet {
 
+
     @Override
     public void init() {
 
     }
+
 
     @Override
     public void destory() {
@@ -29,6 +32,7 @@ public class HttpServlet extends AbstractHttpServlet implements Servlet {
 
     @Override
     public void service(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+
         HttpMethod method = req.getMethod();
         if (method.equals(HttpMethod.GET)) {
             doGet(req, resp);
@@ -40,18 +44,24 @@ public class HttpServlet extends AbstractHttpServlet implements Servlet {
         notSupportMethod(req, resp);
     }
 
+
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
         notSupportMethod(req, resp);
     }
+
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
         notSupportMethod(req, resp);
     }
 
+
     // 给方法暂未被支持
     private void notSupportMethod(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
         OutputStream outPutStream = resp.getOutputStream();
         String defaultMessage = "This method is not support...";
         outPutStream.write(defaultMessage.getBytes());

@@ -6,6 +6,7 @@ import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+
 /**
  * @author Tptogiar
  * @Description
@@ -18,11 +19,13 @@ public class BioClientDemo {
 
     @Test
     public void testBioClientDemo() {
+
         startBioClient();
     }
 
 
     public void startBioClient() {
+
         try {
             Socket s = new Socket("127.0.0.1", 8840);
             System.out.println("已连接上服务器...");

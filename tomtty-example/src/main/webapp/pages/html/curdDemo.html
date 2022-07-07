@@ -1,76 +1,78 @@
 <!DOCTYPE html>
 <html lang="en" class="blue-grey">
 <head>
-  <meta charset="UTF-8">
-  <title>增删改查示例</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<!--  <link rel="stylesheet" href="../css/lib/family=Material+Icons.css">-->
-  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css'>
-<!--  <link rel='stylesheet' href='../css/lib/materialize.css'>-->
-  <link rel="stylesheet" href="../css/curdDemo.css">
-
-
-
+    <meta charset="UTF-8">
+    <title>增删改查示例</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--  <link rel="stylesheet" href="../css/lib/family=Material+Icons.css">-->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css'>
+    <!--  <link rel='stylesheet' href='../css/lib/materialize.css'>-->
+    <link rel="stylesheet" href="../css/curdDemo.css">
 
 
 </head>
 <body>
 <div class="container" id="app">
-      <div class="row header">
+    <div class="row header">
         <div class="card-panel blue-grey darken-4">
-          <div class="center white-text">
-            <h1>Contacts</h1>
-            <p>Manage all your contact here.</p>
-          </div>
+            <div class="center white-text">
+                <h1>Contacts</h1>
+                <p>Manage all your contact here.</p>
+            </div>
         </div>
-      </div>
-      <div class="row content">
+    </div>
+    <div class="row content">
         <div class="card-panel blue-grey lighten-2">
-          <ul class="collapsible blue-grey lighten-4" data-collapsible="expandable">
-            <li v-for="(recipe, index) in recipes">
-              <div class="collapsible-header blue-grey white-text"><i class="material-icons">blur_circular</i>{{recipe.name}}</div>
-              <div class="collapsible-body">
-                <ol>
-                  <li v-for="item in recipe.ingridients">{{item}}</li>
-                </ol>
-                <div class="collapsible-action">
-                  <a @click="action('edit', index)" href="#!" class="btn-flat waves-effect waves-black blue-grey mopen"><i class="material-icons">edit</i></a>
-                  <a @click="action('delete', index)" href="#!" class="btn-flat waves-effect waves-black blue-grey mopen"><i class="material-icons">delete</i></a>
-                </div>
-              </div
-            </li>
-          </ul>
-          <a @click="action('add', null)" class="waves-effect waves-light btn-flat blue-grey mopen" href="#!"><i class="material-icons">add</i></a>
+            <ul class="collapsible blue-grey lighten-4" data-collapsible="expandable">
+                <li v-for="(recipe, index) in recipes">
+                    <div class="collapsible-header blue-grey white-text"><i class="material-icons">blur_circular</i>{{recipe.name}}
+                    </div>
+                    <div class="collapsible-body">
+                        <ol>
+                            <li v-for="item in recipe.ingridients">{{item}}</li>
+                        </ol>
+                        <div class="collapsible-action">
+                            <a @click="action('edit', index)" href="#!"
+                               class="btn-flat waves-effect waves-black blue-grey mopen"><i
+                                    class="material-icons">edit</i></a>
+                            <a @click="action('delete', index)" href="#!"
+                               class="btn-flat waves-effect waves-black blue-grey mopen"><i class="material-icons">delete</i></a>
+                        </div>
+                    </div
+                </li>
+            </ul>
+            <a @click="action('add', null)" class="waves-effect waves-light btn-flat blue-grey mopen" href="#!"><i
+                    class="material-icons">add</i></a>
         </div>
-      </div>
-      <div class="row footer">
+    </div>
+    <div class="row footer">
         <div class="card-panel blue-grey darken-1">
-          <div class="center">
-            <h4>Created By @Tptogiar</h4>
-          </div>
+            <div class="center">
+                <h4>Created By @Tptogiar</h4>
+            </div>
         </div>
-      </div>
-      <div id="modal1" class="modal">
+    </div>
+    <div id="modal1" class="modal">
         <div class="modal-content">
-          <h4>{{modalHeader}}</h4>
-          <form class="form">
-            <div class="input-field">
-              <input v-model="recipeName" type="text" name="recipe-name">
-              <label :class="lableActive" for="recipe-name">Name</label>
-            </div>
-            <div class="input-field">
-              <input v-model="recipeIngridients" type="text" name="recipe-ing">
-              <label :class="lableActive" for="recipe-ing">Ingridients ( Comma Separated )</label>
-            </div>
-            <input type="hidden" v-model="editingRecipeIndex" />
-          </form>
+            <h4>{{modalHeader}}</h4>
+            <form class="form">
+                <div class="input-field">
+                    <input v-model="recipeName" type="text" name="recipe-name">
+                    <label :class="lableActive" for="recipe-name">Name</label>
+                </div>
+                <div class="input-field">
+                    <input v-model="recipeIngridients" type="text" name="recipe-ing">
+                    <label :class="lableActive" for="recipe-ing">Ingridients ( Comma Separated )</label>
+                </div>
+                <input type="hidden" v-model="editingRecipeIndex"/>
+            </form>
         </div>
         <div class="modal-footer">
-          <a @click="addRecipe" class="modal-action waves-effect waves-green btn-flat">{{modalActionName}}</a>
-          <a @click="modalClose" href="#!" class="modal-action waves-effect waves-green btn-flat">Close</a>
+            <a @click="addRecipe" class="modal-action waves-effect waves-green btn-flat">{{modalActionName}}</a>
+            <a @click="modalClose" href="#!" class="modal-action waves-effect waves-green btn-flat">Close</a>
         </div>
-      </div>
     </div>
+</div>
 
 <script src='../js/lib/vue.min.js'></script>
 <script src='../js/lib/jquery.js'></script>

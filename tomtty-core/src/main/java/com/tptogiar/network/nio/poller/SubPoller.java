@@ -17,12 +17,14 @@ import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+
 /**
  * @author Tptogiar
  * @Description
  * @createTime 2022年05月27日 22:21:00
  */
 public class SubPoller implements Poller {
+
 
     Logger logger = LoggerFactory.getLogger(SubPoller.class);
 
@@ -36,27 +38,32 @@ public class SubPoller implements Poller {
 
     private LinkedDoubleBufferQueue<EventTask> eventQueue;
 
-    private ConnectionMgr connectionMgr;
+
 
 
     public SubPoller(NioEventLoop subEventLoop) {
+
         this.subEventLoop = subEventLoop;
         subSelector = subEventLoop.getSelector();
         nioTcpHandler = new NioTCPHandler(subEventLoop);
         running = subEventLoop.getRunning();
         eventQueue = subEventLoop.getEventQueue();
-        connectionMgr=subEventLoop.getConnectionMgr();
+
     }
 
 
     /**
      * 轮询
+     *
      * @throws Exception
      */
     @Override
     public void poll() throws Exception {
+
         while (running.get()) {
-            logger.info(subEventLoop + " 开始新一轮poll()");
+
+            logger.info(subEventLoop + " poll()");
+
             // 先处理任务队列里面的任务（如：有新的client要注册到该subSelector等）
             executeTask();
 
@@ -64,15 +71,14 @@ public class SubPoller implements Poller {
 
             scanSelectionKey();
 
-            handlerExpiredConnection();
         }
     }
 
 
-
     private void executeTask() throws InterruptedException {
+
         int taskQueueSize = eventQueue.size();
-        if (taskQueueSize==0){
+        if (taskQueueSize == 0) {
             return;
         }
         logger.info(subEventLoop + "处理任务队列, eventQueue.size:" + eventQueue.size());
@@ -86,6 +92,7 @@ public class SubPoller implements Poller {
 
 
     private void doSelect() throws IOException {
+
         logger.info(subEventLoop + "执行select...");
         // 把select标识位置为true，以便在mainReactor线程可以根据该标志为决定是否进行selector.wakeup()
         subEventLoop.getSelecting().set(true);
@@ -105,15 +112,18 @@ public class SubPoller implements Poller {
             while (iterator.hasNext()) {
                 SelectionKey selectionKey = iterator.next();
                 iterator.remove();
+
                 if (!selectionKey.isValid()) {
                     continue;
                 }
+
                 if (selectionKey.isReadable()) {
                     nioTcpHandler.read(selectionKey);
+
                 } else if (selectionKey.isWritable()) {
-                    logger.info("来自{}的写事件", ((SocketChannel) selectionKey.channel()).getRemoteAddress());
                     nioTcpHandler.write(selectionKey);
                 }
+
             }
             logger.info("在Selector:{}上结束遍历selectionKey...", subSelector.hashCode());
         } catch (Exception e) {
@@ -122,20 +132,6 @@ public class SubPoller implements Poller {
             running.set(false);
         }
 
-    }
-
-
-    /**
-     * 处理超时的连接
-     */
-    private void handlerExpiredConnection() {
-        if (connectionMgr.isEmpty()){
-            return;
-        }
-
-        while (connectionMgr.hasExpiredConnection()){
-            connectionMgr.removeConnection();
-        }
     }
 
 

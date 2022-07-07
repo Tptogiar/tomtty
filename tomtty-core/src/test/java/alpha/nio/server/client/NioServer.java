@@ -16,6 +16,7 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
 
+
 /**
  * @author Tptogiar
  * @Description
@@ -23,10 +24,12 @@ import java.util.Set;
  */
 public class NioServer {
 
+
     private static Logger logger = LoggerFactory.getLogger(NioServer.class);
 
 
     public static void main(String[] args) {
+
         try {
 
             ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
@@ -67,6 +70,7 @@ public class NioServer {
 
 
     public static void acceptEvent(Selector selector, ServerSocketChannel serverSocketChannel) throws IOException {
+
         SocketChannel socketChannel = serverSocketChannel.accept();
         socketChannel.configureBlocking(false);
         socketChannel.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(10240));
@@ -74,6 +78,7 @@ public class NioServer {
 
 
     public static void readEvent(SelectionKey selectionKey, Selector selector) throws IOException {
+
         SocketChannel channel = null;
         try {
             channel = (SocketChannel) selectionKey.channel();
@@ -128,6 +133,7 @@ public class NioServer {
 
 
     public static void writeEvent(SelectionKey selectionKey) throws IOException {
+
         logger.info("有写出事件...");
         SocketChannel channel = (SocketChannel) selectionKey.channel();
         ByteBuffer buffer = (ByteBuffer) selectionKey.attachment();

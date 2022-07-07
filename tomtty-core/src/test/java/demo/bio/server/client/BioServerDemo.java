@@ -12,16 +12,19 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+
 public class BioServerDemo {
 
 
     @Test
     public void testBioServerDemo() {
+
         startBioServer();
     }
 
 
     public void startBioServer() {
+
         try {
             ServerSocket ss = new ServerSocket(8840);
             System.out.println("启动服务器....");

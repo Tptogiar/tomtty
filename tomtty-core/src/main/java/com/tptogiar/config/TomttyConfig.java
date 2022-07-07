@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+
 /**
  * @author Tptogiar
  * @description
@@ -17,8 +18,10 @@ import java.util.Set;
  */
 public class TomttyConfig {
 
+
     // 服务器地址
     public static String serverHostname;
+
     // 监听的端口
     public static int serverPort;
 
@@ -30,30 +33,42 @@ public class TomttyConfig {
 
     // 线程池配置
     public static int threadPoolCorePoolSize;
+
     public static int threadPoolMaximumPoolSize;
+
     public static int threadPoolKeepAliveTime;
+
     public static int thteadPoolBlockingQueueSize;
 
     // HTTP读取缓存区大小
     public static int httpReadBufferSize;
+
+    // servlet写缓存区大小
     public static int servletOutPutStreamBufferSize;
 
     // http keep-alice长连接保留时长
     public static int httpKeepAliveTime;
+
     // http keep-alice长连接最大数量
     public static int httpKeepAliveMaxConnection;
+
+    // 连接管理器的检查时间间隔，单位毫秒
+    public static int connectionMgrCheckInterval;
 
     // web.xml路径
     public static String webConfigXmlFilePath;
 
+    // 静态资源路径
     public static String[] staticResourceRootPath = new String[8];
 
     // 默认页面路径
     public static String notFoundPagePath;
+
     public static String internalServerErrorPagePath;
 
 
     public static Properties config = new Properties();
+
 
     /**
      * 加载服务器配置
@@ -83,6 +98,7 @@ public class TomttyConfig {
 
 
     public static void setValue(String key, String value, int index) throws Exception {
+
         Field field = TomttyConfig.class.getField(key);
         Class<?> type = field.getType();
         if (type == int.class) {
@@ -95,15 +111,17 @@ public class TomttyConfig {
         }
     }
 
-    public static String curConfigStr(){
-        StringBuilder stringBuilder =  null;
+
+    public static String curConfigStr() {
+
+        StringBuilder stringBuilder = null;
         try {
             InputStream inputStream = TomttyConfig.class.getResourceAsStream("/tomtty.config.properties");
             stringBuilder = new StringBuilder();
             ByteBuffer buffer = ByteBuffer.allocate(256);
             int read = 0;
-            while ((read = inputStream.read(buffer.array()))!=-1){
-                stringBuilder.append(new String(buffer.array(),0,read));
+            while ((read = inputStream.read(buffer.array())) != -1) {
+                stringBuilder.append(new String(buffer.array(), 0, read));
             }
 
         } catch (IOException e) {
