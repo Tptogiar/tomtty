@@ -46,7 +46,7 @@ public class NioTCPHandler {
     public void read(SelectionKey selectionKey) throws IOException {
 
         logger.info("来自{} 的读事件,并添加到连接管理器...", ((SocketChannel) selectionKey.channel()).getRemoteAddress());
-        Connection connection = ConnectionMgr.addConnection(selectionKey,subEventLoop);
+        Connection connection = ConnectionMgr.addConnection(selectionKey, subEventLoop);
 
 
         SocketChannel channel = (SocketChannel) selectionKey.channel();
@@ -56,7 +56,7 @@ public class NioTCPHandler {
         buffer.flip();
 
 
-        if (readCount <=0) {
+        if (readCount <= 0) {
 
             // 收到FIN的TCP包
             logger.info("收到FIN包TCP包,关闭连接...");
@@ -71,7 +71,7 @@ public class NioTCPHandler {
         logger.info("读取通道内数据读取完毕，大小为{}...", buffer.limit());
         logger.debug("\n" + new String(buffer.array(), 0, buffer.limit()) + "\n");
 
-        
+
         // 将读取的数据交给业务线程处理
         NioHttpHandler nioHttpHandler = new NioHttpHandler(buffer, selectionKey, subEventLoop);
         WorkerThreadPool.execute(nioHttpHandler);
@@ -131,10 +131,9 @@ public class NioTCPHandler {
     }
 
 
+    public void handleConnectionClose(Connection connection, SocketChannel channel) {
 
-    public void handleConnectionClose(Connection connection, SocketChannel channel){
-
-        if (connection!=null){
+        if (connection != null) {
 
             //如果不为空，则说明给连接在ConnectionMgr的队列内
             ConnectionMgr.removeConnection(connection);
@@ -144,5 +143,6 @@ public class NioTCPHandler {
         subEventLoop.closeClientChannel(channel);
 
     }
+
 
 }

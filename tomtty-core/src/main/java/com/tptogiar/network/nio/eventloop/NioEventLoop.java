@@ -40,8 +40,6 @@ public class NioEventLoop extends Thread {
     // 任务队列
     private LinkedDoubleBufferQueue<EventTask> eventQueue;
 
-    // 连接管理
-//    private ConnectionMgr connectionMgr;
 
     private final Selector selector;
 
@@ -96,7 +94,6 @@ public class NioEventLoop extends Thread {
 
         selector = Selector.open();
         eventQueue = new LinkedDoubleBufferQueue<EventTask>();
-//        connectionMgr = new ConnectionMgr(this);
         poller = new SubPoller(this);
         this.subReactorIndex = index;
         this.name = name;
@@ -189,6 +186,7 @@ public class NioEventLoop extends Thread {
      * 将关闭客户端连接的动作延迟到下一次处理任务时
      * 即将关闭通道的动作延迟到下一次poll时在执行，防止引发
      * SubPoller中scanSelectionKey中Set<SelectionKey>的ConcurrentModificationException
+     *
      * @param channel
      */
     public void closeClientChannel(SocketChannel channel) {

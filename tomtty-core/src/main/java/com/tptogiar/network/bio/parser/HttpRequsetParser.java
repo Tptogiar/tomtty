@@ -200,7 +200,7 @@ public class HttpRequsetParser {
         if (headers.containsKey(HttpRequestHeader.CONNECTION)) {
             String value = headers.get(HttpRequestHeader.CONNECTION).get(0);
 
-            if (! HttpRequestHeader.CONTENT_LENGTH_VALUE_KEEP_ALIVE.equals(value)){
+            if (!HttpRequestHeader.CONTENT_LENGTH_VALUE_KEEP_ALIVE.equals(value)) {
 
                 reqContext.setKeepAlive(false);
                 return;

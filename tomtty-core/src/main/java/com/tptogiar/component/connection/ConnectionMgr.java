@@ -143,20 +143,17 @@ public class ConnectionMgr implements Runnable {
 
 
     public static void removeConnection(Connection connection) {
+
         priorityQueue.remove(connection);
         NioEventLoop subEventLoop = connection.getSubEventLoop();
         subEventLoop.handleExpiredConnection(connection);
     }
 
 
-
-
-
     private static boolean isEmpty() {
 
         return priorityQueue.isEmpty();
     }
-
 
 
     public static boolean contains(SelectionKey selectionKey) {

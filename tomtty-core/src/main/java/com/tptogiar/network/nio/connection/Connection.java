@@ -30,11 +30,13 @@ public class Connection {
 
     /**
      * 判断是否相等是只根据selectionKey来判断
+     *
      * @param o
      * @return
      */
     @Override
     public boolean equals(Object o) {
+
         if (this == o) {
             return true;
         }

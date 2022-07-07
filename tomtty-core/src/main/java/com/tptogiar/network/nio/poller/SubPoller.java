@@ -39,8 +39,6 @@ public class SubPoller implements Poller {
     private LinkedDoubleBufferQueue<EventTask> eventQueue;
 
 
-
-
     public SubPoller(NioEventLoop subEventLoop) {
 
         this.subEventLoop = subEventLoop;

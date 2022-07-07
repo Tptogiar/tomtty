@@ -29,7 +29,7 @@ public class ServerBootstrap {
 
         ConnectionMgr.start();
 
-        logger.info("MainEventLoop,{}个EventLoopGroup,及定时器启动完成...",childLoopCount);
+        logger.info("MainEventLoop,{}个EventLoopGroup,及定时器启动完成...", childLoopCount);
     }
 
 
