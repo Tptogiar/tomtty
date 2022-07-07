@@ -13,9 +13,10 @@
   * [启动后日志输出如下](#启动后日志输出如下)
 - [使用](#使用)
   * [servlet容器的使用](#servlet容器的使用)
-    + [添加自定义servlet程序](#添加自定义servlet程序)
+    + [添加自定义servlet程序](#添加自定义servlet程序
     + [配置servlet](#配置servlet)
   * [映射静态资源到服务器](#映射静态资源到服务器)
+  * [配置长连接](#配置长连接)
 <hr>
 
 
@@ -111,6 +112,12 @@ staticResourceRootPath[2]=/xxx
 - 将静态资源放置到webapp资源文件夹下即可，也可在配置文件中指定静态资源根路径
 
 ![image](https://user-images.githubusercontent.com/79641956/172557031-751dfcb8-605e-4bca-9c0c-b852f13237fe.png)
+
+## 配置长连接
+
+![image](https://user-images.githubusercontent.com/79641956/177781874-5c2ef0cd-49dd-4706-b366-f56805a1f47b.png)
+
+![image](https://user-images.githubusercontent.com/79641956/177781901-b21a291c-f325-4070-b0b4-bc0b02893447.png)
 
 
 
