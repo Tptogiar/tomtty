@@ -89,11 +89,13 @@ staticResourceRootPath[2]=/xxx
 
 # Quick Start
 ## 环境版本说明
-<img src="https://user-images.githubusercontent.com/79641956/172396809-946760f8-4516-43f2-9f91-1e080a770446.png" alt="image" style="zoom:50%;" />
-<img src="https://user-images.githubusercontent.com/79641956/172397186-0c7a2672-fcbf-4c22-b1e2-82af0b5d1fc0.png" alt="image" style="zoom:50%;" />
+采用1.8版本的编译器，语言级别也使用8版本
+
+<img src="https://user-images.githubusercontent.com/79641956/177809071-d51680de-ad1f-41df-a862-0db422c8dbfe.png" alt="image" style="zoom:50%;" />
+<img src="https://user-images.githubusercontent.com/79641956/177808894-3ad43507-4022-4d6d-857c-7037c3eb73d1.png" alt="image" style="zoom:50%;" />
 
 ## 配置编译输出路径
-将这两个子模块的编译输出路径设置在同一个地方
+(有报错的情况下)将这两个子模块的编译输出路径设置在同一个地方
 <img src="https://user-images.githubusercontent.com/79641956/172397771-5988b74e-f946-4e44-92d2-94a56985ec31.png" alt="image" style="zoom:50%;" />
 
 ## 调整配置文件
@@ -102,24 +104,27 @@ staticResourceRootPath[2]=/xxx
 
 ## 启动tomtty-example模块下的TomttyStarter
 
-![image](https://user-images.githubusercontent.com/79641956/172398935-8fb3d72f-8c0a-4e9f-aab8-9a84d0643d5c.png)
+![image](https://user-images.githubusercontent.com/79641956/177809960-782e36a0-2a16-41ec-90f7-c5101f5c8081.png)
 
 ## 启动后日志输出如下
 
-<img src="https://user-images.githubusercontent.com/79641956/172399136-d5f50741-48e5-4b26-a523-96961e741fc5.png" alt="image" style="zoom:50%;" />
+<img src="https://user-images.githubusercontent.com/79641956/177810275-9d875327-096a-4777-8067-de5483363987.png" alt="image" style="zoom:50%;" />
 
 # 使用
 ## servlet容器的使用
 ### 添加自定义servlet程序
 - 创建一个Java类并继承自com.tptogiar.servlet.HttpServlet
 - 重写父类的service方法
-- 在service方法内进行业务处理即可
-### 配置servlet
-- 创建web.xml文件，并为刚刚的servlet程序配置访问的类路径以及URL
-- 下面是示例
+- 在service方法内进行业务处理即可，还原javaWeb使用体验
+![image](https://user-images.githubusercontent.com/79641956/177810666-1ac9dcb9-f182-4e89-8150-f47958d45458.png)
 
-![image](https://user-images.githubusercontent.com/79641956/172555965-06583575-8d4b-4bd5-836c-761171d429e2.png)
+
+### 配置servlet
+- 创建web.xml文件，将web.xml文件配置至配置文件tomtty.config.properties中，再为刚刚的servlet程序配置访问的类路径以及URL
+- 下面是示例
 ![image](https://user-images.githubusercontent.com/79641956/172556634-c16f996a-ab2c-4fac-b238-d48117cb5771.png)
+![image](https://user-images.githubusercontent.com/79641956/177811120-2e5713c9-0d29-4d37-83a4-7dc34b8ca8e3.png)
+
 
 ## 映射静态资源到服务器
 - 将静态资源放置到webapp资源文件夹下即可，也可在配置文件中指定静态资源根路径
