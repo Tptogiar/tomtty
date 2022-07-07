@@ -142,7 +142,7 @@ public class ConnectionMgr implements Runnable {
     }
 
 
-    public static void removeConnection(Connection connection) {
+    public synchronized static void removeConnection(Connection connection) {
 
         priorityQueue.remove(connection);
         NioEventLoop subEventLoop = connection.getSubEventLoop();
