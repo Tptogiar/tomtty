@@ -52,7 +52,7 @@ ioModel=nio
 
 
 # 从反应器数量
-nioSubReactorCount=4
+nioSubReactorCount=6
 
 
 # 线程池配置
@@ -68,8 +68,11 @@ servletOutPutStreamBufferSize=8096
 
 
 # http keep-alice长连接保留时长（单位为秒），及长连接最大数量
-httpKeepAliveTime=60
+httpKeepAliveTime=100
 httpKeepAliveMaxConnection=150
+
+# 连接管理器的检查时间间隔，单位毫秒
+connectionMgrCheckInterval=1000
 
 
 # web.xml路径
@@ -82,9 +85,9 @@ internalServerErrorPagePath=/default/pages/html/500.html
 
 
 # 静态资源根路径，可以以数组的方式配置多个(优先级依次递减)，默认最多8个
-staticResourceRootPath[0]=C:\\xxxx
-staticResourceRootPath[1]=C:\\xxx
-staticResourceRootPath[2]=/xxx
+staticResourceRootPath[0]=C:\\MyFiles\\CodeFlies\\Project\\tomtty\\tomtty\\tomtty-core\\src\\main\\resources
+staticResourceRootPath[1]=C:\\MyFiles\\CodeFlies\\Project\\tomtty\\tomtty\\tomtty-example\\src\\main\\webapp
+staticResourceRootPath[2]=/myFiles/test/tomtty
 ```
 
 # Quick Start
