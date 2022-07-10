@@ -1,6 +1,6 @@
 import com.tptogiar.config.TomttyConfig;
 import com.tptogiar.network.bio.endpoint.BioEndPoint;
-import com.tptogiar.network.nio.ServerBootstrap;
+import com.tptogiar.network.nio.NIOServerBootstrap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,7 +77,7 @@ public class TomttyStarter {
      */
     public static void nioStart(String hostname, int port) throws IOException {
 
-        ServerBootstrap.start(TomttyConfig.serverPort, TomttyConfig.nioSubReactorCount);
+        NIOServerBootstrap.start(TomttyConfig.serverPort, TomttyConfig.nioSubReactorCount);
     }
 
 

@@ -15,10 +15,10 @@ import java.io.IOException;
  * @Description
  * @createTime 2022年05月27日 16:38:00
  */
-public class ServerBootstrap {
+public class NIOServerBootstrap {
 
 
-    private static final Logger logger = LoggerFactory.getLogger(ServerBootstrap.class);
+    private static final Logger logger = LoggerFactory.getLogger(NIOServerBootstrap.class);
 
 
     public static void start(int port, int childLoopCount) throws IOException {
