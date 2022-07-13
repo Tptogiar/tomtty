@@ -10,6 +10,12 @@
 - [Bio Nio](#Bio-Nio)
   * [Bio模式下请求处理流程示意图](#Bio模式下请求处理流程示意图)
   * [Nio下的主从Reactor模型](#Nio下的主从Reactor模型)
+- [使用](#使用)
+  * [servlet容器的使用](#servlet容器的使用)
+    + [添加自定义servlet程序](#添加自定义servlet程序)
+    + [配置servlet](#配置servlet)
+  * [映射静态资源到服务器](#映射静态资源到服务器)
+  * [配置长连接](#配置长连接)
 - [配置文件](#配置文件)
 - [Quick Start](#Quick-Start)
   * [环境版本说明](#环境版本说明)
@@ -17,12 +23,7 @@
   * [调整配置文件](#调整配置文件)
   * [启动tomtty-example模块下的TomttyStarter](#启动tomtty-example模块下的TomttyStarter)
   * [启动后日志输出如下](#启动后日志输出如下)
-- [使用](#使用)
-  * [servlet容器的使用](#servlet容器的使用)
-    + [添加自定义servlet程序](#添加自定义servlet程序)
-    + [配置servlet](#配置servlet)
-  * [映射静态资源到服务器](#映射静态资源到服务器)
-  * [配置长连接](#配置长连接)
+
   
 <hr><br/><br/>
 
@@ -90,29 +91,6 @@ staticResourceRootPath[1]=C:\\MyFiles\\CodeFlies\\Project\\tomtty\\tomtty\\tomtt
 staticResourceRootPath[2]=/myFiles/test/tomtty
 ```
 
-# Quick Start
-## 环境版本说明
-采用1.8版本的编译器，语言级别也使用8版本
-
-<img src="https://user-images.githubusercontent.com/79641956/177809071-d51680de-ad1f-41df-a862-0db422c8dbfe.png" alt="image" style="zoom:50%;" />
-<img src="https://user-images.githubusercontent.com/79641956/177808894-3ad43507-4022-4d6d-857c-7037c3eb73d1.png" alt="image" style="zoom:50%;" />
-
-## 配置编译输出路径
-(有报错的情况下)将这两个子模块的编译输出路径设置在同一个地方
-<img src="https://user-images.githubusercontent.com/79641956/172397771-5988b74e-f946-4e44-92d2-94a56985ec31.png" alt="image" style="zoom:50%;" />
-
-## 调整配置文件
-示例配置参考这里[配置文件](#配置文件)
-
-
-## 启动tomtty-example模块下的TomttyStarter
-
-![image](https://user-images.githubusercontent.com/79641956/177809960-782e36a0-2a16-41ec-90f7-c5101f5c8081.png)
-
-## 启动后日志输出如下
-
-<img src="https://user-images.githubusercontent.com/79641956/177810275-9d875327-096a-4777-8067-de5483363987.png" alt="image" style="zoom:50%;" />
-
 # 使用
 ## servlet容器的使用
 ### 添加自定义servlet程序
@@ -141,6 +119,34 @@ staticResourceRootPath[2]=/myFiles/test/tomtty
 ![image](https://user-images.githubusercontent.com/79641956/177781874-5c2ef0cd-49dd-4706-b366-f56805a1f47b.png)
 
 ![image](https://user-images.githubusercontent.com/79641956/177781901-b21a291c-f325-4070-b0b4-bc0b02893447.png)
+
+
+
+
+
+
+# Quick Start
+## 环境版本说明
+采用1.8版本的编译器，语言级别也使用8版本
+
+<img src="https://user-images.githubusercontent.com/79641956/177809071-d51680de-ad1f-41df-a862-0db422c8dbfe.png" alt="image" style="zoom:50%;" />
+<img src="https://user-images.githubusercontent.com/79641956/177808894-3ad43507-4022-4d6d-857c-7037c3eb73d1.png" alt="image" style="zoom:50%;" />
+
+## 配置编译输出路径
+(有报错的情况下)将这两个子模块的编译输出路径设置在同一个地方
+<img src="https://user-images.githubusercontent.com/79641956/172397771-5988b74e-f946-4e44-92d2-94a56985ec31.png" alt="image" style="zoom:50%;" />
+
+## 调整配置文件
+示例配置参考这里[配置文件](#配置文件)
+
+
+## 启动tomtty-example模块下的TomttyStarter
+
+![image](https://user-images.githubusercontent.com/79641956/177809960-782e36a0-2a16-41ec-90f7-c5101f5c8081.png)
+
+## 启动后日志输出如下
+
+<img src="https://user-images.githubusercontent.com/79641956/177810275-9d875327-096a-4777-8067-de5483363987.png" alt="image" style="zoom:50%;" />
 
 
 
