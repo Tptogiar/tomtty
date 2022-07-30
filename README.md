@@ -100,59 +100,6 @@ staticResourceRootPath[2]=/myFiles/test/tomtty
 </details>
 
 
-
-
-
-示例配置如下
-```
-# 服务器地址,及端口
-serverHostname=0.0.0.0
-serverPort=8848
-
-
-# 以指定的IO模式启动，支持 bio 和 nio
-ioModel=nio
-
-
-# 从反应器数量
-nioSubReactorCount=6
-
-
-# 线程池配置
-threadPoolCorePoolSize=8
-threadPoolMaximumPoolSize=200
-threadPoolKeepAliveTime=5
-thteadPoolBlockingQueueSize=20
-
-
-# HTTP读取缓存区大小,及Server内OutputStream缓存区大小
-httpReadBufferSize=8096
-servletOutPutStreamBufferSize=8096
-
-
-# http keep-alice长连接保留时长（单位为秒），及长连接最大数量
-httpKeepAliveTime=100
-httpKeepAliveMaxConnection=150
-
-# 连接管理器的检查时间间隔，单位毫秒
-connectionMgrCheckInterval=1000
-
-
-# web.xml路径
-webConfigXmlFilePath=/web.xml
-
-
-# 默认页面路径
-notFoundPagePath=/default/pages/html/404.html
-internalServerErrorPagePath=/default/pages/html/500.html
-
-
-# 静态资源根路径，可以以数组的方式配置多个(优先级依次递减)，默认最多8个
-staticResourceRootPath[0]=C:\\MyFiles\\CodeFlies\\Project\\tomtty\\tomtty\\tomtty-core\\src\\main\\resources
-staticResourceRootPath[1]=C:\\MyFiles\\CodeFlies\\Project\\tomtty\\tomtty\\tomtty-example\\src\\main\\webapp
-staticResourceRootPath[2]=/myFiles/test/tomtty
-```
-
 # 使用
 ## servlet容器的使用
 [回到目录👆](#目录)
@@ -178,14 +125,17 @@ staticResourceRootPath[2]=/myFiles/test/tomtty
 
 ![image](https://user-images.githubusercontent.com/79641956/172557031-751dfcb8-605e-4bca-9c0c-b852f13237fe.png)
 
-## 配置长连接
+
+
+<details open="open">
+  <summary><h6>配置长连接</h6></summary>
+ 
 [回到目录👆](#目录)
 ![image](https://user-images.githubusercontent.com/79641956/177781874-5c2ef0cd-49dd-4706-b366-f56805a1f47b.png)
 
 ![image](https://user-images.githubusercontent.com/79641956/177781901-b21a291c-f325-4070-b0b4-bc0b02893447.png)
 
-
-
+</details>
 
 
 
