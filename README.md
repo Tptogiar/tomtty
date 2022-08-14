@@ -1,4 +1,4 @@
-# tomtty  是基于NIO使用主从Reactor模型编写的HTTP服务器
+# tomtty  是基于NIO并使用一主多从Reactor的线程模型编写的HTTP服务器
 
 <hr/>
 <br/><br/>
