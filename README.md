@@ -10,6 +10,7 @@
 - [关于项目中Bio与Nio](#关于项目中Bio与Nio)
   * [Bio模式下请求处理流程示意图](#Bio模式下请求处理流程示意图)
   * [Nio下的主从Reactor模型](#Nio下的主从Reactor模型)
+- [部分压测数据](#部分压测数据)
 - [配置文件](#配置文件)
 - [使用本服务器](#使用本服务器)
   * [servlet容器的使用](#servlet容器的使用)
@@ -52,7 +53,8 @@
 
 
 
-
+# 部分压测数据
+[部分压测数据](https://github.com/Tptogiar/tomtty/blob/master/%E9%83%A8%E5%88%86%E5%8E%8B%E6%B5%8B%E6%95%B0%E6%8D%AE.md)
 # 配置文件
 
 [回到目录👆](#目录)
