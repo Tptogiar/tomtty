@@ -44,7 +44,7 @@
 </details>
 
 <details open="open">
-  <summary><h6>Nio下的一主多从Reactor模型</h6></summary>
+  <summary><h6>Nio模式下的一主多从Reactor模型</h6></summary>
   
 ![image](https://user-images.githubusercontent.com/79641956/172405455-ea0be3b2-9ec9-4773-a081-fc95cf5b8898.png)
  
