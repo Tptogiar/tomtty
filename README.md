@@ -7,7 +7,6 @@
 
 - [目录](#目录)
 - [feature](#feature)
-- [项目名字由来](#项目名字由来)
 - [关于项目中Bio与Nio](#关于项目中Bio与Nio)
   * [Bio模式下请求处理流程示意图](#Bio模式下请求处理流程示意图)
   * [Nio下的主从Reactor模型](#Nio下的主从Reactor模型)
@@ -38,18 +37,14 @@
 - 使用基于小根堆的定时器关闭超时的非活动连接，减少对服务器资源的占用
 - 将 HTTP 请求解析后封装成 Request 对象传给用户定义的 servlet 程序，实现简易的 servlet 容器
 
-<br/><br/>
 
-# 项目名字由来
-
-> Bio模式下参考了tomcat的一些设计及部分源码，nio模式下的线程模型参考了netty的一些设计，所以两个合起来称为tomtty 😀
-> <br/>
 
 # 关于项目中Bio与Nio
 
 [回到目录👆](#目录)
 
 <details open="open">
+
   <summary><h6>Bio模式下请求处理流程示意图</h6></summary>
   流程：接受连接 -> 读取数据 -> 解析HTTP抱文 -> 处理请求 -> 封装响应 -> 发送响应
  
@@ -145,7 +140,7 @@
 │      │      ├── ...
 │      │      └── tomtty.config.properties
 │      └── test
-├── tomtty-example
+├── tomtty-example                              框架使用示例
 │  ├── pom.xml
 │  └── src
 │      └── main
