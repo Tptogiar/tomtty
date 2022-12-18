@@ -6,7 +6,7 @@
 # 目录
 
 - [目录](#目录)
-- [feature](#feature)
+- [Feature](#Feature)
 - [关于项目中Bio与Nio](#关于项目中Bio与Nio)
   * [Bio模式下请求处理流程示意图](#Bio模式下请求处理流程示意图)
   * [Nio下的主从Reactor模型](#Nio下的主从Reactor模型)
@@ -27,7 +27,7 @@
 
 <hr><br/><br/>
 
-# feature
+# Feature
 
 - 为减低并发时对资源的消耗，提高服务器并发性能，将 IO 模型从阻塞式 IO 替换为 IO 多路复用中的 epoll 模型，在同等的并发条件下，性能提升 20%左右
 - 采用主从 Reactor+线程池并发模型，主 Reactor 轮询方式将连接分到从 Reactor，实现负载均衡
